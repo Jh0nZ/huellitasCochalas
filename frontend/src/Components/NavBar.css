@@ -1,8 +1,9 @@
 nav{
     background-color: rgba(149, 103, 171, 1);
-    height: 100px;
+    height: 150px;
 }
 img{
     height: 100px;
-    width: 200px;
+    width: 350px;
+    padding: 18px;
 }

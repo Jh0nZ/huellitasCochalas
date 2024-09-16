@@ -1,6 +1,7 @@
 import React from 'react';
 import {AppBar, Container, Toolbar, Typography, Box, IconButton} from '@mui/material';
 import {Menu, MenuItem, Button, Tooltip, Avatar} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const pages = ['HOME', 'INFORMACION', 'ADOPTAR'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -43,7 +44,7 @@ function NavBar(){
             }}
           >
 
-             <img src="/Huellitas.png" alt="Remy Sharp" style={{ maxWidth: '30%', height: '10%' }} />
+             <img src="/Huellitas.png" alt="Rhuellitas icon" style={{ maxWidth: '30%', height: '10%' }} />
           
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -55,7 +56,9 @@ function NavBar(){
               onClick={handleOpenNavMenu}
               color="inherit"
             >
+               <MenuIcon /> 
             </IconButton>
+            
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -95,7 +98,8 @@ function NavBar(){
               textDecoration: 'none',
             }}
           >
-           
+         <img src="/Huellitas.png" alt="huellitas icon" style={{ maxWidth: '40%', height: '10%' }} />
+
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

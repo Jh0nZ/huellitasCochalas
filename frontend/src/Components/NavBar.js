@@ -1,12 +1,11 @@
 import React from 'react';
-import {AppBar, Container, Toolbar, Typography, Box, IconButton} from '@mui/material';
-import {Menu, MenuItem, Button, Tooltip, Avatar} from '@mui/material';
+import { AppBar, Container, Toolbar, Typography, Box, IconButton, Button, Tooltip, Avatar, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 const pages = ['HOME', 'INFORMACION', 'ADOPTAR'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-function NavBar(){
+function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -24,41 +23,26 @@ function NavBar(){
   };
 
   return (
-   <AppBar sx={{ backgroundColor: '#9567AB' }}>
-    <Container maxWidth="xl">
-      <Toolbar disableGutters>
-        <adbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}></adbIcon>
-        <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
+    <AppBar position="fixed" sx={{ backgroundColor: '#9567AB' }}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          {/* Logo grande en pantallas md+ */}
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }}>
+            <img src="/Huellitas.png" alt="Huellitas icon" style={{ maxWidth: '30%', height: 'auto' }} />
+          </Box>
 
-             <img src="/Huellitas.png" alt="Rhuellitas icon" style={{ maxWidth: '30%', height: '10%' }} />
-          
-          </Typography>
+          {/* Menú responsivo (Icono de menú en pantallas xs-md) */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-          <IconButton
+            <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="menu"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-               <MenuIcon /> 
+              <MenuIcon />
             </IconButton>
-            
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -81,12 +65,14 @@ function NavBar(){
                 </MenuItem>
               ))}
             </Menu>
-            </Box>
-            <Typography
+          </Box>
+
+          {/* Logo pequeño en pantallas xs */}
+          <Typography
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -98,9 +84,10 @@ function NavBar(){
               textDecoration: 'none',
             }}
           >
-         <img src="/Huellitas.png" alt="huellitas icon" style={{ maxWidth: '40%', height: '10%' }} />
-
+            <img src="/Huellitas.png" alt="huellitas icon" style={{ maxWidth: '40%', height: 'auto' }} />
           </Typography>
+
+          {/* Menú de páginas en pantallas md+ */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -112,6 +99,8 @@ function NavBar(){
               </Button>
             ))}
           </Box>
+
+          {/* Menú de usuario */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -141,12 +130,10 @@ function NavBar(){
               ))}
             </Menu>
           </Box>
-
-      </Toolbar>
-
-    </Container>
-
-   </AppBar>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 }
+
 export default NavBar;

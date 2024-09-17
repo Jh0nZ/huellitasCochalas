@@ -138,9 +138,10 @@ const Home = () => {
           </div>
         </div>
       </section>
+
       <section id="home-footer" >
         <div className='text-centered'>
-          <p>© 2024 Friender, Inc.</p>
+          <p>© 2024 Huellitas Cochalas, Inc.</p>
         </div>
       </section>
           </div>

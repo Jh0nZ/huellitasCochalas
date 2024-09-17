@@ -14,19 +14,57 @@
     padding: 7%;
 }
 
+.home-section-hgtAll{
+    height: calc(90vh - var(--navbar-height));
+}
+
+.home-img{
+    max-width: 500px;
+}
+
+.faq-img{
+    max-width: 400px;
+}
+
+.display-flex{
+    display: flex;
+}
+
+.d-flex-centered{
+    align-items: center;
+}
+
+.colored-section{
+    background-color: var(--azul-claro);
+}
+
+.text-centered{
+    text-align: center;
+}
+
+.text-lefted{
+    text-align: left !important;
+}
+
+.white-text{
+    color: whitesmoke;
+}
 .text-centered{
     text-align: center;
 }
 
 
-/*1ra Seccion Banner*/
 #home-welcome-banner{
     color: white;
     height: calc(85vh - var(--navbar-height));
     background-color: rgba(0, 0, 0, 0.7);
-
+  
 }
-
+#home-box {
+    padding-top: 60px; 
+    position: relative;
+  }
+  
 #home-mybanner{
     background-position: center;
     background-size: cover;
@@ -42,6 +80,30 @@
     z-index: 0;
 }
 
+#home-divider{
+    height: calc(35vh - var(--navbar-height));
+}
+
+
+#home-post-its-client{
+    height: calc(80vh - var(--navbar-height));
+}
+#home-post-its-friend{
+    height: calc(80vh - var(--navbar-height));
+
+
+}
+
+.home-post-it{
+    background-color: whitesmoke;
+    max-width: 280px;
+    margin: 10px;
+    padding: 25px;
+}
+.home-post-its-icon{
+    width: 50px;
+    height: 50px;
+}
 
 @media screen and (max-width : 900px) {
     .display-flex{

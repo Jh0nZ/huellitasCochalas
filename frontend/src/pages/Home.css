@@ -12,6 +12,9 @@
     justify-content: center;
     align-items: center;
     padding: 7%;
+    margin-top: 25px;
+   
+    background-color: rgb(200, 186, 201);
 }
 
 .home-section-hgtAll{
@@ -104,6 +107,11 @@
     width: 50px;
     height: 50px;
 }
+#home-footer{
+    color: rgb(74, 15, 141);
+    background-Color: rgb(149, 103, 171);
+    padding: 20px 0;
+}
 
 @media screen and (max-width : 900px) {
     .display-flex{
@@ -127,4 +135,6 @@
     .home-faq-text{
         padding: 15px 0;
     }
+
+   
 }

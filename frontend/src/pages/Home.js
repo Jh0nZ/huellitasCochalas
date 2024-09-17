@@ -83,7 +83,7 @@ const Home = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                p: 5,
+                p: 8,
                 textAlign: 'center',
               }}
             >
@@ -105,7 +105,7 @@ const Home = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                p: 5,
+                p: 8,
                 textAlign: 'center',
               }}
             >
@@ -124,7 +124,7 @@ const Home = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                p: 5,
+                p: 8,
                 textAlign: 'center',
               }}
             >
@@ -138,7 +138,11 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
+      <section id="home-footer" >
+        <div className='text-centered'>
+          <p>© 2024 Friender, Inc.</p>
+        </div>
+      </section>
           </div>
          
           

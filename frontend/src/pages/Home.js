@@ -1,33 +1,10 @@
 import React from 'react';
 import "./Home.css";
 import {  Button, Box,Typography} from '@mui/material';
-import { createTheme } from "@mui/material/styles";
+
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PetsIcon from '@mui/icons-material/Pets';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#a5d6a7", // Verde pastel
-    },
-    secondary: {
-      main: "#ffab91", // Coral pastel
-    },
-    texto: {
-      main: "#fdfbfe", // blanco
-    },
-    box: {
-      main: "#c9b6db", // morado
-    },
-    dark: {
-      main: "#645b6d", // fuerte morado
-    },
-  },
-  typography: {
-    fontFamily: "Roboto, Arial, sans-serif",
-  },
-});
 
 const Home = () => {
 

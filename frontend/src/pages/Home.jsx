@@ -46,14 +46,22 @@ const Home = () => {
       </Box>
 
       {/* Botones de Acción */}
-      <Container sx={{ textAlign: "center", mt: 4 }}>
+      <Container
+        sx={{
+          textAlign: "center",
+          mt: 4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <Button
           variant="contained"
           size="large"
           sx={{
             backgroundColor: theme.palette.primary.main,
             "&:hover": { backgroundColor: theme.palette.primary.dark },
-            mb: 2,
+            mb: 2, // Espacio entre los botones
             mx: 1,
           }}
         >

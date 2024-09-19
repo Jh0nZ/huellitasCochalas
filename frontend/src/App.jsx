@@ -1,11 +1,11 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import { NavBar } from "./components";
-import Home from "./pages/Home";
+import { Route, Routes } from "react-router-dom";
+import { AdoptionRequest, NavBar } from "./components";
 import { PetRegister } from "./pages";
+import Home from "./pages/Home";
 
-import UserRegister from "./pages/UserRegister";
 import { ThemeProvider } from "@mui/material/styles";
+import UserRegister from "./pages/UserRegister";
 import { lightTheme } from "./theme";
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/register" element={<UserRegister />} />
         <Route path="/pets" element={<PetRegister />} />
+        <Route path="/adoption-request" element={<AdoptionRequest />} />
       </Routes>
     </ThemeProvider>
   );

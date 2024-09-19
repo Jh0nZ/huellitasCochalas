@@ -3,7 +3,9 @@ import { Button, Box, Typography, Container, useTheme } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import PetsIcon from "@mui/icons-material/Pets";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 const Home = () => {
   const theme = useTheme();
 
@@ -78,8 +80,68 @@ const Home = () => {
         >
           REGISTRA A TU MASCOTA
         </Button>
-      </Container>
 
+      </Container>
+       
+{/* Requisitos */}
+<Box
+  sx={{
+    backgroundColor: theme.palette.back.main,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: { xs: "auto", md: "65vh" }, 
+    mt: 6,
+    p: { xs: 2, md: 4 }, 
+  }}
+>
+  <Box sx={{ maxWidth: { xs: "100%", md: "60%" } }}> 
+    <Typography
+      variant="h4"
+      component="h2"
+      align="center"
+      color="#fdfbfe"
+      gutterBottom
+    >
+      REQUISITOS PARA ADOPTAR
+    </Typography>
+    <Box>
+      <Typography
+        variant="h5"
+        component="div"
+        align="left"
+        color="#fdfbfe"
+        gutterBottom
+        sx={{
+          fontSize: { xs: "1rem", md: "1.25rem" }, 
+        }}
+      >
+        
+       <p>
+        <CheckCircleIcon sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 3 }} />
+        Fotocopia de C.I y la persona tiene que ser mayor de 21 años.
+      </p>
+      
+        <p>
+          <CheckCircleIcon sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 3  }} />
+          Número de teléfono fijo.
+        </p>
+        <p>
+          <CheckCircleIcon sx={{ fontSize: 30, color: theme.palette.primary.main , mr: 3 }} />
+          Fotocopia de la última factura de luz o agua.
+        </p>
+        <p>
+          <CheckCircleIcon sx={{ fontSize: 30, color: theme.palette.primary.main , mr: 3 }} />
+          Casa propia y permiso escrito.
+        </p>
+      </Typography>
+    </Box>
+  </Box>
+</Box>
+
+      
       {/* Sección de Beneficios */}
       <Container sx={{ mt: 6 }}>
         <Typography variant="h4" component="h2" align="center" gutterBottom>
@@ -153,7 +215,53 @@ const Home = () => {
           </Box>
         </Box>
       </Container>
+      
+ {/* Quiénes somos */}
+<Box
+  sx={{
+    backgroundColor: theme.palette.back.main,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: { xs: "auto", md: "65vh" }, 
+    p: { xs: 2, md: 4 }, 
+    mt: 6,
+  }}
+>
+  <Box sx={{ maxWidth: { xs: "100%", md: "60%" } }}>
+    <Typography
+      variant="h4"
+      component="h2"
+      align="center"
+      color="#fdfbfe"
+      gutterBottom
+    >
+      ¿QUIÉNES SOMOS?
+    </Typography>
+    <Typography
+      variant="h5"
+      component="div"
+      align="center"
+      color="#fdfbfe"
+      gutterBottom
+      sx={{
+        fontSize: { xs: "1rem", md: "1.25rem" }, 
+        lineHeight: { xs: 1.5, md: 1.75 }, 
+      }}
+    >
+      <p>
+        Somos una comunidad comprometida con mejorar la vida de las mascotas que se encuentran sin hogar.
+        <br />
+        Nuestra misión es crear un puente entre personas dispuestas a brindar amor y compañía, a mascotas que necesitan
+        una segunda oportunidad para vivir en un entorno seguro y amoroso.
+      </p>
+    </Typography>
+  </Box>
+</Box>
 
+      
       {/* Footer */}
       <Box
         sx={{
@@ -164,7 +272,10 @@ const Home = () => {
           mt: 6,
         }}
       >
+        <FacebookIcon/>
+        <InstagramIcon/>
         <Typography variant="body2">© 2024 Huellitas Cochalas, Inc.</Typography>
+      
       </Box>
     </Box>
   );

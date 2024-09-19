@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material/styles";
 const lightTheme = createTheme({
   palette: {
     primary: {
-      main: "#a5d6a7", // Verde pastel
+      main: "#645b6d", // Verde pastel
     },
     secondary: {
       main: "#ffab91", // Coral pastel
@@ -17,6 +17,9 @@ const lightTheme = createTheme({
     dark: {
       main: "#645b6d", // fuerte morado
     },
+    back:{
+        main: "#cba9db",
+          },
   },
   typography: {
     fontFamily: "Roboto, Arial, sans-serif",

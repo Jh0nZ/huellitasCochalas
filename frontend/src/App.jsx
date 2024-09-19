@@ -1,7 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import NavBar from "./Components/NavBar";
+import { NavBar } from "./components";
 import Home from "./pages/Home";
+import { PetRegister } from "./pages";
 
 import UserRegister from "./pages/UserRegister";
 import { ThemeProvider } from "@mui/material/styles";
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/register" element={<UserRegister />} />
+        <Route path="/pets" element={<PetRegister />} />
       </Routes>
     </ThemeProvider>
   );

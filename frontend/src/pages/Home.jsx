@@ -6,9 +6,14 @@ import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import { useNavigate } from "react-router-dom";
 const Home = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
+  const handleRegisterClick = () => {
+    navigate("/register"); // Redirige a la ruta del registro
+  };
   return (
     <Box
       sx={{
@@ -70,16 +75,17 @@ const Home = () => {
           ADOPTA
         </Button>
         <Button
-          variant="contained"
-          size="large"
-          sx={{
-            backgroundColor: theme.palette.primary.main,
-            "&:hover": { backgroundColor: theme.palette.primary.dark },
-            mx: 1,
-          }}
-        >
-          REGISTRA A TU MASCOTA
-        </Button>
+      variant="contained"
+      size="large"
+      sx={{
+        backgroundColor: (theme) => theme.palette.primary.main,
+        "&:hover": { backgroundColor: (theme) => theme.palette.primary.dark },
+        mx: 1,
+      }}
+      onClick={handleRegisterClick}
+    >
+      REGISTRA A TU MASCOTA
+    </Button>
 
       </Container>
        

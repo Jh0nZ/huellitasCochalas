@@ -58,6 +58,9 @@ const UserRegister = () => {
     }, 2000);
   };
 
+  const handleLoginRedirect = () => {
+    navigate("/login"); // Redirige a la página de inicio de sesión
+  };
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 10, position: "relative" }}>
@@ -167,7 +170,13 @@ const UserRegister = () => {
           </Box>
         )}
 
-        <Button variant="text" color="primary" fullWidth sx={{ mt: 2 }}>
+        <Button
+          variant="text"
+          color="primary"
+          fullWidth
+          sx={{ mt: 2 }}
+          onClick={handleLoginRedirect}
+        >
           ¿Ya tienes una cuenta? Inicia sesión
         </Button>
 

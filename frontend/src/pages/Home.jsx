@@ -253,7 +253,7 @@ const Home = () => {
     >
       <p>
         Somos una comunidad comprometida con mejorar la vida de las mascotas que se encuentran sin hogar.
-        <br />
+       
         Nuestra misión es crear un puente entre personas dispuestas a brindar amor y compañía, a mascotas que necesitan
         una segunda oportunidad para vivir en un entorno seguro y amoroso.
       </p>

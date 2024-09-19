@@ -3,7 +3,7 @@ import { AppBar, Container, Toolbar, Typography, Box, IconButton, Button, Toolti
 import MenuIcon from '@mui/icons-material/Menu';
 
 const pages = ['HOME', 'INFORMACION', 'ADOPTAR'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Perfil', 'Cuenta',  'Cerrar sesión'];
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);

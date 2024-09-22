@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
-import { ImagePreview } from "./";
+import { ImagePreview } from "./Index";
 
 const AdoptionRequest = () => {
   const [formData, setFormData] = useState({

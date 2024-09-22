@@ -32,8 +32,11 @@ const PetCard = ({ pet }) => {
         alt={pet.name}
       />
       <CardContent>
+        <Typography variant="h6" component="div" >
+          {pet.name.toUpperCase()}
+        </Typography>
         <Typography variant="h6" component="div">
-          {pet.name}
+          {pet.sexo}
         </Typography>
         <Typography variant="body2" color="textSecondary">
           {pet.age} - {pet.breed}

@@ -30,19 +30,26 @@ const Home = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          height: "60vh",
+          height: "55vh",
           color: theme.palette.common.white,
           textAlign: "center",
-          p: 3,
+          p:3,
+          mt:7,
+          
         }}
       >
         <Box
-          sx={{ backgroundColor: "rgba(0, 0, 0, 0.5)", p: 4, borderRadius: 2 }}
+          sx={{ backgroundColor: "rgba(0, 0, 0, 0.5)",borderRadius: 2,}}
         >
-          <Typography variant="h3" component="h1">
+          <Typography variant="h3" component="h1"
+          sx={{
+            fontSize: { xs: "2rem", md: "3rem" }, 
+          
+          }}>
             ¡Bienvenido a Huellitas Cochalas!
+            
           </Typography>
-          <Typography variant="h6" sx={{ mt: 2 }}>
+          <Typography variant="h6" sx={{ mt: 1}}>
             ¿Estás listo para darle un hogar a una mascota o registrarla para
             adopción?
           </Typography>
@@ -103,48 +110,102 @@ const Home = () => {
     p: { xs: 2, md: 4 }, 
   }}
 >
-  <Box sx={{ maxWidth: { xs: "100%", md: "60%" } }}> 
+<Box sx={{ maxWidth: { xs: "100%", md: "60%" } }}>
+  <Typography
+    variant="h4"
+    component="h2"
+    align="center"
+    color="#fdfbfe"
+    gutterBottom
+  >
+    REQUISITOS PARA ADOPTAR
+  </Typography>
+  <Box>
     <Typography
-      variant="h4"
-      component="h2"
-      align="center"
+      variant="h5"
+      component="div"
+      align="left"
       color="#fdfbfe"
-      gutterBottom
+      sx={{
+        fontSize: { xs: "1rem", md: "1.25rem" },
+        lineHeight: { xs: 1.5, md: 1.75 },
+      }}
     >
-      REQUISITOS PARA ADOPTAR
-    </Typography>
-    <Box>
-      <Typography
-        variant="h5"
-        component="div"
-        align="left"
-        color="#fdfbfe"
-        gutterBottom
+      <Box
         sx={{
-          fontSize: { xs: "1rem", md: "1.25rem" }, 
+          display: "flex",
+          alignItems: "flex-start",
+          mb: 1,
         }}
       >
-        
-       <p>
-        <CheckCircleIcon sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 3 }} />
-        Fotocopia de C.I y la persona tiene que ser mayor de 21 años.
-      </p>
-      
-        <p>
-          <CheckCircleIcon sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 3  }} />
+        <CheckCircleIcon
+          sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 2 }}
+        />
+        <Typography
+          component="p"
+          sx={{ fontSize: { xs: "1rem", md: "1.25rem" }, lineHeight: 1.5 }}
+        >
+          Fotocopia de C.I y la persona tiene que ser mayor de 21 años.
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          mb: 1,
+        }}
+      >
+        <CheckCircleIcon
+          sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 2 }}
+        />
+        <Typography
+          component="p"
+          sx={{ fontSize: { xs: "1rem", md: "1.25rem" }, lineHeight: 1.5 }}
+        >
           Número de teléfono fijo.
-        </p>
-        <p>
-          <CheckCircleIcon sx={{ fontSize: 30, color: theme.palette.primary.main , mr: 3 }} />
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          mb: 1,
+        }}
+      >
+        <CheckCircleIcon
+          sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 2 }}
+        />
+        <Typography
+          component="p"
+          sx={{ fontSize: { xs: "1rem", md: "1.25rem" }, lineHeight: 1.5 }}
+        >
           Fotocopia de la última factura de luz o agua.
-        </p>
-        <p>
-          <CheckCircleIcon sx={{ fontSize: 30, color: theme.palette.primary.main , mr: 3 }} />
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          mb: 1,
+        }}
+      >
+        <CheckCircleIcon
+          sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 2 }}
+        />
+        <Typography
+          component="p"
+          sx={{ fontSize: { xs: "1rem", md: "1.25rem" }, lineHeight: 1.5 }}
+        >
           Casa propia y permiso escrito.
-        </p>
-      </Typography>
-    </Box>
+        </Typography>
+      </Box>
+    </Typography>
   </Box>
+</Box>
+
 </Box>
 
       

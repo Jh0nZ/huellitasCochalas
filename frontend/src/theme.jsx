@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material/styles";
 const lightTheme = createTheme({
   palette: {
     primary: {
-      main: "#645b6d", // Verde pastel
+      main: "#645b6d", // morado
     },
     secondary: {
       main: "#ffab91", // Coral pastel

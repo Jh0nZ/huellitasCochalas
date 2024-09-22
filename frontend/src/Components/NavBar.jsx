@@ -28,7 +28,7 @@ function NavBar() {
         <Toolbar disableGutters>
           {/* Logo grande en pantallas md+ */}
           <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }}>
-            <img src="/Huellitas.png" alt="Huellitas icon" style={{ maxWidth: '30%', height: 'auto' }} />
+            <img src="/Huellitas.png" alt="Huellitas icon" style={{ maxWidth: '20%', height: 'auto' }} />
           </Box>
 
           {/* Menú responsivo (Icono de menú en pantallas xs-md) */}

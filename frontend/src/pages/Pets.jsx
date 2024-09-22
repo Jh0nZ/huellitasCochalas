@@ -4,11 +4,13 @@ import {
   Typography,
   Box,
   Button,
+  Menu,
+  FormControlLabel,
+  Checkbox,
   useTheme,
+  Radio,
+  RadioGroup,
 } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
 import FilterAltIcon from "@mui/icons-material/FilterAlt"; // Icono de filtro
 import { PetCard } from "../Components/Index";
 
@@ -17,7 +19,7 @@ const petsData = [
   {
     id: 1,
     name: "Fido",
-    sexo:"Macho",
+    sexo: "Macho",
     age: "2 años",
     breed: "Labrador",
     description: "Un labrador juguetón y amigable.",
@@ -27,7 +29,7 @@ const petsData = [
   {
     id: 2,
     name: "Whiskers",
-    sexo:"Hembra",
+    sexo: "Hembra",
     age: "1 año",
     breed: "Gato doméstico",
     description: "Un gato cariñoso que ama estar en el regazo.",
@@ -37,62 +39,18 @@ const petsData = [
   {
     id: 3,
     name: "Buddy",
-    sexo:"Macho",
+    sexo: "Macho",
     age: "3 años",
     breed: "Beagle",
     description: "Un beagle activo y leal.",
     image:
       "https://dbw3zep4prcju.cloudfront.net/animal/bbeac266-45be-4247-b8a9-766b42040482/image/1cc178ca-3ada-4091-a9bc-03ac705c5920.jpg?versionId=0TSjRZfHNa0gwpqOvCU6xhP.6MFkCNwW&bust=1726751677&width=300",
   },
-  // Agrega más datos si es necesario
 ];
-
-// Estilos del contenedor de búsqueda
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.black, 0.25),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.black, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
-    width: "auto",
-  },
-}));
-
-// Estilos del ícono de búsqueda dentro del contenedor
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-// Estilos del campo de entrada de búsqueda
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  width: "100%",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    [theme.breakpoints.up("sm")]: {
-      width: "30ch",
-      "&:focus": {
-        width: "40ch",
-      },
-    },
-  },
-}));
 
 const Pets = () => {
   const [filter, setFilter] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null); // Estado para manejar el menú
   const theme = useTheme();
 
   const handleFilterChange = (e) => {
@@ -103,6 +61,15 @@ const Pets = () => {
   const filteredPets = petsData.filter((pet) =>
     pet.name.toLowerCase().includes(filter.toLowerCase())
   );
+
+  // Funciones para el menú
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Container maxWidth="lg">
@@ -117,34 +84,81 @@ const Pets = () => {
           MASCOTAS EN ADOPCIÓN
         </Typography>
 
-        <Box
-          
-        >
-          {/* Contenedor de la barra de búsqueda y botón */}
+        <Box>
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: 1, // Espacio entre el buscador y el botón
+              justifyContent: "center",
             }}
           >
-            {/* Barra de búsqueda personalizada */}
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Buscar mascota..."
-                inputProps={{ "aria-label": "search" }}
-                value={filter}
-                onChange={handleFilterChange}
-              />
-            </Search>
-
-            {/* Botón al lado del buscador */}
-            <Button variant="contained" startIcon={<FilterAltIcon />}>
-             FILTRAR
+            <Button
+              variant="contained"
+              startIcon={<FilterAltIcon />}
+              onClick={handleClick}
+            >
+              FILTRAR
             </Button>
+
+            {/* Menú desplegable */}
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+            >
+              <Typography sx={{ px: 2, py: 1, fontWeight: "bold" , alignItems:"center"}}>
+                FILTRAR POR
+              </Typography>
+              <Typography sx={{ px: 2, py: 1, fontWeight: "bold" }}>
+                TAMAÑO
+              </Typography>
+              <FormControlLabel 
+                control={<Checkbox defaultChecked />}
+                label="Extra Chico"
+                sx={{px: 3}}
+              />
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Chico"
+              />
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Mediano"
+                sx={{px: 3}}
+              />
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Grande"
+                sx={{px: 2.7}}
+              />
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Extra Grande"
+                sx={{px: 3}}
+              />
+              <Typography sx={{ px: 2, py: 1, fontWeight: "bold" }}>
+                GÉNERO
+              </Typography>
+
+               <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue="hembra"
+                name="radio-buttons-group"
+                sx={{px: 3}}
+              >
+                <FormControlLabel value="hembra" control={<Radio />} label="Hembra" />
+                <FormControlLabel value="macho" control={<Radio />} label="Macho" />
+
+              </RadioGroup>
+            </Menu>
           </Box>
 
           {/* Resultados filtrados */}

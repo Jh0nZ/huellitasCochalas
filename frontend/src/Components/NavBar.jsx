@@ -1,8 +1,9 @@
 import React from 'react';
 import { AppBar, Container, Toolbar, Typography, Box, IconButton, Button, Tooltip, Avatar, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from 'react-router-dom'; 
 
-const pages = ['HOME', 'INFORMACION', 'ADOPTAR'];
+const pages = ['HOME', 'INFORMACIÓN', 'REGISTRATE'];
 const settings = ['Perfil', 'Cuenta',  'Cerrar sesión'];
 
 function NavBar() {
@@ -21,7 +22,13 @@ function NavBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  const navigate = useNavigate(); 
+  const handlePageClick = (page) => {
+    handleCloseNavMenu();
+    if (page === 'REGISTRATE') {
+      navigate('/register');
+    }
+  };
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#9567AB' }}>
       <Container maxWidth="xl">
@@ -60,7 +67,7 @@ function NavBar() {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={() => handlePageClick(page)}>
                   <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
                 </MenuItem>
               ))}
@@ -92,7 +99,7 @@ function NavBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => handlePageClick(page)}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
@@ -123,11 +130,13 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
-                </MenuItem>
+              {pages.map((page) => (
+              <MenuItem key={page} onClick={() => handlePageClick(page)}>
+                <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+              </MenuItem>
+                
               ))}
+              
             </Menu>
           </Box>
         </Toolbar>

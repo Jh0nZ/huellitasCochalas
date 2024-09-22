@@ -12,7 +12,8 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-
+import { PhotoCamera, Delete } from "@mui/icons-material";
+import { ImagePreview } from "../Components/Index";
 const UserRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -23,9 +24,19 @@ const UserRegister = () => {
     password: "",
     password_confirmation: "",
   });
+  const [images, setImages] = useState([]);
+
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    setImages((prevImages) => [...prevImages, ...files]);
+  };
+
+  const handleRemoveImage = (index) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
 
   const navigate = useNavigate();
 
@@ -64,8 +75,14 @@ const UserRegister = () => {
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 10, position: "relative" }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Regístrate
+      <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          align="center"
+          color="#645b6d"
+        >
+          REGISTRATE
         </Typography>
 
         {isLoading ? (
@@ -101,6 +118,46 @@ const UserRegister = () => {
               error={Boolean(errors.last_name)}
               helperText={errors.last_name}
             />
+              <TextField
+                label="Fecha de Nacimiento"
+                name="pet_birthdate"
+                type="date"
+                value={formData.pet_birthdate}
+                onChange={handleInputChange}
+                fullWidth
+                margin="normal"
+                InputLabelProps={{
+                  shrink: true, // Esto asegura que el label quede visible cuando se muestra la fecha
+                }}
+                error={Boolean(errors.pet_birthdate)}
+                helperText={errors.pet_birthdate}
+              />
+               <Button
+              variant="outlined"
+              component="label"
+              startIcon={<PhotoCamera />}
+              fullWidth
+              sx={{ mt: 2 }}
+            >
+              Sube una foto para su perfil
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                hidden
+                onChange={handleImageChange}
+              />
+            </Button>
+
+            <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 2 }}>
+              {images.map((image, index) => (
+                <ImagePreview
+                  key={index}
+                  image={URL.createObjectURL(image)}
+                  onRemove={() => handleRemoveImage(index)}
+                />
+              ))}
+            </Box>
             <TextField
               label="Email*"
               name="email"

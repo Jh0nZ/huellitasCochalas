@@ -38,6 +38,9 @@ const PetCard = ({ pet }) => {
         <Typography variant="h6" component="div">
           {pet.sexo}
         </Typography>
+        <Typography variant="body2" component="div">
+          {pet.tamano}
+        </Typography>
         <Typography variant="body2" color="textSecondary">
           {pet.age} - {pet.breed}
         </Typography>

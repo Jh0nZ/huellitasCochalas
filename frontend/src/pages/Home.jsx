@@ -14,6 +14,9 @@ const Home = () => {
   const handleRegisterClick = () => {
     navigate("/register"); // Redirige a la ruta del registro
   };
+  const handleAdoptaClick = () => {
+    navigate("/pets"); // Redirige a la ruta de pets
+  };
   return (
     <Box
       sx={{
@@ -78,6 +81,7 @@ const Home = () => {
             mb: 2, // Espacio entre los botones
             mx: 1,
           }}
+          onClick={handleAdoptaClick}
         >
           ADOPTA
         </Button>
@@ -91,7 +95,7 @@ const Home = () => {
       }}
       onClick={handleRegisterClick}
     >
-      REGISTRA A TU MASCOTA
+      REGISTRA A UNA MASCOTA
     </Button>
 
       </Container>

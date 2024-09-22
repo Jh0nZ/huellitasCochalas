@@ -13,7 +13,8 @@ import {
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt"; // Icono de filtro
 import { PetCard } from "../Components/Index";
-
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 // Datos de ejemplo
 const petsData = [
   {
@@ -46,6 +47,16 @@ const petsData = [
     image:
       "https://dbw3zep4prcju.cloudfront.net/animal/bbeac266-45be-4247-b8a9-766b42040482/image/1cc178ca-3ada-4091-a9bc-03ac705c5920.jpg?versionId=0TSjRZfHNa0gwpqOvCU6xhP.6MFkCNwW&bust=1726751677&width=300",
   },
+  {
+    id: 4,
+    name: "Chispas",
+    sexo: "Macho",
+    age: "2 años",
+    breed: "Beagle",
+    description: "Un beagle activo y leal.",
+    image:
+      "https://dbw3zep4prcju.cloudfront.net/animal/bbeac266-45be-4247-b8a9-766b42040482/image/1cc178ca-3ada-4091-a9bc-03ac705c5920.jpg?versionId=0TSjRZfHNa0gwpqOvCU6xhP.6MFkCNwW&bust=1726751677&width=300",
+  },
 ];
 
 const Pets = () => {
@@ -56,7 +67,12 @@ const Pets = () => {
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
-
+  const ageOptions = [
+    '1-3',
+    '4-6',
+    '7-9',
+    '10-12'
+  ];
   // Filtrar mascotas por nombre
   const filteredPets = petsData.filter((pet) =>
     pet.name.toLowerCase().includes(filter.toLowerCase())
@@ -158,6 +174,17 @@ const Pets = () => {
                 <FormControlLabel value="macho" control={<Radio />} label="Macho" />
 
               </RadioGroup>
+
+              <Typography sx={{ px: 2, py: 1, fontWeight: "bold" }}>
+                EDAD
+              </Typography>
+             
+              <Autocomplete
+                options={ageOptions}
+                getOptionDisabled={(option) => option === ageOptions[4] || option === ageOptions[4]}
+                sx={{ width: 300, px:2, }}
+                renderInput={(params) => <TextField {...params} label="Selecciona una edad" />}
+              />
             </Menu>
           </Box>
 

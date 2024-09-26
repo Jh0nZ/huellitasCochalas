@@ -8,7 +8,7 @@ import {
   CardActions,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-
+import { useNavigate } from "react-router-dom";
 // Estilos personalizados para la tarjeta
 const StyledCard = styled(Card)(({ theme }) => ({
   maxWidth: 345,
@@ -24,6 +24,11 @@ const StyledCardMedia = styled(CardMedia)({
 });
 
 const PetCard = ({ pet }) => {
+  const navigate = useNavigate();
+
+  const handleverInfoClick = () => {
+    navigate("/verInfo"); 
+  };
   return (
     <StyledCard>
       <StyledCardMedia
@@ -49,7 +54,10 @@ const PetCard = ({ pet }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary"
+        onClick={handleverInfoClick}
+        >
+         
           Ver Más
         </Button>
       </CardActions>

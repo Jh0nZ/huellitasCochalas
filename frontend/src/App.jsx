@@ -2,7 +2,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { AdoptionRequest, NavBar } from "./Components/Index";
-import { Login, NotFound, PetRegister, Pets } from "./pages";
+import { Login, NotFound, PetRegister, Pets, Infopets } from "./pages";
 import Home from "./pages/Home";
 import UserRegister from "./pages/UserRegister";
 import { lightTheme } from "./theme";
@@ -14,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/verInfo" element={<Infopets/>} />
         <Route path="/register" element={<UserRegister />} />
         <Route path="/register-pet" element={<PetRegister />} />
         <Route path="/pets" element={<Pets />} />

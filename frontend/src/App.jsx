@@ -3,7 +3,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import { Login, NotFound, PetRegister, Pets, Infopets } from "./pages";
-import { AdoptionRequest, NavBar } from "./components";
+import { AdoptionRequest, NavBar } from "./Components";
 import Home from "./pages/Home";
 import UserRegister from "./pages/UserRegister";
 import { lightTheme } from "./theme";

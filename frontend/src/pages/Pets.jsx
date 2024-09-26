@@ -12,7 +12,7 @@ import {
   RadioGroup,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt"; // Icono de filtro
-import { PetCard } from "../components";
+import { PetCard } from "../Components";
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 // Datos de ejemplo

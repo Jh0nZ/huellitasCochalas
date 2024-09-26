@@ -13,7 +13,7 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { PhotoCamera, Delete } from "@mui/icons-material";
-import { ImagePreview } from "../components";
+import { ImagePreview } from "../Components";
 const UserRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);

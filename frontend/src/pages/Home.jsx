@@ -95,7 +95,7 @@ const Home = () => {
       }}
       onClick={handleRegisterClick}
     >
-      REGISTRA A UNA MASCOTA
+      REGISTRATE 
     </Button>
 
       </Container>

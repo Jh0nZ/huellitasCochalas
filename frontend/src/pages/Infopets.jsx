@@ -1,9 +1,15 @@
 import React from "react";
 import { Grid, Card, CardMedia, CardContent, Typography, Button, useTheme} from "@mui/material";
 import PetsIcon from '@mui/icons-material/Pets';
+import { useNavigate } from "react-router-dom";
+
 const Infopets = () => {
   const theme = useTheme();
-  
+  const navigate = useNavigate();
+
+  const handleAdoptaClick = () => {
+    navigate("/adoption-request"); 
+  };
   const pet = {
     id: 1,
     name: "Fido",
@@ -66,7 +72,7 @@ const Infopets = () => {
            mt:4,
             mx: 15,
           }}
-         
+          onClick={handleAdoptaClick}
         >
           ADOPTAR
         </Button>

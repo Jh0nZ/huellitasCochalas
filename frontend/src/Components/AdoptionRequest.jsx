@@ -9,11 +9,10 @@ import {
   IconButton,
 } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
-import { ImagePreview } from "./Index";
+import { ImagePreview } from "./";
 
 const AdoptionRequest = () => {
   const [formData, setFormData] = useState({
-    name: "",
     phone: "",
     address: "",
     reasons: "",
@@ -68,16 +67,6 @@ const AdoptionRequest = () => {
           </Box>
         ) : (
           <Box component="form" noValidate autoComplete="off">
-            <TextField
-              label="Nombre*"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-              fullWidth
-              margin="normal"
-              error={Boolean(errors.name)}
-              helperText={errors.name}
-            />
             <TextField
               label="Teléfono*"
               name="phone"

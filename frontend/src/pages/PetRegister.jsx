@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { PhotoCamera, Delete } from "@mui/icons-material";
-import { ImagePreview } from "../Components/Index";
+import { ImagePreview } from "../components";
 
 const PetRegister = () => {
   const [formData, setFormData] = useState({

@@ -3,8 +3,8 @@ import { AppBar, Container, Toolbar, Typography, Box, IconButton, Button, Toolti
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom'; 
 
-const pages = ['HOME', 'INFORMACIÓN', 'REGISTRATE'];
-const settings = ['Perfil', 'Cuenta',  'Cerrar sesión'];
+const pages = ['HOME', 'REGISTRATE'];
+const settings = ['Perfil', 'Cerrar sesión'];
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -28,6 +28,22 @@ function NavBar() {
     if (page === 'REGISTRATE') {
       navigate('/register');
     }
+    if (page === 'HOME') {
+      navigate('/home');
+    }
+    
+  };
+
+  const handleSettingsClick = (settings) => {
+    handleCloseNavMenu();
+    if (settings === 'Cerrar sesión') {
+      navigate('/login');
+    }
+    if (settings === 'Perfil') {
+      navigate('/perfil');
+    }
+   
+    
   };
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#9567AB' }}>
@@ -111,7 +127,7 @@ function NavBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="logo192.png" />
+                <Avatar alt="Remy Sharp" src="/images/hombre.jpeg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -130,10 +146,10 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {pages.map((page) => (
-              <MenuItem key={page} onClick={() => handlePageClick(page)}>
-                <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
-              </MenuItem>
+             {settings.map((setting) => (
+                <MenuItem key={setting} onClick={() => handleSettingsClick(setting)}>
+                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                </MenuItem>
                 
               ))}
               

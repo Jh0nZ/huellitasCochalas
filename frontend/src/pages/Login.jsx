@@ -176,6 +176,8 @@ const Login = () => {
             <Button
               variant="text"
               color="primary"
+              fullWidth
+          
               onClick={handleRegisterRedirect}
               disabled={isLoading}
             >

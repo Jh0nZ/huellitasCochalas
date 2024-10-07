@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Card, CardMedia, CardContent, Typography, Button, useTheme} from "@mui/material";
+import { Grid, Card, CardMedia, CardContent, Typography, Button, useTheme } from "@mui/material";
 import PetsIcon from '@mui/icons-material/Pets';
 import { useNavigate } from "react-router-dom";
 
@@ -10,11 +10,12 @@ const Infopets = () => {
   const handleAdoptaClick = () => {
     navigate("/adoption-request"); 
   };
+
   const pet = {
     id: 1,
     name: "Fido",
     sexo: "Macho",
-    tamano:"Mediano",
+    tamano: "Mediano",
     age: "2 años",
     breed: "Labrador",
     description: "Un labrador juguetón y amigable.",
@@ -23,59 +24,71 @@ const Infopets = () => {
   };
 
   return (
-    <Grid container spacing={2}
-    sx={{ mt: 9}}
+    <Grid 
+      container 
+      spacing={4} 
+      alignItems="center"
+      justifyContent="center" 
+      sx={{ mt: { xs: 4, md: 9 }, px: { xs: 2, sm: 10 }, gap: 3 }}
     >
-    
-      <Grid item xs={10} sm={5} mx={10}>
-        <Card>
+      {/* Imagen de la mascota */}
+      <Grid item xs={12} sm={6} md={5}>
+        <Card sx={{ boxShadow: 3 }}>
           <CardMedia
             component="img"
             alt={pet.name}
-            height="300"
-            image={pet.image} 
+            height="350"
+            image={pet.image}
             sx={{
-              borderRadius:"10px",
+              borderRadius: "10px",
+              objectFit: "cover",
             }}
           />
         </Card>
       </Grid>
 
-
-      <Grid item xs={10} sm={5}>
-        <Card>
+      {/* Información de la mascota */}
+      <Grid item xs={12} sm={6} md={5}>
+        <Card sx={{ boxShadow: 3 }}>
           <CardContent>
             <Typography variant="h4" component="h1" gutterBottom>
-              {pet.name} 
+              {pet.name}
             </Typography>
             <Typography variant="body1" paragraph>
-              {pet.description} 
+              {pet.description}
             </Typography>
-            <Typography variant="body1">
-           <PetsIcon/>   EDAD: {pet.age} años 
+
+            <Typography variant="body1" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+              <PetsIcon sx={{ mr: 1 }} /> EDAD: {pet.age}
             </Typography>
-            <Typography variant="body1">
-            <PetsIcon/>    RAZA: {pet.breed} 
+
+            <Typography variant="body1" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+              <PetsIcon sx={{ mr: 1 }} /> RAZA: {pet.breed}
             </Typography>
-            <Typography variant="body1">
-            <PetsIcon/>   TAMAÑO: {pet.tamano} 
+
+            <Typography variant="body1" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+              <PetsIcon sx={{ mr: 1 }} /> TAMAÑO: {pet.tamano}
             </Typography>
-            <Typography variant="body1">
-            <PetsIcon/>   SEXO: {pet.sexo} 
+
+            <Typography variant="body1" sx={{ display: "flex", alignItems: "center" }}>
+              <PetsIcon sx={{ mr: 1 }} /> SEXO: {pet.sexo}
             </Typography>
+
+            {/* Botón de Adopción */}
             <Button
-          variant="contained"
-          size="large"
-          sx={{
-            backgroundColor: theme.palette.primary.main,
-            "&:hover": { backgroundColor: theme.palette.primary.dark },
-           mt:4,
-            mx: 15,
-          }}
-          onClick={handleAdoptaClick}
-        >
-          ADOPTAR
-        </Button>
+              variant="contained"
+              size="large"
+              fullWidth
+              sx={{
+                backgroundColor: theme.palette.primary.main,
+                "&:hover": { backgroundColor: theme.palette.primary.dark },
+                mt: 4,
+                py: 1.5,
+              }}
+              onClick={handleAdoptaClick}
+            >
+              ADOPTAR
+            </Button>
           </CardContent>
         </Card>
       </Grid>

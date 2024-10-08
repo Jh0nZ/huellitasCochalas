@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import UserRegister from "./pages/UserRegister";
 import { lightTheme } from "./theme";
 import UserProfile from "./pages/UserProfile";
+import Solicitudes from "./pages/Solicitudes";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/verInfo" element={<Infopets/>} />
         <Route path="/register" element={<UserRegister />} />
+        <Route path="/solicitudes" element={<Solicitudes />} />
         <Route path="/pet-register" element={<PetRegister />} />
         <Route path="/pets" element={<Pets />} />
         <Route path="/adoption-request" element={<AdoptionRequest />} />

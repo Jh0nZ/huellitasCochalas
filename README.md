@@ -8,6 +8,30 @@
 
 ![Diagrama ER](./DiagramaER.png)
 
+## Comandos Docker
+Para construir las imágenes de los servicios, utiliza:
+
+```sh
+docker-compose build
+```
+
+Para levantar los servicios con Docker Compose, utiliza el siguiente comando:
+
+```sh
+docker-compose up -d
+```
+
+Para detener los servicios, utiliza:
+
+```sh
+docker-compose down
+```
+
+Para acceder a un contenedor en ejecución y abrir una terminal bash, utiliza:
+
+```sh
+docker-compose exec -it huellitas-backend /bin/bash
+```
 
 ## Descripción
 

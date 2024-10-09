@@ -17,6 +17,7 @@ class Pet extends Model
         'location',
         'breed_id',
         'size_id',
+        'user_id',
     ];
 
     public function breed()
@@ -32,5 +33,10 @@ class Pet extends Model
     public function images()
     {
         return $this->hasMany(PetImage::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

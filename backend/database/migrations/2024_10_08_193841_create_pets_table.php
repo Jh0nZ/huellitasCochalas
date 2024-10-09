@@ -20,10 +20,12 @@ return new class extends Migration
             $table->string('location');
             $table->unsignedBigInteger('breed_id');
             $table->unsignedBigInteger('size_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
-
+            
             $table->foreign('breed_id')->references('id')->on('breeds')->onDelete('cascade');
             $table->foreign('size_id')->references('id')->on('sizes')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on(table: 'users')->onDelete('cascade');
         });
     }
 

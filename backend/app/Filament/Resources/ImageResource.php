@@ -3,13 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ImageResource\Pages;
+use App\Filament\Resources\ImageResource\RelationManagers;
 use App\Models\Image;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ImageResource extends Resource
 {
@@ -21,13 +23,18 @@ class ImageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('file') // Cambiamos a FileUpload
+                Forms\Components\TextInput::make('filename')
                     ->required()
-                    ->label('Image')
-                    ->disk('public') // El disco donde se guardará
-                    ->directory('images') // Carpeta donde se guardarán las imágenes
-                    ->preserveFilenames() // Preserva el nombre original del archivo
-                    ->visibility('public'), // Establecer la visibilidad a pública
+                    ->label('Filename'),
+                Forms\Components\TextInput::make('path')
+                    ->required()
+                    ->label('Path'),
+                Forms\Components\TextInput::make('mime_type')
+                    ->required()
+                    ->label('MIME Type'),
+                Forms\Components\TextInput::make('size')
+                    ->required()
+                    ->label('Size'),
             ]);
     }
 
@@ -44,6 +51,9 @@ class ImageResource extends Resource
                 Tables\Columns\TextColumn::make('size')
                     ->label('Size'),
             ])
+            ->filters([
+                //
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
@@ -56,7 +66,9 @@ class ImageResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            //
+        ];
     }
 
     public static function getPages(): array
@@ -66,16 +78,5 @@ class ImageResource extends Resource
             'create' => Pages\CreateImage::route('/create'),
             'edit' => Pages\EditImage::route('/{record}/edit'),
         ];
-    }
-
-    protected static function afterCreate(Image $record, $data): void
-    {
-        // Guardar la imagen en el modelo
-        $record->update([
-            'filename' => $data['file']->getClientOriginalName(),
-            'path' => Storage::disk('public')->putFile('images', $data['file']),
-            'mime_type' => $data['file']->getClientMimeType(),
-            'size' => $data['file']->getSize(),
-        ]);
     }
 }

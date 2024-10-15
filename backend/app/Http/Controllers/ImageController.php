@@ -21,17 +21,21 @@ class ImageController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $image = $request->file('image');
-        $path = $image->store('images', 'public');
+        try {
+            $image = $request->file('image');
+            $path = $image->store('images', 'public');
 
-        $imageModel = new Image();
-        $imageModel->filename = $image->getClientOriginalName();
-        $imageModel->path = $path;
-        $imageModel->mime_type = $image->getClientMimeType();
-        $imageModel->size = $image->getSize();
-        $imageModel->save();
+            $imageModel = new Image();
+            $imageModel->filename = $image->getClientOriginalName();
+            $imageModel->path = $path;
+            $imageModel->mime_type = $image->getClientMimeType();
+            $imageModel->size = $image->getSize();
+            $imageModel->save();
 
-        return response()->json(['success' => 'Image uploaded successfully.'], Response::HTTP_CREATED);
+            return response()->json(['success' => 'Image uploaded successfully.'], Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Image upload failed.', 'message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function show($id)

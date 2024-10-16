@@ -32,7 +32,8 @@ class Pet extends Model
 
     public function images()
     {
-        return $this->hasMany(PetImage::class);
+        return $this->belongsToMany(Image::class, 'pet_images', 'pet_id', 'image_id')
+                    ->withTimestamps();
     }
 
     public function user()

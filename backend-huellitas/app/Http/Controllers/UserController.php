@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Exception;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -21,23 +23,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8',
+            ]);
 
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'first_name' => $validatedData['first_name'],
-            'last_name' => $validatedData['last_name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-        ]);
+            $user = User::create([
+                'name' => $validatedData['first_name'] . ' ' . $validatedData['last_name'],
+                'first_name' => $validatedData['first_name'],
+                'last_name' => $validatedData['last_name'],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+            ]);
 
-        return response()->json($user, 201);
+            return response()->json($user, 201);
+        } catch (ValidationException $e) {
+            return response()->json(['message' => 'Validation failed', 'data' => $e->errors()], 422);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
+        }
     }
 
     /**

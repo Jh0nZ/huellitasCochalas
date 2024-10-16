@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Breed;
+use Exception;
+use Illuminate\Validation\ValidationException;
 
 class BreedController extends Controller
 {
@@ -11,7 +14,8 @@ class BreedController extends Controller
      */
     public function index()
     {
-        //
+        $breeds = Breed::all();
+        return response()->json($breeds);
     }
 
     /**
@@ -19,7 +23,19 @@ class BreedController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255|unique:breeds,name',
+                'description' => 'nullable|string',
+            ]);
+
+            $breed = Breed::create($request->all());
+            return response()->json($breed, 201);
+        } catch (ValidationException $e) {
+            return response()->json(['message' => 'Validation failed', 'data' => $e->errors()], 422);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -27,7 +43,8 @@ class BreedController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $breed = Breed::findOrFail($id);
+        return response()->json($breed);
     }
 
     /**
@@ -35,7 +52,14 @@ class BreedController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $breed = Breed::findOrFail($id);
+        $breed->update($request->all());
+        return response()->json($breed);
     }
 
     /**
@@ -43,6 +67,8 @@ class BreedController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $breed = Breed::findOrFail($id);
+        $breed->delete();
+        return response()->json(null, 204);
     }
 }

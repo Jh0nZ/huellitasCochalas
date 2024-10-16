@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Pet;
 use Exception;
 use Illuminate\Validation\ValidationException;
+use App\Models\Image;
+use App\Models\PetImage;
 
 class PetController extends Controller
 {
@@ -37,6 +39,8 @@ class PetController extends Controller
                 'breed_id' => 'required|exists:breeds,id',
                 'size_id' => 'required|exists:sizes,id',
                 'user_id' => 'required|exists:users,id',
+                'images' => 'required|array|min:1',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
 
             $pet = new Pet([
@@ -51,6 +55,23 @@ class PetController extends Controller
             ]);
 
             $pet->save();
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $path = $file->store('images', 'public');
+                    $image = Image::create([
+                        'filename' => $file->getClientOriginalName(),
+                        'path' => $path,
+                        'mime_type' => $file->getClientMimeType(),
+                        'size' => $file->getSize(),
+                    ]);
+
+                    PetImage::create([
+                        'pet_id' => $pet->id,
+                        'image_id' => $image->id,
+                    ]);
+                }
+            }
 
             return response()->json(['message' => 'Pet created successfully', 'data' => $pet], 201);
         } catch (ValidationException $e) {

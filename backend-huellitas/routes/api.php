@@ -7,6 +7,7 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\PetImageController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +22,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::apiResource('breeds', BreedController::class);
 Route::apiResource('sizes', SizeController::class);
@@ -32,3 +33,4 @@ Route::apiResource('pets', PetController::class);
 Route::apiResource('pet-images', PetImageController::class);
 Route::apiResource('adoption-requests', AdoptionRequestController::class);
 Route::apiResource('adoption-request-images', AdoptionRequestImageController::class);
+Route::apiResource('users', UserController::class);

@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container, Typography, Box, Button, Menu, useTheme,
 } from '@mui/material';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { PetCard } from '../Components';
-import { useGetPetsQuery } from '../features/api/apiSlice'; // Importa el hook
+import { useGetAllPetsQuery } from '../features/api/apiSlice'; // Importa el hook
 
 const Pets = () => {
-  const { data: petsData = [], error, isLoading } = useGetPetsQuery();
+  const { data, error, isError, isFetching, isSuccess } = useGetAllPetsQuery();
+  useEffect(() => {
+    if (isError) {
+      console.error('Error:', error);
+    }
+    if (isSuccess) {
+      console.log('Data:', data);
+    }
+  }, [data, error, isError, isFetching, isSuccess]);
+
   const [filter, setFilter] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
@@ -15,10 +24,6 @@ const Pets = () => {
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
-
-  const filteredPets = petsData.filter((pet) =>
-    pet.name.toLowerCase().includes(filter.toLowerCase())
-  );
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,7 +33,7 @@ const Pets = () => {
     setAnchorEl(null);
   };
 
-  if (isLoading) return <Typography align="center">Cargando...</Typography>;
+  if (isFetching) return <Typography align="center">Cargando...</Typography>;
   if (error) return <Typography align="center">Error: {error.message}</Typography>;
 
   return (
@@ -52,13 +57,13 @@ const Pets = () => {
           </Menu>
         </Box>
 
-        {filteredPets.length === 0 ? (
+        {data.data.length === 0 ? (
           <Typography variant="h6" align="center" sx={{ mt: 3 }}>
             No se encontraron mascotas
           </Typography>
         ) : (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mt: 2 }}>
-            {filteredPets.map((pet) => (
+            {data.data.map((pet) => (
               <Box key={pet.id} sx={{ flexBasis: '30%', maxWidth: '30%' }}>
                 <PetCard pet={pet} />
               </Box>

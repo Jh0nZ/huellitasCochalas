@@ -8,6 +8,13 @@
 
 ![Diagrama ER](./DiagramaER.png)
 
+
+## comando para habilitar las imagenes
+```sh
+php artisan storage:link
+```
+
+
 ## Comandos Docker
 Para construir las imágenes de los servicios, utiliza:
 

@@ -33,7 +33,7 @@ const PetCard = ({ pet }) => {
     <StyledCard>
       <StyledCardMedia
         component="img"
-        image={pet.image}
+        image={`http://localhost:8000/storage/${pet.images[0].path}`}
         alt={pet.name}
       />
       <CardContent>
@@ -44,10 +44,10 @@ const PetCard = ({ pet }) => {
           {pet.sexo}
         </Typography>
         <Typography variant="body2" component="div">
-          {pet.tamano}
+          {pet.size.name}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {pet.age} - {pet.breed}
+          {pet.age} - {pet.breed.name}
         </Typography>
         <Typography variant="body2" color="textSecondary" paragraph>
           {pet.description}

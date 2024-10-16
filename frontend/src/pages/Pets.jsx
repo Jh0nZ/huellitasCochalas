@@ -33,8 +33,30 @@ const Pets = () => {
     setAnchorEl(null);
   };
 
-  if (isFetching) return <Typography align="center">Cargando...</Typography>;
-  if (error) return <Typography align="center">Error: {error.message}</Typography>;
+  if (isFetching) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <Typography>cargando...</Typography>
+      </Box>
+    );
+  }
+  if (isError) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <Typography>{error.data.message}</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Container maxWidth="lg">

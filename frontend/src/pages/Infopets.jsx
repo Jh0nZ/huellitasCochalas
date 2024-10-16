@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
   useTheme,
+  Box,
 } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import { useNavigate } from "react-router-dom";
@@ -36,7 +37,28 @@ const Infopets = () => {
   };
 
   if (isFetching) {
-    return <Typography>cargando...</Typography>
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <Typography>cargando...</Typography>
+      </Box>
+    );
+  }
+  if (isError) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <Typography>{error.data.message}</Typography>
+      </Box>
+    );
   }
 
   return (

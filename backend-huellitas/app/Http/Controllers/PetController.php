@@ -14,7 +14,12 @@ class PetController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $pets = Pet::all();
+            return response()->json(['data' => $pets], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -60,7 +65,12 @@ class PetController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $pet = Pet::findOrFail($id);
+            return response()->json(['data' => $pet], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Pet not found', 'data' => $e->getMessage()], 404);
+        }
     }
 
     /**
@@ -68,7 +78,27 @@ class PetController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try {
+            $request->validate([
+                'name' => 'sometimes|required|string|max:255',
+                'description' => 'nullable|string',
+                'status' => 'sometimes|required|string|max:255',
+                'sterilized' => 'sometimes|required|boolean',
+                'location' => 'sometimes|required|string|max:255',
+                'breed_id' => 'sometimes|required|exists:breeds,id',
+                'size_id' => 'sometimes|required|exists:sizes,id',
+                'user_id' => 'sometimes|required|exists:users,id',
+            ]);
+
+            $pet = Pet::findOrFail($id);
+            $pet->update($request->all());
+
+            return response()->json(['message' => 'Pet updated successfully', 'data' => $pet], 200);
+        } catch (ValidationException $e) {
+            return response()->json(['message' => 'Validation failed', 'data' => $e->errors()], 422);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -76,6 +106,13 @@ class PetController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $pet = Pet::findOrFail($id);
+            $pet->delete();
+
+            return response()->json(['message' => 'Pet deleted successfully'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
+        }
     }
 }

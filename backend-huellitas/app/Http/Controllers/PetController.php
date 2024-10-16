@@ -89,7 +89,7 @@ class PetController extends Controller
     public function show(string $id)
     {
         try {
-            $pet = Pet::with('images')->findOrFail($id);
+            $pet = Pet::with(['images', 'size', 'breed'])->findOrFail($id);
             return response()->json(['data' => $pet], 200);
         } catch (Exception $e) {
             return response()->json(['message' => 'Pet not found', 'data' => $e->getMessage()], 404);

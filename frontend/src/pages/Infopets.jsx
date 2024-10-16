@@ -85,21 +85,14 @@ const Infopets = () => {
               variant="body1"
               sx={{ display: "flex", alignItems: "center", mb: 1 }}
             >
-              <PetsIcon sx={{ mr: 1 }} /> RAZA: {"raza 1"}
+              <PetsIcon sx={{ mr: 1 }} /> RAZA: {data.data.breed.name}
             </Typography>
 
             <Typography
               variant="body1"
               sx={{ display: "flex", alignItems: "center", mb: 1 }}
             >
-              <PetsIcon sx={{ mr: 1 }} /> TAMAÑO: {"pequeño"}
-            </Typography>
-
-            <Typography
-              variant="body1"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              <PetsIcon sx={{ mr: 1 }} /> SEXO: {data.data.sexo}
+              <PetsIcon sx={{ mr: 1 }} /> TAMAÑO: {data.data.size.name}
             </Typography>
 
             {/* Botón de Adopción */}

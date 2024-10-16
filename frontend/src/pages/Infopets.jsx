@@ -1,34 +1,50 @@
-import React from "react";
-import { Grid, Card, CardMedia, CardContent, Typography, Button, useTheme } from "@mui/material";
-import PetsIcon from '@mui/icons-material/Pets';
+import React, {useEffect, useState} from "react";
+import {
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  Button,
+  useTheme,
+} from "@mui/material";
+import PetsIcon from "@mui/icons-material/Pets";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useGetPetByIdQuery } from "../features/api/apiSlice";
 
 const Infopets = () => {
+  const { pet_id } = useParams();
+  const { data, isSuccess, error, isError, isFetching } =
+    useGetPetByIdQuery(pet_id);
+
+  useEffect(()=>{
+    if (isSuccess) {
+      console.log(data);
+    }
+    if (isError){
+      console.log(error);
+      
+    }
+  }, [data, error, isError, isSuccess])
+
   const theme = useTheme();
   const navigate = useNavigate();
 
   const handleAdoptaClick = () => {
-    navigate("/adoption-request"); 
+    navigate("/adoption-request");
   };
 
-  const pet = {
-    id: 1,
-    name: "Fido",
-    sexo: "Macho",
-    tamano: "Mediano",
-    age: "2 años",
-    breed: "Labrador",
-    description: "Un labrador juguetón y amigable.",
-    image:
-      "https://dbw3zep4prcju.cloudfront.net/animal/acd97097-34c4-4744-9673-e950246cf19d/image/99c443fc-1a2c-4169-b06b-749f9f4224b8.jpeg?versionId=BItqJ3A.zZLibQ3FisNMtE4b0JhVUo7E&bust=1713489188&width=300",
-  };
+  if (isFetching) {
+    return <Typography>cargando...</Typography>
+  }
 
   return (
-    <Grid 
-      container 
-      spacing={4} 
+    <Grid
+      container
+      spacing={4}
       alignItems="center"
-      justifyContent="center" 
+      justifyContent="center"
       sx={{ mt: { xs: 4, md: 9 }, px: { xs: 2, sm: 10 }, gap: 3 }}
     >
       {/* Imagen de la mascota */}
@@ -36,9 +52,9 @@ const Infopets = () => {
         <Card sx={{ boxShadow: 3 }}>
           <CardMedia
             component="img"
-            alt={pet.name}
+            alt={data.data.name}
             height="350"
-            image={pet.image}
+            image={`http://localhost:8000/storage/${data.data.images[0].path}`}
             sx={{
               borderRadius: "10px",
               objectFit: "cover",
@@ -52,26 +68,38 @@ const Infopets = () => {
         <Card sx={{ boxShadow: 3 }}>
           <CardContent>
             <Typography variant="h4" component="h1" gutterBottom>
-              {pet.name}
+              {data.data.name}
             </Typography>
             <Typography variant="body1" paragraph>
-              {pet.description}
+              {data.data.description}
             </Typography>
 
-            <Typography variant="body1" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-              <PetsIcon sx={{ mr: 1 }} /> EDAD: {pet.age}
+            <Typography
+              variant="body1"
+              sx={{ display: "flex", alignItems: "center", mb: 1 }}
+            >
+              <PetsIcon sx={{ mr: 1 }} /> EDAD: {data.data.age}
             </Typography>
 
-            <Typography variant="body1" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-              <PetsIcon sx={{ mr: 1 }} /> RAZA: {pet.breed}
+            <Typography
+              variant="body1"
+              sx={{ display: "flex", alignItems: "center", mb: 1 }}
+            >
+              <PetsIcon sx={{ mr: 1 }} /> RAZA: {"raza 1"}
             </Typography>
 
-            <Typography variant="body1" sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-              <PetsIcon sx={{ mr: 1 }} /> TAMAÑO: {pet.tamano}
+            <Typography
+              variant="body1"
+              sx={{ display: "flex", alignItems: "center", mb: 1 }}
+            >
+              <PetsIcon sx={{ mr: 1 }} /> TAMAÑO: {"pequeño"}
             </Typography>
 
-            <Typography variant="body1" sx={{ display: "flex", alignItems: "center" }}>
-              <PetsIcon sx={{ mr: 1 }} /> SEXO: {pet.sexo}
+            <Typography
+              variant="body1"
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <PetsIcon sx={{ mr: 1 }} /> SEXO: {data.data.sexo}
             </Typography>
 
             {/* Botón de Adopción */}

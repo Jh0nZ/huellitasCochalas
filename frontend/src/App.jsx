@@ -10,7 +10,6 @@ import { lightTheme } from "./theme";
 import UserProfile from "./pages/UserProfile";
 import Solicitudes from "./pages/Solicitudes";
 
-
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>
@@ -18,7 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/verInfo" element={<Infopets/>} />
+        <Route path="/verInfo/:pet_id" element={<Infopets/>} />
         <Route path="/register" element={<UserRegister />} />
         <Route path="/solicitudes" element={<Solicitudes />} />
         <Route path="/pet-register" element={<PetRegister />} />

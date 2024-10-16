@@ -34,6 +34,7 @@ class PetController extends Controller
                 'name' => 'required|string|max:255',
                 'description' => 'nullable|string',
                 'status' => 'required|string|max:255',
+                'age' => 'required|integer',
                 'sterilized' => 'required|boolean',
                 'location' => 'required|string|max:255',
                 'breed_id' => 'required|exists:breeds,id',
@@ -46,6 +47,7 @@ class PetController extends Controller
             $pet = new Pet([
                 'name' => $request->get('name'),
                 'description' => $request->get('description'),
+                'age' => $request->get('age'),
                 'status' => $request->get('status'),
                 'sterilized' => $request->get('sterilized'),
                 'location' => $request->get('location'),

@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('status');
+            $table->integer('age');
             $table->boolean('sterilized');
             $table->string('location');
             $table->unsignedBigInteger('breed_id');

@@ -20,14 +20,14 @@ const StyledCardMedia = styled(CardMedia)({
   height: 200, // Aumenta la altura de la imagen
   borderTopLeftRadius: 12,
   borderTopRightRadius: 12,
-  objectFit: 'cover', // Asegura que la imagen cubra el área sin distorsionarse
+  objectFit: "cover", // Asegura que la imagen cubra el área sin distorsionarse
 });
 
 const PetCard = ({ pet }) => {
   const navigate = useNavigate();
 
-  const handleverInfoClick = () => {
-    navigate("/verInfo"); 
+  const handleverInfoClick = (id) => {
+    navigate(`/verInfo/${id}`);
   };
   return (
     <StyledCard>
@@ -37,27 +37,28 @@ const PetCard = ({ pet }) => {
         alt={pet.name}
       />
       <CardContent>
-        <Typography variant="h6" component="div" >
+        <Typography variant="h6" component="div">
           {pet.name.toUpperCase()}
         </Typography>
         <Typography variant="h6" component="div">
           {pet.sexo}
         </Typography>
         <Typography variant="body2" component="div">
-          {pet.size.name}
+          Tamaño: {pet.size.name}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          {pet.age} - {pet.breed.name}
+          Raza: {pet.breed.name}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          Edad: {pet.age}
         </Typography>
         <Typography variant="body2" color="textSecondary" paragraph>
-          {pet.description}
+          Descripcion: {pet.description}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary"
-        onClick={handleverInfoClick}
+        <Button size="small" color="primary" onClick={() => handleverInfoClick(pet.id)}
         >
-         
           Ver Más
         </Button>
       </CardActions>

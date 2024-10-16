@@ -3,7 +3,7 @@ import { AppBar, Container, Toolbar, Typography, Box, IconButton, Button, Toolti
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom'; 
 
-const pages = ['HOME', 'REGISTRATE'];
+const pages = ['HOME', 'REGISTRATE', 'PET REGISTER'];
 const settings = ['Perfil', 'Cerrar sesión'];
 
 function NavBar() {
@@ -31,7 +31,9 @@ function NavBar() {
     if (page === 'HOME') {
       navigate('/home');
     }
-    
+    if (page === 'PET REGISTER') {
+      navigate('/pet-register');
+    }
   };
 
   const handleSettingsClick = (settings) => {
@@ -42,8 +44,6 @@ function NavBar() {
     if (settings === 'Perfil') {
       navigate('/perfil');
     }
-   
-    
   };
   return (
     <AppBar position="fixed" sx={{ backgroundColor: '#9567AB' }}>
@@ -150,9 +150,7 @@ function NavBar() {
                 <MenuItem key={setting} onClick={() => handleSettingsClick(setting)}>
                   <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
                 </MenuItem>
-                
               ))}
-              
             </Menu>
           </Box>
         </Toolbar>

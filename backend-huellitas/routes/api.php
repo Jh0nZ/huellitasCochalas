@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdoptionRequestController;
 use App\Http\Controllers\BreedController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PetController;
@@ -28,4 +29,5 @@ Route::apiResource('sizes', SizeController::class);
 Route::apiResource('images', ImageController::class);
 Route::apiResource('pets', PetController::class);
 Route::apiResource('pet-images', PetImageController::class);
+Route::apiResource('adoption-requests', AdoptionRequestController::class);
 

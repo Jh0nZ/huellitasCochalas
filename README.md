@@ -14,6 +14,10 @@
 php artisan storage:link
 ```
 
+## comando para generar documentacion
+```sh
+php artisan l5-swagger:generate
+```
 
 ## Comandos Docker
 Para construir las imágenes de los servicios, utiliza:

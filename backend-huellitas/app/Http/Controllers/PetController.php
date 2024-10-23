@@ -9,10 +9,73 @@ use Illuminate\Validation\ValidationException;
 use App\Models\Image;
 use App\Models\PetImage;
 
+/**
+ * @OA\Schema(
+ *     schema="ValidationError",
+ *     type="object",
+ *     @OA\Property(property="message", type="string", example="Validation failed"),
+ *     @OA\Property(property="data", type="object",
+ *         @OA\Property(property="errors", type="object",
+ *             @OA\Property(property="name", type="array", @OA\Items(type="string", example="The name field is required.")),
+ *             @OA\Property(property="status", type="array", @OA\Items(type="string", example="The status field is required.")),
+ *             @OA\Property(property="age", type="array", @OA\Items(type="string", example="The age must be an integer.")),
+ *             @OA\Property(property="sterilized", type="array", @OA\Items(type="string", example="The sterilized field must be true or false.")),
+ *             @OA\Property(property="location", type="array", @OA\Items(type="string", example="The location field is required.")),
+ *             @OA\Property(property="breed_id", type="array", @OA\Items(type="string", example="The selected breed_id is invalid.")),
+ *             @OA\Property(property="size_id", type="array", @OA\Items(type="string", example="The selected size_id is invalid.")),
+ *             @OA\Property(property="user_id", type="array", @OA\Items(type="string", example="The selected user_id is invalid.")),
+ *             @OA\Property(property="images", type="array", @OA\Items(type="string", example="At least one image is required."))
+ *         )
+ *     )
+ * ),
+ * @OA\Schema(
+ *     schema="Pet",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="name", type="string", example="Fido"),
+ *     @OA\Property(property="description", type="string", example="A friendly dog"),
+ *     @OA\Property(property="status", type="string", example="available"),
+ *     @OA\Property(property="age", type="integer", example=3),
+ *     @OA\Property(property="sterilized", type="boolean", example=true),
+ *     @OA\Property(property="location", type="string", example="New York"),
+ *     @OA\Property(property="breed_id", type="integer", example=1),
+ *     @OA\Property(property="size_id", type="integer", example=2),
+ *     @OA\Property(property="user_id", type="integer", example=1),
+ *     @OA\Property(property="images", type="array",
+ *         @OA\Items(type="object", 
+ *             @OA\Property(property="filename", type="string"),
+ *             @OA\Property(property="path", type="string"),
+ *             @OA\Property(property="mime_type", type="string"),
+ *             @OA\Property(property="size", type="integer")
+ *         )
+ *     ),
+ * )
+ */
+
 class PetController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/pets",
+     *     tags={"Pets"},
+     *     summary="Get a list of all pets",
+     *     description="This endpoint retrieves a list of all pets with their details.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of pets retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/Pet"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="An error occurred",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="An error occurred"),
+     *             @OA\Property(property="data", type="string", example="Error details")
+     *         )
+     *     )
+     * )
      */
     public function index()
     {
@@ -25,7 +88,52 @@ class PetController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/pets",
+     *     tags={"Pets"},
+     *     summary="Create a new pet",
+     *     description="This endpoint allows you to create a new pet.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "status", "age", "sterilized", "location", "breed_id", "size_id", "user_id", "images"},
+     *             @OA\Property(property="name", type="string", example="Fido"),
+     *             @OA\Property(property="description", type="string", example="A friendly dog"),
+     *             @OA\Property(property="status", type="string", example="available"),
+     *             @OA\Property(property="age", type="integer", example=3),
+     *             @OA\Property(property="sterilized", type="boolean", example=true),
+     *             @OA\Property(property="location", type="string", example="New York"),
+     *             @OA\Property(property="breed_id", type="integer", example=1),
+     *             @OA\Property(property="size_id", type="integer", example=2),
+     *             @OA\Property(property="user_id", type="integer", example=1),
+     *             @OA\Property(property="images", type="array", @OA\Items(type="string", format="binary")),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Pet created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Pet created successfully"),
+     *             @OA\Property(property="data", ref="#/components/schemas/Pet")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation failed",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Validation failed"),
+     *             @OA\Property(property="data", ref="#/components/schemas/ValidationError")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="An error occurred",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="An error occurred"),
+     *             @OA\Property(property="data", type="string", example="Error details")
+     *         )
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -84,7 +192,34 @@ class PetController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/pets/{id}",
+     *     tags={"Pets"},
+     *     summary="Get a pet by ID",
+     *     description="This endpoint retrieves a pet's details based on the given ID.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the pet to retrieve",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pet details retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="data", type="object", ref="#/components/schemas/Pet")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Pet not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Pet not found"),
+     *             @OA\Property(property="data", type="string", example="Error details")
+     *         )
+     *     )
+     * )
      */
     public function show(string $id)
     {

@@ -4,6 +4,11 @@ export const validarContraseña = (contraseña) => {
     return regex.test(contraseña);
   };
   
+  export const validarNombreApellido = (nombre) => {
+    const regex = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{4,}$/; 
+    return regex.test(nombre);
+  };
+
   export const validarEmailDocente = (email) => {
     const regexDocente = /^[a-zA-Z0-9._%+-]+@fcyt\.umss\.edu\.bo$/;
     return regexDocente.test(email);

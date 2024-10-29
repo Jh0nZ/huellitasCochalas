@@ -149,7 +149,7 @@ const PetRegister = () => {
         location: "calle aaa1",
         description: "",
         gender: "",
-        tipoMascota: "", // Reinicia el campo tipoMascota
+        tipoMascota: "", 
       });
       setImages([]);
       setErrors({});
@@ -162,7 +162,7 @@ const PetRegister = () => {
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 10 }}>
-        <Typography variant="h4" component="h1" gutterBottom align="center">
+        <Typography variant="h4" component="h1" gutterBottom align="center" color="#645b6d">
           REGISTRA A TU MASCOTA
         </Typography>
         {isLoading ? (

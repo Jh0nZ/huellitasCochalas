@@ -14,7 +14,7 @@ import { Visibility, VisibilityOff, PhotoCamera } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { ImagePreview } from "../Components";
 import { validateEmail } from "../utils/validaciones";
-import { validarNombreApellido } from "../utils/validaciones";
+import { validarPassword } from "../utils/validaciones";
 
 const UserRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -57,7 +57,19 @@ const UserRegister = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-  
+
+    
+    if (name === "password") {
+      const passwordError = validarPassword(value);
+      setErrors((prevErrors) => ({ ...prevErrors, password: passwordError }));
+    }
+    if (name === "password_confirmation") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        password_confirmation:
+          value !== formData.password ? "Las contraseñas no coinciden." : ""
+      }));
+    }
   };
   
 
@@ -94,7 +106,12 @@ const UserRegister = () => {
   const validateFields = () => {
     const newErrors = {};
     let hasError = false;
-  
+
+    const passwordError = validarPassword(formData.password);
+    if (passwordError) {
+      newErrors.password = passwordError;
+      hasError = true;
+    }
     const nombreError = validarNombre(formData.first_name);
     if (nombreError) {
       newErrors.first_name = nombreError;
@@ -122,33 +139,11 @@ const UserRegister = () => {
       newErrors.pet_birthdate = "Debes ser mayor de 18 años.";
       hasError = true;
     }
-  
-    
-    if (!formData.password) {
-      newErrors.password = "La contraseña es obligatoria.";
-      hasError = true;
-    } else if (!/[A-Z]/.test(formData.password)) {
-      newErrors.password = "La contraseña debe tener al menos una letra mayúscula.";
-      hasError = true;
-    } else if (!/[a-z]/.test(formData.password)) {
-      newErrors.password = "La contraseña debe tener al menos una letra minúscula.";
-      hasError = true;
-    } else if (!/\d/.test(formData.password)) {
-      newErrors.password = "La contraseña debe tener al menos un número.";
-      hasError = true;
-    } else if (!/[!@#$%^&*()_+{}\[\]:;"'<>,.?/|\\~`-]/.test(formData.password)) {
-      newErrors.password = "La contraseña debe tener al menos un carácter especial.";
-      hasError = true;
-    } else if (formData.password.length < 8) {
-      newErrors.password = "La contraseña debe tener al menos 8 caracteres.";
-      hasError = true;
-    }
-  
-    
     if (formData.password_confirmation !== formData.password) {
       newErrors.password_confirmation = "Las contraseñas no coinciden.";
       hasError = true;
     }
+    
   
     setErrors(newErrors);
     return !hasError;

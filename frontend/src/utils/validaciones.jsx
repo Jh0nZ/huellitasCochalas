@@ -1,8 +1,25 @@
-export const validarContraseña = (contraseña) => {
-    const regex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/|\\~`-])[A-Za-z\d!@#$%^&*()_+{}\[\]:;"'<>,.?/|\\~`-]{8,}$/;
-    return regex.test(contraseña);
-  };
+export const validarPassword = (contraseña) => {
+  if (!contraseña) {
+    return "La contraseña es obligatoria.";
+  }
+  if (contraseña.length < 8) {
+    return "La contraseña debe tener al menos 8 caracteres.";
+  }
+  if (!/[a-z]/.test(contraseña)) {
+    return "La contraseña debe contener al menos una letra minúscula.";
+  }
+  if (!/[A-Z]/.test(contraseña)) {
+    return "La contraseña debe contener al menos una letra mayúscula.";
+  }
+  if (!/\d/.test(contraseña)) {
+    return "La contraseña debe contener al menos un número.";
+  }
+  if (!/[!@#$%^&*()_+{}\[\]:;"'<>,.?/|\\~`-]/.test(contraseña)) {
+    return "La contraseña debe contener al menos un carácter especial.";
+  }
+  
+};
+
   
   export const validarNombreApellido = (nombre) => {
     const regex = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]{4,}$/; 

@@ -35,7 +35,30 @@ const UserRegister = () => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setImages((prevImages) => [...prevImages, ...files]);
+    const newImages = [];
+  
+    files.forEach((file) => {
+   
+      const validTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif", "image/svg+xml"];
+      if (validTypes.includes(file.type) && newImages.length < 5) {
+        newImages.push(file);
+      }
+    });
+  
+    setImages((prevImages) => [...prevImages, ...newImages]);
+  
+
+    if (newImages.length < files.length) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        images: "Solo puedes subir un máximo de 5 imágenes en formatos JPEG, PNG, JPG, GIF, SVG."
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        images: ""
+      }));
+    }
   };
 
   const handleRemoveImage = (index) => {
@@ -103,6 +126,7 @@ const UserRegister = () => {
     return ""; 
   };
   
+
   const validateFields = () => {
     const newErrors = {};
     let hasError = false;
@@ -143,7 +167,13 @@ const UserRegister = () => {
       newErrors.password_confirmation = "Las contraseñas no coinciden.";
       hasError = true;
     }
-    
+    if (images.length === 0) {
+      newErrors.images = "Debes subir al menos una foto.";
+      hasError = true;
+    } else if (images.length !== 5) {
+      newErrors.images = "Debes subir al menos 5 imágenes.";
+      hasError = true;
+    }
   
     setErrors(newErrors);
     return !hasError;
@@ -237,6 +267,7 @@ const UserRegister = () => {
               startIcon={<PhotoCamera />}
               fullWidth
               sx={{ mt: 2 }}
+             
             >
               Sube una foto para su perfil
               <input
@@ -247,6 +278,11 @@ const UserRegister = () => {
                 onChange={handleImageChange}
               />
             </Button>
+            {errors.images && (
+              <Typography color="error" sx={{ mt: 1 }}>
+                {errors.images}
+              </Typography>
+                  )}
             <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 2 }}>
               {images.map((image, index) => (
                 <ImagePreview

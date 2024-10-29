@@ -65,13 +65,33 @@ const PetRegister = () => {
   };
 
   const handleImageChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    if (selectedFiles.length + images.length > 5) {
-      alert("Solo se pueden seleccionar hasta 5 imágenes.");
-      return;
+    const files = Array.from(e.target.files);
+    const newImages = [];
+  
+    files.forEach((file) => {
+   
+      const validTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif", "image/svg+xml"];
+      if (validTypes.includes(file.type) && newImages.length < 5) {
+        newImages.push(file);
+      }
+    });
+  
+    setImages((prevImages) => [...prevImages, ...newImages]);
+  
+
+    if (newImages.length < files.length) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        images: "Solo se pueden seleccionar hasta 5 imágenes."
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        images: ""
+      }));
     }
-    setImages((prevImages) => [...prevImages, ...selectedFiles]);
   };
+
 
   const handleImageRemove = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
@@ -88,7 +108,7 @@ const PetRegister = () => {
 
     if (!formData.age || isNaN(formData.age)) {
       formIsValid = false;
-      newErrors.age = "La edad de la mascota es obligatoria y debe ser un número";
+      newErrors.age = "La edad de la mascota es obligatoria";
     }
 
     if (!formData.breed) {
@@ -113,7 +133,13 @@ const PetRegister = () => {
       formIsValid = false;
       newErrors.tipoMascota = "La mascota es obligatoria";
     }
-
+    if (images.length === 0) {
+      newErrors.images = "Debes subir al menos una foto.";
+      formIsValid = true;
+    } else if (images.length !== 5) {
+      newErrors.images = "Debes subir al menos 5 imágenes.";
+      formIsValid= true;
+    }
     setErrors(newErrors);
     return formIsValid;
   };
@@ -263,6 +289,11 @@ const PetRegister = () => {
             <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
               {images.length} imágenes seleccionadas.
             </Typography>
+            {errors.images && (
+              <Typography color="error" sx={{ mt: 1 }}>
+                {errors.images}
+              </Typography>
+                  )}
             <List sx={{ mt: 2 }}>
               {images.map((image, index) => (
                 <ListItem key={index} secondaryAction={
@@ -285,11 +316,7 @@ const PetRegister = () => {
             >
               Registrar Mascota
             </Button>
-            {error && (
-              <Typography variant="body2" color="error" sx={{ mt: 2 }}>
-                Error al registrar la mascota: {error.data.message}
-              </Typography>
-            )}
+           
           </Box>
         )}
       </Box>

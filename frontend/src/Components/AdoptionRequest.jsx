@@ -6,7 +6,6 @@ import {
   Box,
   TextField,
   CircularProgress,
-  IconButton,
 } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 import { ImagePreview } from "./";
@@ -35,23 +34,60 @@ const AdoptionRequest = () => {
     setHouseImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = () => {
-    console.log("Formulario enviado:", formData);
-    console.log("Imágenes de la casa:", houseImages);
+  const validateFields = () => {
+    const newErrors = {};
+    let hasError = false;
 
-    // Aquí se puede hacer el envío del formulario, por ejemplo, usando fetch o axios.
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      alert("Solicitud de adopción enviada");
-    }, 2000);
+   
+    if (formData.phone.length < 8) {
+      newErrors.phone = "El teléfono debe tener al menos 8 caracteres.";
+      hasError = true;
+    }
+
+   
+    if (!formData.address) {
+      newErrors.address = "La dirección es obligatoria.";
+      hasError = true;
+    }
+
+    
+    if (formData.reasons.length < 30) {
+      newErrors.reasons = "Los motivos deben tener al menos 30 caracteres.";
+      hasError = true;
+    }
+
+   
+    if (houseImages.length === 0) {
+      newErrors.images = "Debes subir al menos una foto.";
+      hasError = true;
+    } else if (houseImages.length < 2) {
+      newErrors.images = "Debes subir al menos 2 imágenes de tu casa.";
+      hasError = true;
+    }
+
+    setErrors(newErrors);
+    return !hasError; 
+  };
+
+  const handleSubmit = () => {
+    if (validateFields()) {
+      console.log("Formulario enviado:", formData);
+      console.log("Imágenes de la casa:", houseImages);
+
+
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        alert("Solicitud de adopción enviada");
+      }, 2000);
+    }
   };
 
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 10 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Solicitar Adopción
+      <Typography variant="h4" component="h1" gutterBottom align="center" color="#645b6d">
+          SOLICITAR ADOPCIÓN
         </Typography>
 
         {isLoading ? (
@@ -116,7 +152,11 @@ const AdoptionRequest = () => {
                 onChange={handleHouseImageChange}
               />
             </Button>
-
+            {errors.images && (
+              <Typography color="error" sx={{ mt: 1 }}>
+                {errors.images}
+              </Typography>
+                  )}
             <Box
               sx={{
                 mt: 2,

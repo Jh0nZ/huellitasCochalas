@@ -54,7 +54,7 @@ const PetRegister = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // Limpiar errores si el campo es válido
+   
     if (errors[name]) {
       setErrors((prevErrors) => {
         const newErrors = { ...prevErrors };

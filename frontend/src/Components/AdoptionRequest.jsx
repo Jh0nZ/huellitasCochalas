@@ -23,6 +23,26 @@ const AdoptionRequest = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (errors[name]) {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+  };
+
+  const handlePhoneChange = (e) => {
+    const { value } = e.target;
+  
+    if (/^\d*$/.test(value)) {
+      setFormData({ ...formData, phone: value });
+      if (value.length >= 8) {
+        setErrors((prevErrors) => ({ ...prevErrors, phone: "" }));
+      } else {
+        setErrors((prevErrors) => ({ ...prevErrors, phone: "El teléfono debe tener al menos 8 caracteres." }));
+      }
+    }
   };
 
   const handleHouseImageChange = (e) => {
@@ -38,42 +58,37 @@ const AdoptionRequest = () => {
     const newErrors = {};
     let hasError = false;
 
-   
+    
     if (formData.phone.length < 8) {
       newErrors.phone = "El teléfono debe tener al menos 8 caracteres.";
       hasError = true;
     }
 
-   
+  
     if (!formData.address) {
       newErrors.address = "La dirección es obligatoria.";
       hasError = true;
     }
 
-    
+
     if (formData.reasons.length < 30) {
       newErrors.reasons = "Los motivos deben tener al menos 30 caracteres.";
       hasError = true;
     }
 
-   
-    if (houseImages.length === 0) {
-      newErrors.images = "Debes subir al menos una foto.";
-      hasError = true;
-    } else if (houseImages.length < 2) {
+    if (houseImages.length < 2) {
       newErrors.images = "Debes subir al menos 2 imágenes de tu casa.";
       hasError = true;
     }
 
     setErrors(newErrors);
-    return !hasError; 
+    return !hasError;
   };
 
   const handleSubmit = () => {
     if (validateFields()) {
       console.log("Formulario enviado:", formData);
       console.log("Imágenes de la casa:", houseImages);
-
 
       setIsLoading(true);
       setTimeout(() => {
@@ -86,7 +101,7 @@ const AdoptionRequest = () => {
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 10 }}>
-      <Typography variant="h4" component="h1" gutterBottom align="center" color="#645b6d">
+        <Typography variant="h4" component="h1" gutterBottom align="center" color="#645b6d">
           SOLICITAR ADOPCIÓN
         </Typography>
 
@@ -107,7 +122,7 @@ const AdoptionRequest = () => {
               label="Teléfono*"
               name="phone"
               value={formData.phone}
-              onChange={handleInputChange}
+              onChange={handlePhoneChange} 
               fullWidth
               margin="normal"
               error={Boolean(errors.phone)}
@@ -156,7 +171,7 @@ const AdoptionRequest = () => {
               <Typography color="error" sx={{ mt: 1 }}>
                 {errors.images}
               </Typography>
-                  )}
+            )}
             <Box
               sx={{
                 mt: 2,

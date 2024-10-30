@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Exception;
 use Illuminate\Validation\ValidationException;
 
@@ -39,9 +40,44 @@ class UserController extends Controller
                 'password' => Hash::make($validatedData['password']),
             ]);
 
+            Auth::login($user);
             return response()->json($user, 201);
         } catch (ValidationException $e) {
             return response()->json(['message' => 'Validation failed', 'data' => $e->errors()], 422);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
+        }
+    }
+
+    public function login(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
+
+            if (!Auth::attempt($request->only('email', 'password'))) {
+                return response()->json(['message' => 'Credenciales incorrectas'], 401);
+            }
+
+            $request->session()->regenerate(); // Regenera la sesión
+            return response()->json(['message' => 'Login exitoso']);
+        } catch (ValidationException $e) {
+            return response()->json(['message' => 'Validation failed', 'data' => $e->errors()], 422);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        try {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return response()->json(['message' => 'Logout exitoso']);
         } catch (Exception $e) {
             return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
         }

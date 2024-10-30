@@ -34,3 +34,7 @@ Route::apiResource('pet-images', PetImageController::class);
 Route::apiResource('adoption-requests', AdoptionRequestController::class);
 Route::apiResource('adoption-request-images', AdoptionRequestImageController::class);
 Route::apiResource('users', UserController::class);
+
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/logout', [UserController::class, 'logout']);

@@ -35,6 +35,7 @@ Route::apiResource('adoption-requests', AdoptionRequestController::class);
 Route::apiResource('adoption-request-images', AdoptionRequestImageController::class);
 Route::apiResource('users', UserController::class);
 
-Route::post('/register', [UserController::class, 'register']);
+Route::post('/register', [UserController::class, 'store']);
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'getAuthenticatedUser']);

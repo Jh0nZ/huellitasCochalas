@@ -38,6 +38,7 @@ class UserController extends Controller
                 'last_name' => $validatedData['last_name'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
+                'email_verified_at' => now(),
             ]);
 
             Auth::login($user);
@@ -48,6 +49,12 @@ class UserController extends Controller
             return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
         }
     }
+
+    public function getAuthenticatedUser(Request $request)
+    {
+        return response()->json($request->user());
+    }
+
 
     public function login(Request $request)
     {

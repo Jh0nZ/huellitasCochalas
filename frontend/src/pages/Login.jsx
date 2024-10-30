@@ -13,15 +13,26 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { validateEmail } from "../utils/validaciones";
+import { useLoginUserMutation } from "../features/api/userApi";
 
 const Login = () => {
+  const [loginUser, { data, error, isLoading, isSuccess, isError }] =
+    useLoginUserMutation();
+  useEffect(() => {
+    if (isSuccess) {
+      console.log("logeado supuestamente", data);
+      navigate("/");
+    }
+    if (isError) {
+      console.log("error", error);
+    }
+  }, [data, isSuccess, isError, error]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-
-  const { data, error, isLoading, isSuccess, isError } = "";
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -33,12 +44,17 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      setErrors({});
       console.log("logeado supuestamente", data);
-      navigate("/");
+      navigate("/pets");
     }
 
     if (isError) {
-      console.log("error");
+      console.log("error", error);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        general: error.data.message
+      }));
     }
   }, [isSuccess, isError]);
 
@@ -68,7 +84,10 @@ const Login = () => {
     }
 
     // Si no hay errores, enviar los datos
-    console.log({ email, password });
+    const formData = {'email': email, 'password': password};
+
+    console.log("formdata", formData);
+    loginUser(formData);
   };
 
   const handleRegisterRedirect = () => {
@@ -83,7 +102,6 @@ const Login = () => {
       setPassword(value);
     }
 
-    // borramos el error general y el del campo
     setErrors({
       ...errors,
       [field]: "",
@@ -99,7 +117,6 @@ const Login = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          
         }}
       >
         <Typography component="h1" variant="h5">
@@ -157,6 +174,7 @@ const Login = () => {
               {errors.general}
             </Alert>
           )}
+
           <Button
             type="submit"
             fullWidth
@@ -177,7 +195,6 @@ const Login = () => {
               variant="text"
               color="primary"
               fullWidth
-          
               onClick={handleRegisterRedirect}
               disabled={isLoading}
             >

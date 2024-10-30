@@ -1,6 +1,17 @@
-import React from 'react';
-import { Container, Grid, Box, Avatar, Typography, Card, CardContent, CardMedia, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; 
+import React, { useEffect } from "react";
+import {
+  Container,
+  Grid,
+  Box,
+  Avatar,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Button,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useCheckUserQuery } from "../features/api/userApi";
 
 const petsData = [
   {
@@ -10,7 +21,8 @@ const petsData = [
     tamano: "Mediano",
     age: "2 años",
     breed: "Labrador",
-    image: "https://dbw3zep4prcju.cloudfront.net/animal/acd97097-34c4-4744-9673-e950246cf19d/image/99c443fc-1a2c-4169-b06b-749f9f4224b8.jpeg?versionId=BItqJ3A.zZLibQ3FisNMtE4b0JhVUo7E&bust=1713489188&width=300",
+    image:
+      "https://dbw3zep4prcju.cloudfront.net/animal/acd97097-34c4-4744-9673-e950246cf19d/image/99c443fc-1a2c-4169-b06b-749f9f4224b8.jpeg?versionId=BItqJ3A.zZLibQ3FisNMtE4b0JhVUo7E&bust=1713489188&width=300",
   },
   {
     id: 2,
@@ -19,16 +31,27 @@ const petsData = [
     sexo: "Hembra",
     age: "1 año",
     breed: "Gato doméstico",
-    image: "https://dbw3zep4prcju.cloudfront.net/animal/8cc8db34-a8df-48cf-b439-370e9a9cbe20/image/de091e8b-f283-4558-a262-3968b8d39807.jpg?versionId=wjtsPGgRvcAHeoJxsYzCDB3ib0yX6Hsc&bust=1726751715&width=300",
+    image:
+      "https://dbw3zep4prcju.cloudfront.net/animal/8cc8db34-a8df-48cf-b439-370e9a9cbe20/image/de091e8b-f283-4558-a262-3968b8d39807.jpg?versionId=wjtsPGgRvcAHeoJxsYzCDB3ib0yX6Hsc&bust=1726751715&width=300",
   },
 ];
 
 function UserProfile() {
+  const { data, isSuccess, error, isError, isFetching } = useCheckUserQuery();
+  useEffect(() => {
+    if (isSuccess) {
+      console.log("User data", data);
+    }
+    if (isError) {
+      console.log("Error", error);
+    }
+  }, [data, isSuccess, error, isError]);
+
   const navigate = useNavigate();
 
   // Función para manejar la redirección al hacer clic en el botón
   const handleSolicitudesClick = () => {
-    navigate('/solicitudes'); // Redirige a la ruta '/solicitudes'
+    navigate("/solicitudes"); // Redirige a la ruta '/solicitudes'
   };
 
   const user = {
@@ -42,28 +65,37 @@ function UserProfile() {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 8 }}>
-      <Grid container spacing={3} direction={{ xs: 'column', md: 'row' }} alignItems="center" sx={{ mt: 4 }}>
+      <Grid
+        container
+        spacing={3}
+        direction={{ xs: "column", md: "row" }}
+        alignItems="center"
+        sx={{ mt: 4 }}
+      >
         {/* Foto de perfil en el lado izquierdo */}
         <Grid item xs={12} md={3}>
-          <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Box sx={{ textAlign: { xs: "center", md: "left" } }}>
             <Avatar
-              alt={user.name}
+              alt={data.name}
               src={user.profilePicture}
               sx={{
                 width: { xs: 200, sm: 200 }, // Ajuste del tamaño del avatar
                 height: { xs: 200, sm: 200 },
-                mx: { xs: 'auto', md: 0 },
+                mx: { xs: "auto", md: 0 },
               }}
             />
-            <Typography variant="h5" sx={{ mt: 2, textAlign: { xs: 'center', md: 'left' } }}>
-              {user.name}
+            <Typography
+              variant="h5"
+              sx={{ mt: 2, textAlign: { xs: "center", md: "left" } }}
+            >
+              {data.name}
             </Typography>
           </Box>
         </Grid>
 
         {/* Información del usuario en el lado derecho */}
         <Grid item xs={12} md={8}>
-          <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Box sx={{ textAlign: { xs: "center", md: "left" } }}>
             <Typography variant="h4" gutterBottom color="#645b6d">
               Información del Usuario
             </Typography>
@@ -74,7 +106,7 @@ function UserProfile() {
               <strong>Fecha de Nacimiento:</strong> {user.birthDate}
             </Typography>
             <Typography variant="body1">
-              <strong>Email:</strong> {user.email}
+              <strong>Email:</strong> {data.email}
             </Typography>
           </Box>
         </Grid>
@@ -82,14 +114,19 @@ function UserProfile() {
 
       {/* Lista de mascotas registradas */}
       <Box sx={{ mt: 4 }}>
-        <Typography variant="h4" gutterBottom textAlign="center" color="#645b6d">
+        <Typography
+          variant="h4"
+          gutterBottom
+          textAlign="center"
+          color="#645b6d"
+        >
           Mascotas Registradas
         </Typography>
 
         <Grid container spacing={6} justifyContent="center">
           {user.pets.map((pet) => (
             <Grid item xs={12} sm={6} md={3} key={pet.id}>
-              <Card sx={{ height: '100%' }}>
+              <Card sx={{ height: "100%" }}>
                 <CardMedia
                   component="img"
                   height="160"
@@ -97,10 +134,19 @@ function UserProfile() {
                   alt={pet.name}
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div" textAlign="center">
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="div"
+                    textAlign="center"
+                  >
                     {pet.name}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" textAlign="center">
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    textAlign="center"
+                  >
                     {pet.breed} - {pet.sexo} - {pet.tamano} - {pet.age}
                   </Typography>
 

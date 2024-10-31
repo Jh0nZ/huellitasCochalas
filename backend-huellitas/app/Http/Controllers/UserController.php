@@ -50,9 +50,18 @@ class UserController extends Controller
         }
     }
 
-    public function getAuthenticatedUser(Request $request)
+    public function getAuthenticatedUser (Request $request)
     {
-        return response()->json($request->user());
+        // Obtiene el usuario autenticado usando Sanctum
+        $user = Auth::user();
+    
+        // Verifica si hay un usuario autenticado
+        if (!$user) {
+            return response()->json(['error' => 'No se encontró un usuario autenticado.'], 401);
+        }
+    
+        // Si hay un usuario autenticado, devuélvelo
+        return response()->json($user);
     }
 
 

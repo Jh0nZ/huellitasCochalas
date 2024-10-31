@@ -92,6 +92,7 @@ const UserRegister = () => {
 
   const validarNombre = (nombre) => {
     const regexCaracteresEspeciales = /[!@#$%^&*(),.?":{}|<>_-]/;
+    const regex = /[1234567890]/; 
 
     if (!nombre) {
       return "El nombre es obligatorio.";
@@ -101,12 +102,16 @@ const UserRegister = () => {
     }
     if (regexCaracteresEspeciales.test(nombre)) {
       return "El nombre no puede contener caracteres especiales.";
+    }if (regex.test(nombre)){
+      return "El nombre no puede ser un número";
+
     }
     return "";
   };
 
   const validarApellido = (apellido) => {
     const regexCaracteresEspeciales = /[!@#$%^&*(),.?":{}|<>_-]/;
+    const regex = /[1234567890]/; 
 
     if (!apellido) {
       return "El apellido es obligatorio.";
@@ -116,6 +121,9 @@ const UserRegister = () => {
     }
     if (regexCaracteresEspeciales.test(apellido)) {
       return "El apellido  no puede contener caracteres especiales.";
+    }if (regex.test(apellido)){
+      return "El apellido  no puede ser un números";
+
     }
     return "";
   };

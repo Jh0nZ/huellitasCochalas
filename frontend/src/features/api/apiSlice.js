@@ -7,32 +7,5 @@ export const apiSlice = createApi({
     credentials: "include" 
   }),
   tagTypes: ["Pets", "AdoptionRequests"],
-  endpoints: (builder) => ({
-    getPets: builder.query({
-      query: () => "pets",
-      providesTags: ["Pets"],
-    }),
-    getPetById: builder.query({
-      query: (id) => `pets/${id}`,
-    }),
-    registerPet: builder.mutation({
-      query: (pet) => ({
-        url: "pets",
-        method: "POST",
-        body: pet,
-      }),
-      invalidatesTags: ["Pets"],
-    }),
-    getAllPets: builder.query({
-      query: () => "pets",
-      providesTags: ["Pets"],
-    }),
-  }),
+  endpoints: (builder) => ({}),
 });
-
-export const {
-  useGetPetsQuery,
-  useRegisterPetMutation,
-  useGetAllPetsQuery,
-  useGetPetByIdQuery,
-} = apiSlice;

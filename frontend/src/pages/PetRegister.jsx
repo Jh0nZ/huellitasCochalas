@@ -18,7 +18,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useRegisterPetMutation } from "../features/api/apiSlice";
+import { useRegisterPetMutation } from "../features/api/petApi";
 
 const genders = [
   { value: "MACHO", label: "Macho" },
@@ -119,7 +119,7 @@ const PetRegister = () => {
     if (!formData.description) {
       formIsValid = false;
       newErrors.description = "La descripción es obligatoria";
-    } else if (formData.description.length < 30 || formData.description.length > 50) {
+    } else if (formData.description.length < 30 ) {
       formIsValid = false;
       newErrors.description = "La descripción debe tener entre 30 y 50 caracteres";
     }

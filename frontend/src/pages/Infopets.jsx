@@ -12,7 +12,7 @@ import {
 import PetsIcon from "@mui/icons-material/Pets";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useGetPetByIdQuery } from "../features/api/apiSlice";
+import { useGetPetByIdQuery } from "../features/api/petApi";
 
 const Infopets = () => {
   const { pet_id } = useParams();

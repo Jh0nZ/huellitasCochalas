@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { PetCard } from '../Components';
-import { useGetAllPetsQuery } from '../features/api/apiSlice'; // Importa el hook
+import { useGetAllPetsQuery } from '../features/api/petApi'; 
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 

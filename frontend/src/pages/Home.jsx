@@ -62,7 +62,7 @@ const Home = () => {
         </Box>
       </Box>
 
-      {/* Botones de Acción */}
+      {/* Botones de Acción 
       <Container
         sx={{
           textAlign: "center",
@@ -72,19 +72,7 @@ const Home = () => {
           alignItems: "center",
         }}
       >
-        <Button
-          variant="contained"
-          size="large"
-          sx={{
-            backgroundColor: theme.palette.primary.main,
-            "&:hover": { backgroundColor: theme.palette.primary.dark },
-            mb: 2, // Espacio entre los botones
-            mx: 1,
-          }}
-          onClick={handleAdoptaClick}
-        >
-          ADOPTA
-        </Button>
+        
         <Button
       variant="contained"
       size="large"
@@ -99,6 +87,96 @@ const Home = () => {
     </Button>
 
       </Container>
+*/}
+
+      <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        height: { xs: 'auto', md: '65vh' },
+        p: { xs: 3, md: 8 },
+        mt: 6,
+        backgroundSize: 'cover',
+        backgroundPosition: 'right',
+      }}
+    >
+      <Box
+        sx={{
+          flex: 1,
+          maxWidth: { xs: '100%', md: '60%' },
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start', 
+        }}
+      >
+        <Typography variant="h4" component="h2" align="left" gutterBottom>
+          UNIENDO LAZOS
+        </Typography>
+        <Typography
+          variant="h5"
+          component="div"
+          align="left"
+          gutterBottom
+          sx={{
+            fontSize: { xs: '1rem', md: '1.25rem' },
+            lineHeight: { xs: 1.5, md: 1.75 },
+          }}
+        >
+          <p>
+            ¿Buscas un compañero de 4 patas?
+            ¡GRACIAS POR ELEGIR ADOPTAR!
+            Encuentra a todos los perritos y gatitos que buscan una familia en el apartado de ADOPTA.
+          </p>
+          <Button
+            variant="contained"
+            size="large"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              "&:hover": { backgroundColor: theme.palette.primary.dark },
+              
+             
+            }}
+            onClick={handleAdoptaClick}
+          >
+            ADOPTA
+          </Button>
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          flex: 1,
+          display: { xs: 'none', md: 'block' }, 
+          textAlign: 'right', 
+        }}
+      >
+        <img
+          src="/images/perro_gato.png" 
+          alt="Perro y Gato"
+          style={{
+            width: '100%', 
+            height: 'auto', 
+          }}
+        />
+      </Box>
+      {/* Imagen en dispositivos móviles */}
+      <Box
+        sx={{
+          display: { xs: 'block', md: 'none' }, 
+          textAlign: 'center', 
+          mt: 3,
+        }}
+      >
+        <img
+          src="/images/perro_gato.png" 
+          alt="Perro y Gato"
+          style={{
+            width: '90%', 
+            height: 'auto', 
+          }}
+        />
+      </Box>
+    </Box>
        
 {/* Requisitos */}
 <Box
@@ -110,10 +188,9 @@ const Home = () => {
     alignItems: "center",
     justifyContent: "center",
     height: { xs: "auto", md: "65vh" }, 
-    mt: 6,
     p: { xs: 2, md: 4 }, 
   }}
->
+> 
 <Box sx={{ maxWidth: { xs: "100%", md: "60%" } }}>
   <Typography
     variant="h4"
@@ -140,6 +217,7 @@ const Home = () => {
           display: "flex",
           alignItems: "flex-start",
           mb: 1,
+          
         }}
       >
         <CheckCircleIcon

@@ -1,11 +1,12 @@
 // src/app/store.js
-import { configureStore } from '@reduxjs/toolkit';
-import { apiSlice } from './features/api/apiSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import { apiSlice } from "./features/api/apiSlice";
+import auth from "./features/middleware/auth";
 
 export const store = configureStore({
   reducer: {
-    [apiSlice.reducerPath]: apiSlice.reducer, // Incluye el reducer de RTK Query
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware), // Incluye el middleware de RTK Query
+    getDefaultMiddleware().concat(apiSlice.middleware, auth),
 });

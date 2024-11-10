@@ -8,34 +8,20 @@ use App\Http\Controllers\PetController;
 use App\Http\Controllers\PetImageController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-Route::apiResource('breeds', BreedController::class);
-Route::apiResource('sizes', SizeController::class);
-Route::apiResource('images', ImageController::class);
-Route::apiResource('pets', PetController::class);
-Route::apiResource('pet-images', PetImageController::class);
-Route::apiResource('adoption-requests', AdoptionRequestController::class);
-Route::apiResource('adoption-request-images', AdoptionRequestImageController::class);
-Route::apiResource('users', UserController::class);
+Route::middleware('auth')->group(function () {
+    Route::apiResource('breeds', BreedController::class);
+    Route::apiResource('sizes', SizeController::class);
+    Route::apiResource('images', ImageController::class);
+    Route::apiResource('pets', PetController::class);
+    Route::apiResource('pet-images', PetImageController::class);
+    Route::apiResource('adoption-requests', AdoptionRequestController::class);
+    Route::apiResource('adoption-request-images', AdoptionRequestImageController::class);
+    Route::apiResource('users', UserController::class);
+    Route::post('/logout', [UserController::class, 'logout']);
+    Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
+});
 
 Route::post('/register', [UserController::class, 'store']);
 Route::post('/login', [UserController::class, 'login']);
-Route::post('/logout', [UserController::class, 'logout']);
-Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'getAuthenticatedUser']);

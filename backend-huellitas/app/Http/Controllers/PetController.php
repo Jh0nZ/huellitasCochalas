@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\Pet;
 use Exception;
@@ -147,7 +148,6 @@ class PetController extends Controller
                 'location' => 'required|string|max:255',
                 'breed_id' => 'required|exists:breeds,id',
                 'size_id' => 'required|exists:sizes,id',
-                'user_id' => 'required|exists:users,id',
                 'images' => 'required|array|min:1',
                 'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -161,7 +161,7 @@ class PetController extends Controller
                 'location' => $request->get('location'),
                 'breed_id' => $request->get('breed_id'),
                 'size_id' => $request->get('size_id'),
-                'user_id' => $request->get('user_id'),
+                'user_id' => Auth::user()->id,
             ]);
 
             $pet->save();

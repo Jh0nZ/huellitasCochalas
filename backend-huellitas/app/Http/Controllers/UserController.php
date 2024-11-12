@@ -28,6 +28,7 @@ class UserController extends Controller
             $validatedData = $request->validate([
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
+                'fecha_user' => 'required|date',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8',
             ]);
@@ -36,6 +37,7 @@ class UserController extends Controller
                 'name' => $validatedData['first_name'] . ' ' . $validatedData['last_name'],
                 'first_name' => $validatedData['first_name'],
                 'last_name' => $validatedData['last_name'],
+                'fecha_user' => $validatedData['fecha_user'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
                 'email_verified_at' => now(),
@@ -47,7 +49,7 @@ class UserController extends Controller
             return response()->json(['message' => 'Validation failed', 'data' => $e->errors()], 422);
         } catch (Exception $e) {
             return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
-        }
+        } 
     }
 
     public function getAuthenticatedUser (Request $request)
@@ -116,6 +118,7 @@ class UserController extends Controller
             'name' => 'sometimes|required|string|max:255',
             'first_name' => 'sometimes|required|string|max:255',
             'last_name' => 'sometimes|required|string|max:255',
+            'fecha_user' => 'sometimes|required',
             'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'sometimes|required|string|min:8',
         ]);

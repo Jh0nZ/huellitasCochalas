@@ -38,6 +38,7 @@ const UserRegister = () => {
       setFormData({
         first_name: "",
         last_name: "",
+        fecha_user:"",
         email: "",
         password: "",
         password_confirmation: "",
@@ -160,21 +161,21 @@ const UserRegister = () => {
       hasError = true;
     }
 
-    // if (!formData.pet_birthdate) {
-    //   newErrors.pet_birthdate = "La fecha de nacimiento es obligatoria.";
-    //   hasError = true;
-    // }
-    //else if (!isAdult(formData.pet_birthdate)) {
-    //   newErrors.pet_birthdate = "Debes ser mayor de 18 años.";
-    //   hasError = true;
-    // }
-    // if (images.length === 0) {
-    //   newErrors.images = "Debes subir al menos una foto.";
-    //   hasError = true;
-    // } else if (images.length !== 5) {
-    //   newErrors.images = "Debes subir al menos 5 imágenes.";
-    //   hasError = true;
-    // }
+     if (!formData.fecha_user) {
+       newErrors.fecha_user = "La fecha de nacimiento es obligatoria.";
+      hasError = true;
+     }
+    else if (!isAdult(formData.fecha_user)) {
+       newErrors.fecha_user = "Debes ser mayor de 18 años.";
+       hasError = true;
+     }
+  {/*  if (images.length === 0) {
+       newErrors.images = "Debes subir al menos una foto.";
+       hasError = true;
+     } else if (images.length !== 5) {
+      newErrors.images = "Debes subir al menos 5 imágenes.";
+      hasError = true;
+     }*/} 
 
     setErrors(newErrors);
     return !hasError;
@@ -249,26 +250,26 @@ const UserRegister = () => {
               )
             }
           />
-          {/* <TextField
+          { <TextField
             label="Fecha de Nacimiento"
-            name="pet_birthdate"
+            name="fecha_user"
             type="date"
-            value={formData.pet_birthdate}
+            value={formData.fecha_user}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
             InputLabelProps={{
               shrink: true,
             }}
-            error={Boolean(errors.pet_birthdate)}
+            error={Boolean(errors.fecha_user)}
             helperText={
-              errors.pet_birthdate && (
-                <Typography color="error">{errors.pet_birthdate}</Typography>
+              errors.fecha_user && (
+                <Typography color="error">{errors.fecha_user}</Typography>
               )
             }
           />
-           */}
-          {/* <Button
+           } {/*
+           <Button
             variant="outlined"
             component="label"
             startIcon={<PhotoCamera />}
@@ -297,7 +298,7 @@ const UserRegister = () => {
                 onRemove={() => handleRemoveImage(index)}
               />
             ))}
-          </Box> */}
+          </Box> */ }
           <TextField
             label="Email*"
             name="email"

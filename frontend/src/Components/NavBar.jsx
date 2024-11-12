@@ -65,6 +65,7 @@ function NavBar() {
   const handleSettingsClick = (settings) => {
     handleCloseNavMenu();
     if (settings === "Cerrar sesión") {
+      navigate("/login")
       logoutUser();
     }
     if (settings === "Perfil") {

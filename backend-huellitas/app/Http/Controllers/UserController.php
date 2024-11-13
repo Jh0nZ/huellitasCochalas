@@ -80,7 +80,8 @@ class UserController extends Controller
             }
 
             $request->session()->regenerate(); // Regenera la sesión
-            return response()->json(['message' => 'Login exitoso']);
+            $user = Auth::user(); // Obtiene el usuario autenticado
+            return response()->json(['message' => 'Login exitoso', 'user' => $user]);
         } catch (ValidationException $e) {
             return response()->json(['message' => 'Validation failed', 'data' => $e->errors()], 422);
         } catch (Exception $e) {

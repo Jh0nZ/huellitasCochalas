@@ -13,6 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import { useCheckUserQuery } from "../features/api/userApi";
+import { PetCard } from "../Components";
 
 const calculateAge = (birthDate) => {
   const [month, day, year] = birthDate.split('-').map(Number);
@@ -96,7 +97,7 @@ function UserProfile() {
         <Grid item xs={12} md={3}>
           <Box sx={{ textAlign: { xs: "center", md: "left" } }}>
             <Avatar
-              alt={data.name}
+              alt={data.user.name}
               sx={{
                 width: { xs: 200, sm: 200 }, // Ajuste del tamaño del avatar
                 height: { xs: 200, sm: 200 },
@@ -109,7 +110,7 @@ function UserProfile() {
               variant="h5"
               sx={{ mt: 2, textAlign: { xs: "center", md: "left" } }}
             >
-              {data.name}
+              {data.user.name}
             </Typography>
           </Box>
         </Grid>
@@ -121,13 +122,13 @@ function UserProfile() {
               Información del Usuario
             </Typography>
             <Typography variant="body1">
-              <strong>Edad:</strong> {calculateAge(data.fecha_user)}
+              <strong>Edad:</strong> {calculateAge(data.user.fecha_user)}
             </Typography>
             <Typography variant="body1">
-              <strong>Fecha de Nacimiento:</strong> {data.fecha_user}
+              <strong>Fecha de Nacimiento:</strong> {data.user.fecha_user}
             </Typography>
             <Typography variant="body1">
-              <strong>Email:</strong> {data.email}
+              <strong>Email:</strong> {data.user.email}
             </Typography>
           </Box>
         </Grid>
@@ -145,52 +146,8 @@ function UserProfile() {
         </Typography>
 
         <Grid container spacing={6} justifyContent="center">
-          {user.pets.map((pet) => (
-            <Grid item xs={12} sm={6} md={3} key={pet.id}>
-              <Card sx={{ height: "100%" }}>
-                <CardMedia
-                  component="img"
-                  height="160"
-                  image={pet.image}
-                  alt={pet.name}
-                />
-                <CardContent>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                    textAlign="center"
-                  >
-                    {pet.name}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    textAlign="center"
-                  >
-                    {pet.breed} - {pet.sexo} - {pet.tamano} - {pet.age}
-                  </Typography>
-
-                  {/* Botón centrado dentro del Card */}
-                  <Box textAlign="center" sx={{ mt: 2 }}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      size="small"
-                      onClick={handleSolicitudesClick} // Redirige cuando se haga clic
-                      sx={{
-                        backgroundColor: "#645b6d",
-                        "&:hover": {
-                          backgroundColor: "#4a3f54",
-                        },
-                      }}
-                    >
-                      Solicitudes
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
+          {data.pets.map((pet) => (
+            <PetCard key={pet.id} pet={pet} />
           ))}
         </Grid>
       </Box>

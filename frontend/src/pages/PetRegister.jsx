@@ -45,7 +45,7 @@ const PetRegister = () => {
     gender: "",
     tipoMascota: "", // Cambié a tipoMascota
   });
-  
+
   const [images, setImages] = useState([]);
   const [errors, setErrors] = useState({});
   const [registerPet, { isLoading, error }] = useRegisterPetMutation();
@@ -54,7 +54,6 @@ const PetRegister = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-   
     if (errors[name]) {
       setErrors((prevErrors) => {
         const newErrors = { ...prevErrors };
@@ -67,31 +66,34 @@ const PetRegister = () => {
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     const newImages = [];
-  
+
     files.forEach((file) => {
-   
-      const validTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif", "image/svg+xml"];
+      const validTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/gif",
+        "image/svg+xml",
+      ];
       if (validTypes.includes(file.type) && newImages.length < 5) {
         newImages.push(file);
       }
     });
-  
+
     setImages((prevImages) => [...prevImages, ...newImages]);
-  
 
     if (newImages.length < files.length) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        images: "Solo se pueden seleccionar hasta 5 imágenes."
+        images: "Solo se pueden seleccionar hasta 5 imágenes.",
       }));
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        images: ""
+        images: "",
       }));
     }
   };
-
 
   const handleImageRemove = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
@@ -119,9 +121,10 @@ const PetRegister = () => {
     if (!formData.description) {
       formIsValid = false;
       newErrors.description = "La descripción es obligatoria";
-    } else if (formData.description.length < 30 ) {
+    } else if (formData.description.length < 30) {
       formIsValid = false;
-      newErrors.description = "La descripción debe tener entre 30 y 50 caracteres";
+      newErrors.description =
+        "La descripción debe tener entre 30 y 50 caracteres";
     }
 
     if (!formData.gender) {
@@ -135,10 +138,13 @@ const PetRegister = () => {
     }
     if (images.length === 0) {
       newErrors.images = "Debes subir al menos una foto.";
-      formIsValid = true;
-    } else if (images.length !== 5) {
-      newErrors.images = "Debes subir al menos 5 imágenes.";
-      formIsValid= true;
+      formIsValid = false;
+    } else if (images.length < 3) {
+      newErrors.images = "Debes subir al menos 3 imágenes.";
+      formIsValid = false;
+    } else if (images.length > 5) {
+      newErrors.images = "No puedes subir más de 5 imágenes.";
+      formIsValid = false;
     }
     setErrors(newErrors);
     return formIsValid;
@@ -175,7 +181,7 @@ const PetRegister = () => {
         location: "calle aaa1",
         description: "",
         gender: "",
-        tipoMascota: "", 
+        tipoMascota: "",
       });
       setImages([]);
       setErrors({});
@@ -188,7 +194,13 @@ const PetRegister = () => {
   return (
     <Container maxWidth="sm">
       <Box sx={{ mt: 10 }}>
-        <Typography variant="h4" component="h1" gutterBottom align="center" color="#645b6d">
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          align="center"
+          color="#645b6d"
+        >
           REGISTRA A TU MASCOTA
         </Typography>
         {isLoading ? (
@@ -227,7 +239,11 @@ const PetRegister = () => {
               error={Boolean(errors.breed)}
               helperText={errors.breed}
             />
-            <FormControl fullWidth margin="normal" error={Boolean(errors.gender)}>
+            <FormControl
+              fullWidth
+              margin="normal"
+              error={Boolean(errors.gender)}
+            >
               <InputLabel>Género*</InputLabel>
               <Select
                 label="Género*"
@@ -247,7 +263,11 @@ const PetRegister = () => {
                 </Typography>
               )}
             </FormControl>
-            <FormControl fullWidth margin="normal" error={Boolean(errors.tipoMascota)}>
+            <FormControl
+              fullWidth
+              margin="normal"
+              error={Boolean(errors.tipoMascota)}
+            >
               <InputLabel>Tipo de Mascota*</InputLabel>
               <Select
                 label="Tipo de Mascota*"
@@ -293,14 +313,20 @@ const PetRegister = () => {
               <Typography color="error" sx={{ mt: 1 }}>
                 {errors.images}
               </Typography>
-                  )}
+            )}
             <List sx={{ mt: 2 }}>
               {images.map((image, index) => (
-                <ListItem key={index} secondaryAction={
-                  <IconButton edge="end" onClick={() => handleImageRemove(index)}>
-                    <DeleteIcon />
-                  </IconButton>
-                }>
+                <ListItem
+                  key={index}
+                  secondaryAction={
+                    <IconButton
+                      edge="end"
+                      onClick={() => handleImageRemove(index)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                >
                   <ListItemAvatar>
                     <Avatar src={URL.createObjectURL(image)} />
                   </ListItemAvatar>
@@ -316,7 +342,6 @@ const PetRegister = () => {
             >
               Registrar Mascota
             </Button>
-           
           </Box>
         )}
       </Box>

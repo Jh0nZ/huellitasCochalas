@@ -16,23 +16,29 @@ import { validateEmail } from "../utils/validaciones";
 import { useLoginUserMutation } from "../features/api/userApi";
 
 const Login = () => {
-  const [loginUser, { data, error, isLoading, isSuccess, isError }] =
-    useLoginUserMutation();
-  useEffect(() => {
-    if (isSuccess) {
-      console.log("logeado supuestamente", data);
-      navigate("/");
-    }
-    if (isError) {
-      console.log("error", error);
-    }
-  }, [data, isSuccess, isError, error]);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const [loginUser, { data, error, isLoading, isSuccess, isError }] =
+    useLoginUserMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log("User login", data);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      setErrors({});
+      navigate("/pets");
+    }
+    if (isError) {
+      console.log("error", error);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        general: error.data.message
+      }));
+    }
+  }, [data, isSuccess, isError, error]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -53,7 +59,7 @@ const Login = () => {
       console.log("error", error);
       setErrors((prevErrors) => ({
         ...prevErrors,
-        general: error.data.message
+        general: error.data.message,
       }));
     }
   }, [isSuccess, isError]);
@@ -84,7 +90,7 @@ const Login = () => {
     }
 
     // Si no hay errores, enviar los datos
-    const formData = {'email': email, 'password': password};
+    const formData = { email: email, password: password };
 
     console.log("formdata", formData);
     loginUser(formData);

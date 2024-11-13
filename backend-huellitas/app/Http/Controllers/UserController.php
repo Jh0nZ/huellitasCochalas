@@ -92,7 +92,9 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         try {
-            $request->user()->currentAccessToken()->delete();
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
             return response()->json(['message' => 'Logout exitoso']);
         } catch (Exception $e) {
             return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);

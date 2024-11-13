@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Container,
@@ -20,12 +20,17 @@ const pages = ["HOME", "REGISTRATE", "PET REGISTER"];
 const settings = ["Perfil", "Cerrar sesión"];
 
 function NavBar() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [logoutUser, { data, isSuccess, error, isError }] =
     useLogoutUserMutation();
 
   useEffect(() => {
     if (isSuccess) {
       console.log("Logout successful", data);
+      localStorage.removeItem("user");
       navigate("/login");
     }
     if (isError) {
@@ -33,8 +38,12 @@ function NavBar() {
     }
   }, [isSuccess, isError, data, error]);
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -48,7 +57,7 @@ function NavBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const navigate = useNavigate();
+
   const handlePageClick = (page) => {
     handleCloseNavMenu();
     if (page === "REGISTRATE") {
@@ -65,7 +74,7 @@ function NavBar() {
   const handleSettingsClick = (settings) => {
     handleCloseNavMenu();
     if (settings === "Cerrar sesión") {
-      navigate("/login")
+      navigate("/login");
       logoutUser();
     }
     if (settings === "Perfil") {
@@ -160,11 +169,13 @@ function NavBar() {
 
           {/* Menú de usuario */}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/images/hombre.jpeg" />
-              </IconButton>
-            </Tooltip>
+            <Button
+              onClick={handleOpenUserMenu}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              Perfil
+            </Button>
+
             <Menu
               sx={{ mt: "40px" }}
               id="menu-appbar"

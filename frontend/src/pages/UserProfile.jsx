@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import {
   Container,
-  Grid,
+  Grid2 as Grid,
   Box,
   Avatar,
   Typography,
@@ -11,7 +11,20 @@ import {
   Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import PersonIcon from '@mui/icons-material/Person';
 import { useCheckUserQuery } from "../features/api/userApi";
+
+const calculateAge = (birthDate) => {
+  const [month, day, year] = birthDate.split('-').map(Number);
+  const birth = new Date(year, month - 1, day);
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const monthDifference = today.getMonth() - birth.getMonth();
+  if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age;
+};
 
 const petsData = [
   {
@@ -37,6 +50,7 @@ const petsData = [
 ];
 
 function UserProfile() {
+  const navigate = useNavigate();
   const { data, isSuccess, error, isError, isFetching } = useCheckUserQuery();
   useEffect(() => {
     if (isSuccess) {
@@ -46,8 +60,6 @@ function UserProfile() {
       console.log("Error", error);
     }
   }, [data, isSuccess, error, isError]);
-
-  const navigate = useNavigate();
 
   // Función para manejar la redirección al hacer clic en el botón
   const handleSolicitudesClick = () => {
@@ -63,6 +75,14 @@ function UserProfile() {
     pets: petsData,
   };
 
+  if (isFetching) {
+    return <Typography variant="h4">Cargando...</Typography>;
+  }
+
+  if (isError) {
+    return <Typography variant="h4">Error al cargar la información</Typography>;
+  }
+
   return (
     <Container maxWidth="lg" sx={{ mt: 8 }}>
       <Grid
@@ -77,13 +97,14 @@ function UserProfile() {
           <Box sx={{ textAlign: { xs: "center", md: "left" } }}>
             <Avatar
               alt={data.name}
-              src={user.profilePicture}
               sx={{
                 width: { xs: 200, sm: 200 }, // Ajuste del tamaño del avatar
                 height: { xs: 200, sm: 200 },
                 mx: { xs: "auto", md: 0 },
               }}
-            />
+            >
+            <PersonIcon sx={{ fontSize: 100 }} />
+            </Avatar>
             <Typography
               variant="h5"
               sx={{ mt: 2, textAlign: { xs: "center", md: "left" } }}
@@ -100,10 +121,10 @@ function UserProfile() {
               Información del Usuario
             </Typography>
             <Typography variant="body1">
-              <strong>Edad:</strong> {user.age}
+              <strong>Edad:</strong> {calculateAge(data.fecha_user)}
             </Typography>
             <Typography variant="body1">
-              <strong>Fecha de Nacimiento:</strong> {user.birthDate}
+              <strong>Fecha de Nacimiento:</strong> {data.fecha_user}
             </Typography>
             <Typography variant="body1">
               <strong>Email:</strong> {data.email}

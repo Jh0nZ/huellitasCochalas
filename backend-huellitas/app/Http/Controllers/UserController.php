@@ -118,7 +118,7 @@ class UserController extends Controller
             'name' => 'sometimes|required|string|max:255',
             'first_name' => 'sometimes|required|string|max:255',
             'last_name' => 'sometimes|required|string|max:255',
-            'fecha_user' => 'sometimes|required',
+            'fecha_user' => 'sometimes|required|date',
             'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'sometimes|required|string|min:8',
         ]);

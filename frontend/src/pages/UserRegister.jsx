@@ -24,6 +24,7 @@ const UserRegister = () => {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
+    fecha_user:"",
     email: "",
     password: "",
     password_confirmation: "",

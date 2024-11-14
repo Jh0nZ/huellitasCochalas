@@ -18,6 +18,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { PhotoCamera } from "@mui/icons-material";
 import { useRegisterPetMutation } from "../features/api/petApi";
 
 const genders = [
@@ -299,21 +300,30 @@ const PetRegister = () => {
               error={Boolean(errors.description)}
               helperText={errors.description}
             />
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleImageChange}
-              style={{ marginTop: "16px" }}
-            />
-            <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-              {images.length} imágenes seleccionadas.
-            </Typography>
-            {errors.images && (
-              <Typography color="error" sx={{ mt: 1 }}>
-                {errors.images}
-              </Typography>
-            )}
+                 <Button
+  variant="outlined"
+  component="label"
+  startIcon={<PhotoCamera />}
+  fullWidth
+  sx={{ mt: 2 }}
+>
+  Sube fotos de tu mascota
+  <input
+    type="file"
+    accept="image/*"
+    multiple
+    onChange={handleImageChange}
+    hidden 
+  />
+</Button>
+<Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+  {images.length} imágenes seleccionadas.
+</Typography>
+{errors.images && (
+  <Typography color="error" sx={{ mt: 1 }}>
+    {errors.images}
+  </Typography>
+)}
             <List sx={{ mt: 2 }}>
               {images.map((image, index) => (
                 <ListItem

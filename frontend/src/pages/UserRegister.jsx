@@ -6,19 +6,25 @@ import {
   Box,
   TextField,
   IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Avatar,
   InputAdornment,
   CircularProgress,
   Snackbar,
 } from "@mui/material";
 import { Visibility, VisibilityOff, PhotoCamera } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { ImagePreview } from "../Components";
 import { validateEmail } from "../utils/validaciones";
 import { validarPassword } from "../utils/validaciones";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useRegisterUserMutation } from "../features/api/userApi";
 
 const UserRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [images, setImages] = useState([]);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -58,6 +64,44 @@ const UserRegister = () => {
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
     navigate("/pets");
+  };
+
+
+
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    const newImages = [];
+
+    files.forEach((file) => {
+      const validTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/gif",
+        "image/svg+xml",
+      ];
+      if (validTypes.includes(file.type) && newImages.length < 5) {
+        newImages.push(file);
+      }
+    });
+
+    setImages((prevImages) => [...prevImages, ...newImages]);
+
+    if (newImages.length < files.length) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        images: "Solo se pueden seleccionar hasta 5 imágenes.",
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        images: "",
+      }));
+    }
+  };
+
+  const handleImageRemove = (index) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
   const isAdult = (dateString) => {
@@ -170,13 +214,13 @@ const UserRegister = () => {
        newErrors.fecha_user = "Debes ser mayor de 18 años.";
        hasError = true;
      }
-  {/*  if (images.length === 0) {
+   if (images.length === 0) {
        newErrors.images = "Debes subir al menos una foto.";
        hasError = true;
-     } else if (images.length !== 5) {
-      newErrors.images = "Debes subir al menos 5 imágenes.";
+     } else if (images.length !== 2) {
+      newErrors.images = "Debes subir al menos 2 imágenes.";
       hasError = true;
-     }*/} 
+     } 
 
     setErrors(newErrors);
     return !hasError;
@@ -269,8 +313,8 @@ const UserRegister = () => {
               )
             }
           />
-           } {/*
-           <Button
+           } 
+                  <Button
             variant="outlined"
             component="label"
             startIcon={<PhotoCamera />}
@@ -282,24 +326,39 @@ const UserRegister = () => {
               type="file"
               accept="image/*"
               multiple
-              hidden
               onChange={handleImageChange}
+              hidden 
             />
           </Button>
-          {errors.images && (
-            <Typography color="error" sx={{ mt: 1 }}>
-              {errors.images}
-            </Typography>
-          )}
-          <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 2 }}>
-            {images.map((image, index) => (
-              <ImagePreview
-                key={index}
-                image={URL.createObjectURL(image)}
-                onRemove={() => handleRemoveImage(index)}
-              />
-            ))}
-          </Box> */ }
+<Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+  {images.length} imágenes seleccionadas.
+</Typography>
+{errors.images && (
+  <Typography color="error" sx={{ mt: 1 }}>
+    {errors.images}
+  </Typography>
+)}
+
+            <List sx={{ mt: 2 }}>
+              {images.map((image, index) => (
+                <ListItem
+                  key={index}
+                  secondaryAction={
+                    <IconButton
+                      edge="end"
+                      onClick={() => handleImageRemove(index)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar src={URL.createObjectURL(image)} />
+                  </ListItemAvatar>
+                  <ListItemText primary={image.name} />
+                </ListItem>
+              ))}
+            </List>
           <TextField
             label="Email*"
             name="email"

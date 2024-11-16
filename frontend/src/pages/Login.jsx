@@ -119,14 +119,14 @@ const Login = () => {
     <Container maxWidth="xs">
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 12,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
-          Iniciar Sesión
+          <Typography variant="h4" component="h1" gutterBottom align="center" color="#645b6d">
+         Iniciar sesión
         </Typography>
         <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
           <TextField

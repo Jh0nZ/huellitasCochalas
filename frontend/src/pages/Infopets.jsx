@@ -67,11 +67,16 @@ const Infopets = () => {
       spacing={4}
       alignItems="center"
       justifyContent="center"
-      sx={{ mt: { xs: 4, md: 9 }, px: { xs: 2, sm: 10 }, gap: 3 }}
+      sx={{ mt: { xs: 4, md: 7 }, px: { xs: 2, sm: 10 }, gap: 5 }}
+    
+    
     >
+     
+       
       {/* Imagen de la mascota */}
-      <Grid item xs={12} sm={6} md={5}>
+      <Grid item  mt={5}>
         <Card sx={{ boxShadow: 3 }}>
+       
           <CardMedia
             component="img"
             alt={data.data.name}
@@ -90,7 +95,7 @@ const Infopets = () => {
         <Card sx={{ boxShadow: 3 }}>
           <CardContent>
             <Typography variant="h4" component="h1" gutterBottom>
-              {data.data.name}
+              {data.data.name.toUpperCase()}
             </Typography>
             <Typography variant="body1" paragraph>
               {data.data.description}

@@ -16,7 +16,8 @@ import { useCheckUserQuery } from "../features/api/userApi";
 import { PetCard } from "../Components";
 
 const calculateAge = (birthDate) => {
-  const [month, day, year] = birthDate.split('-').map(Number);
+ 
+  const [year, month, day] = birthDate.split('-').map(Number);
   const birth = new Date(year, month - 1, day);
   const today = new Date();
   let age = today.getFullYear() - birth.getFullYear();
@@ -26,6 +27,7 @@ const calculateAge = (birthDate) => {
   }
   return age;
 };
+
 
 const petsData = [
   {
@@ -85,21 +87,21 @@ function UserProfile() {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 8 }}>
+    <Container maxWidth="lg" sx={{ mt: 12 }}>
       <Grid
         container
-        spacing={3}
+        spacing={17}
         direction={{ xs: "column", md: "row" }}
         alignItems="center"
         sx={{ mt: 4 }}
       >
-        {/* Foto de perfil en el lado izquierdo */}
-        <Grid item xs={12} md={3}>
+        {/* Foto de perfil  */}
+        <Grid item xs={12} md={3}  >
           <Box sx={{ textAlign: { xs: "center", md: "left" } }}>
             <Avatar
               alt={data.user.name}
               sx={{
-                width: { xs: 200, sm: 200 }, // Ajuste del tamaño del avatar
+                width: { xs: 200, sm: 200 }, 
                 height: { xs: 200, sm: 200 },
                 mx: { xs: "auto", md: 0 },
               }}
@@ -110,16 +112,16 @@ function UserProfile() {
               variant="h5"
               sx={{ mt: 2, textAlign: { xs: "center", md: "left" } }}
             >
-              {data.user.name}
+              {data.user.name.toUpperCase()}
             </Typography>
           </Box>
         </Grid>
 
-        {/* Información del usuario en el lado derecho */}
-        <Grid item xs={12} md={8}>
+       
+        <Grid item xs={12} md={8} mt={-11}>
           <Box sx={{ textAlign: { xs: "center", md: "left" } }}>
             <Typography variant="h4" gutterBottom color="#645b6d">
-              Información del Usuario
+             INFORMACIÓN PERSONAL
             </Typography>
             <Typography variant="body1">
               <strong>Edad:</strong> {calculateAge(data.user.fecha_user)}
@@ -142,7 +144,7 @@ function UserProfile() {
           textAlign="center"
           color="#645b6d"
         >
-          Mascotas Registradas
+       MASCOTAS REGISTRADAS
         </Typography>
 
         <Grid container spacing={6} justifyContent="center">

@@ -270,7 +270,7 @@ const UserRegister = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ mt: 10, position: "relative" }}>
+      <Box sx={{ mt: 12, position: "relative" }}>
         <Typography
           variant="h4"
           component="h1"

@@ -194,7 +194,7 @@ const PetRegister = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ mt: 10 }}>
+      <Box sx={{ mt: 12 }}>
         <Typography
           variant="h4"
           component="h1"

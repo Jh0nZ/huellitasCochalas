@@ -76,7 +76,7 @@ const Pets = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ mt: 10 }}>
+      <Box sx={{ mt: 12 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center"   color="#645b6d">
           MASCOTAS EN ADOPCIÓN
         </Typography>
@@ -162,7 +162,7 @@ const Pets = () => {
             No se encontraron mascotas
           </Typography>
         ) : (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap:4, mt: 2, mx:2, }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap:4, mt: 4, mx:8 }}>
             {data.data.map((pet) => (
               <Box key={pet.id} sx={{   flexBasis: { xs: "100%", sm: "48%", md: "30%" },
                                         maxWidth: { xs: "100%", sm: "48%", md: "30%" },}}>

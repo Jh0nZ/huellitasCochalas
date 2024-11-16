@@ -6,9 +6,6 @@ const userApi = apiSlice.injectEndpoints({
       query: (data) => ({
         url: "register",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: data,
       }),
     }),

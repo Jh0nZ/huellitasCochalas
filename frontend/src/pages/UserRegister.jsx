@@ -80,7 +80,7 @@ const UserRegister = () => {
         "image/gif",
         "image/svg+xml",
       ];
-      if (validTypes.includes(file.type) && newImages.length < 5) {
+      if (validTypes.includes(file.type) && newImages.length < 1) {
         newImages.push(file);
       }
     });
@@ -90,7 +90,7 @@ const UserRegister = () => {
     if (newImages.length < files.length) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        images: "Solo se pueden seleccionar hasta 5 imágenes.",
+        images: "Solo se pueden seleccionar hasta 1 imágenes.",
       }));
     } else {
       setErrors((prevErrors) => ({
@@ -99,6 +99,8 @@ const UserRegister = () => {
       }));
     }
   };
+
+ 
 
   const handleImageRemove = (index) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
@@ -135,6 +137,8 @@ const UserRegister = () => {
       }));
     }
   };
+
+  
 
   const validarNombre = (nombre) => {
     const regexCaracteresEspeciales = /[!@#$%^&*(),.?":{}|<>_-]/;
@@ -217,21 +221,32 @@ const UserRegister = () => {
    if (images.length === 0) {
        newErrors.images = "Debes subir al menos una foto.";
        hasError = true;
-     } else if (images.length !== 2) {
-      newErrors.images = "Debes subir al menos 2 imágenes.";
-      hasError = true;
-     } 
+     }
 
     setErrors(newErrors);
     return !hasError;
   };
 
-  const handleRegister = () => {
-    if (validateFields()) {
-      console.log("formData", formData);
-      registerUser(formData);
+
+  
+
+  const handleRegister = async () => {
+    if (!validateFields()) return;
+    const formDataToSend = new FormData();
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+        images.forEach((image, index) => {
+          formDataToSend.append(`images[${index}]`, image);
+        }); 
+    try {
+      await registerUser(formDataToSend).unwrap();
+    } catch (error) {
+      console.error("Error al registrar el usuario:", error);
+      
     }
   };
+
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);

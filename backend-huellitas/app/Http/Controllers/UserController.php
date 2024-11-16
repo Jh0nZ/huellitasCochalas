@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Exception;
+use App\Models\Image;
+use App\Models\UserImage;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
@@ -16,6 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        
         return response()->json(User::all());
     }
 
@@ -31,6 +34,8 @@ class UserController extends Controller
                 'fecha_user' => 'required|date',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8',
+                'images' => 'required|array',
+                'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
 
             $user = User::create([
@@ -38,10 +43,29 @@ class UserController extends Controller
                 'first_name' => $validatedData['first_name'],
                 'last_name' => $validatedData['last_name'],
                 'fecha_user' => $validatedData['fecha_user'],
+                'images' => $validatedData['images'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
                 'email_verified_at' => now(),
             ]);
+
+
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $path = $file->store('images', 'public');
+                    $image = Image::create([
+                        'filename' => $file->getClientOriginalName(),
+                        'path' => $path,
+                        'mime_type' => $file->getClientMimeType(),
+                        'size' => $file->getSize(),
+                    ]);
+
+                    UserImage::create([
+                        'user_id' => $user->id,
+                        'image_id' => $image->id,
+                    ]);
+                }
+            }
 
             Auth::login($user);
             return response()->json($user, 201);
@@ -50,6 +74,7 @@ class UserController extends Controller
         } catch (Exception $e) {
             return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
         } 
+     
     }
 
     public function getAuthenticatedUser (Request $request)
@@ -106,6 +131,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         return response()->json($user);
+
+
+        
     }
 
     /**
@@ -122,6 +150,7 @@ class UserController extends Controller
             'fecha_user' => 'sometimes|required|date',
             'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'sometimes|required|string|min:8',
+      
         ]);
 
         if (isset($validatedData['password'])) {

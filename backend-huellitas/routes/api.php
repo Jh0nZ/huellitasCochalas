@@ -8,6 +8,7 @@ use App\Http\Controllers\PetController;
 use App\Http\Controllers\PetImageController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserImageController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -16,6 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('images', ImageController::class);
     Route::apiResource('pets', PetController::class);
     Route::apiResource('pet-images', PetImageController::class);
+    Route::apiResource('user-images', UserImageController::class);
     Route::apiResource('adoption-requests', AdoptionRequestController::class);
     Route::apiResource('adoption-request-images', AdoptionRequestImageController::class);
     Route::apiResource('users', UserController::class);

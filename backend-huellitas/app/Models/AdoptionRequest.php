@@ -15,10 +15,21 @@ class AdoptionRequest extends Model
         'additional_notes',
         'phone',
         'location',
+        'pet_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    
+    public function pet()
+    {
+        return $this->belongsTo(Pet::class);
+    }
+
+    public function images()
+    {
+        return $this->belongsToMany(Image::class, 'adoption_request_images');
     }
 }

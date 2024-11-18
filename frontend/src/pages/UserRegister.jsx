@@ -55,8 +55,8 @@ const UserRegister = () => {
     }
     if (isError) {
       console.log("error", error);
-      if (error?.status === 422 && error.data?.data) {
-        setErrors(error.data.data);
+      if (error?.status === 422 && error.data?.errors) {
+        setErrors(error.data.errors);
       }
     }
   }, [data, isSuccess, error, isError, isLoading]);

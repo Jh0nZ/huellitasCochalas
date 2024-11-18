@@ -4,6 +4,11 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -44,5 +49,36 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof AuthorizationException) {
+            return response()->json([
+                'message' => 'No tiene permisos para realizar esta acción.'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        if ($exception instanceof ValidationException) {
+            return response()->json([
+                'message' => 'Error de validación.',
+                'errors' => $exception->errors(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        if ($exception instanceof NotFoundHttpException) {
+            return response()->json([
+                'message' => 'El recurso solicitado no se ha encontrado'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json([
+                'message' => 'El recurso solicitado no se ha encontrado.'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            'message' => $exception->getMessage(),
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

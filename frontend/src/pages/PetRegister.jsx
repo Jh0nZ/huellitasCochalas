@@ -30,6 +30,11 @@ const tipMas = [
   { value: "PERRO", label: "Perro" },
   { value: "GATO", label: "Gato" },
 ];
+const tamanio = [
+  { value: "PEQUEÑO", label: "Pequeño" },
+  { value: "MEDIANO", label: "Mediano" },
+  { value: "GRANDE", label: "Grande" },
+];
 
 const PetRegister = () => {
   const [formData, setFormData] = useState({
@@ -127,7 +132,11 @@ const PetRegister = () => {
       newErrors.description =
         "La descripción debe tener entre 30 y 50 caracteres";
     }
-
+    if (!formData.tamanioMascota) {
+      formIsValid = false;
+      newErrors.tamanioMascota = "El tamaño es obligatorio";
+    }
+    
     if (!formData.gender) {
       formIsValid = false;
       newErrors.gender = "El género es obligatorio";
@@ -288,6 +297,33 @@ const PetRegister = () => {
                 </Typography>
               )}
             </FormControl>
+
+            <FormControl
+  fullWidth
+  margin="normal"
+  error={Boolean(errors.tamanioMascota)} // Cambié a errors.tamanioMascota
+>
+  <InputLabel>Tamaño de la mascota*</InputLabel>
+  <Select
+    label="Tamaño de la mascota*"
+    name="tamanioMascota"
+    value={formData.tamanioMascota}
+    onChange={handleInputChange}
+  >
+    {tamanio.map((option) => (
+      <MenuItem key={option.value} value={option.value}>
+        {option.label}
+      </MenuItem>
+    ))}
+  </Select>
+  {errors.tamanioMascota && (
+    <Typography variant="body2" color="error">
+      {errors.tamanioMascota}
+    </Typography>
+  )}
+</FormControl>
+
+
             <TextField
               label="Descripción*"
               name="description"

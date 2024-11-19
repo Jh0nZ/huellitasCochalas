@@ -10,6 +10,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class Handler extends ExceptionHandler
 {
@@ -57,6 +58,12 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => 'No tienes permiso para realizar esta acción.'
             ], Response::HTTP_FORBIDDEN);
+        }
+        if ($exception instanceof HttpResponseException) {
+            return response()->json([
+                'message' => 'Error en la respuesta HTTP.',
+                'code' => $exception->getCode(),
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     
         if ($exception instanceof AccessDeniedHttpException) {

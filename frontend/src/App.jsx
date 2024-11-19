@@ -22,7 +22,7 @@ function App() {
         <Route path="/solicitudes" element={<Solicitudes />} />
         <Route path="/pet-register" element={<PetRegister />} />
         <Route path="/pets" element={<Pets />} />
-        <Route path="/adoption-request" element={<AdoptionRequest />} />
+        <Route path="/adoption-request/:pet_id" element={<AdoptionRequest />} />
         <Route path="/login" element={<Login />} />
         <Route path="perfil" element={<UserProfile/>} />
         <Route path="/*" element={<NotFound />} />

@@ -80,12 +80,8 @@ class PetController extends Controller
      */
     public function index()
     {
-        try {
-            $pets = Pet::with(['images', 'size', 'breed'])->get();
-            return response()->json(['data' => $pets], 200);
-        } catch (Exception $e) {
-            return response()->json(['message' => 'An error occurred', 'data' => $e->getMessage()], 500);
-        }
+        $pets = Pet::with(['images', 'size', 'breed'])->get();
+        return response()->json(['data' => $pets], 200);
     }
 
     /**

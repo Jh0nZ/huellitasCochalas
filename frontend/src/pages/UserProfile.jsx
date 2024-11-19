@@ -1,23 +1,19 @@
 import React, { useEffect } from "react";
 import {
   Container,
-  Grid2 as Grid,
+  Grid,
   Box,
-  Avatar,
+  CardMedia,
   Typography,
   Card,
-  CardContent,
-  CardMedia,
   Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import PersonIcon from '@mui/icons-material/Person';
 import { useCheckUserQuery } from "../features/api/userApi";
 import { PetCard } from "../Components";
 
 const calculateAge = (birthDate) => {
- 
-  const [year, month, day] = birthDate.split('-').map(Number);
+  const [year, month, day] = birthDate.split("-").map(Number);
   const birth = new Date(year, month - 1, day);
   const today = new Date();
   let age = today.getFullYear() - birth.getFullYear();
@@ -28,129 +24,116 @@ const calculateAge = (birthDate) => {
   return age;
 };
 
-
-const petsData = [
-  {
-    id: 1,
-    name: "Fido",
-    sexo: "Macho",
-    tamano: "Mediano",
-    age: "2 años",
-    breed: "Labrador",
-    image:
-      "https://dbw3zep4prcju.cloudfront.net/animal/acd97097-34c4-4744-9673-e950246cf19d/image/99c443fc-1a2c-4169-b06b-749f9f4224b8.jpeg?versionId=BItqJ3A.zZLibQ3FisNMtE4b0JhVUo7E&bust=1713489188&width=300",
-  },
-  {
-    id: 2,
-    name: "Whiskers",
-    tamano: "Grande",
-    sexo: "Hembra",
-    age: "1 año",
-    breed: "Gato doméstico",
-    image:
-      "https://dbw3zep4prcju.cloudfront.net/animal/8cc8db34-a8df-48cf-b439-370e9a9cbe20/image/de091e8b-f283-4558-a262-3968b8d39807.jpg?versionId=wjtsPGgRvcAHeoJxsYzCDB3ib0yX6Hsc&bust=1726751715&width=300",
-  },
-];
-
 function UserProfile() {
   const navigate = useNavigate();
   const { data, isSuccess, error, isError, isFetching } = useCheckUserQuery();
+
   useEffect(() => {
     if (isSuccess) {
       console.log("User data", data);
     }
     if (isError) {
-      console.log("Error", error);
+      console.error("Error:", error);
     }
   }, [data, isSuccess, error, isError]);
 
-  // Función para manejar la redirección al hacer clic en el botón
-  const handleSolicitudesClick = () => {
-    navigate("/solicitudes"); // Redirige a la ruta '/solicitudes'
-  };
-
-  const user = {
-    name: "JUAN PEREZ",
-    age: 30,
-    birthDate: "1994-05-20",
-    email: "juan.perez@gmail.com",
-    profilePicture: "/images/hombre.jpeg",
-    pets: petsData,
-  };
-
   if (isFetching) {
-    return <Typography variant="h4">Cargando...</Typography>;
+    return <Typography variant="h4" textAlign="center">Cargando...</Typography>;
   }
 
   if (isError) {
-    return <Typography variant="h4">Error al cargar la información</Typography>;
+    return <Typography variant="h4" textAlign="center" color="error">Error al cargar la información</Typography>;
   }
+
+  const userImage =
+  data?.user?.name?.[0]?.path
+    ? `http://localhost:8000/storage/${data.data.images[0].path}`
+    : "/hombre.jpeg";
+
+
 
   return (
     <Container maxWidth="lg" sx={{ mt: 12 }}>
       <Grid
         container
-        spacing={17}
+        spacing={4}
         direction={{ xs: "column", md: "row" }}
         alignItems="center"
-        sx={{ mt: 4 }}
       >
-        {/* Foto de perfil  */}
-        <Grid item xs={12} md={3}  >
-          <Box sx={{ textAlign: { xs: "center", md: "left" } }}>
-            <Avatar
-              alt={data.user.name}
-              sx={{
-                width: { xs: 200, sm: 200 }, 
-                height: { xs: 200, sm: 200 },
-                mx: { xs: "auto", md: 0 },
-              }}
-            >
-            <PersonIcon sx={{ fontSize: 100 }} />
-            </Avatar>
+        {/* Foto de perfil */}
+        <Grid item xs={12} md={4}>
+          <Box sx={{ textAlign: "center" }}>
+          <CardMedia
+      component="img"
+      height="350"
+      image={userImage}
+      sx={{
+        borderRadius: "50%",
+        objectFit: "cover",
+        border: "5px solid #e0e0e0",
+      }}
+      alt={data?.user?.name || "Usuario"}
+    />
+
             <Typography
               variant="h5"
-              sx={{ mt: 2, textAlign: { xs: "center", md: "left" } }}
+              sx={{ mt: 2, fontWeight: "bold", color: "#645b6d" }}
             >
-              {data.user.name.toUpperCase()}
+              {data?.user?.name?.toUpperCase() || "Nombre no disponible"}
             </Typography>
           </Box>
         </Grid>
 
-       
-        <Grid item xs={12} md={8} mt={-11}>
-          <Box sx={{ textAlign: { xs: "center", md: "left" } }}>
-            <Typography variant="h4" gutterBottom color="#645b6d">
-             INFORMACIÓN PERSONAL
+        {/* Información personal */}
+        <Grid item xs={12} md={8}>
+          <Card
+            sx={{
+              p: 3,
+              backgroundColor: "#f7f5fa",
+              borderRadius: "10px",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <Typography variant="h4" color="#645b6d" gutterBottom>
+              Información Personal
             </Typography>
-            <Typography variant="body1">
-              <strong>Edad:</strong> {calculateAge(data.user.fecha_user)}
+            <Typography variant="body1" sx={{ mb: 1 }}>
+              <strong>Edad:</strong> {calculateAge(data?.user?.fecha_user || "2000-01-01")}
             </Typography>
-            <Typography variant="body1">
-              <strong>Fecha de Nacimiento:</strong> {data.user.fecha_user}
+            <Typography variant="body1" sx={{ mb: 1 }}>
+              <strong>Fecha de Nacimiento:</strong> {data?.user?.fecha_user || "Desconocida"}
             </Typography>
-            <Typography variant="body1">
-              <strong>Email:</strong> {data.user.email}
+            <Typography variant="body1" sx={{ mb: 1 }}>
+              <strong>Email:</strong> {data?.user?.email || "No disponible"}
             </Typography>
-          </Box>
+          </Card>
         </Grid>
       </Grid>
 
       {/* Lista de mascotas registradas */}
-      <Box sx={{ mt: 4 }}>
+      <Box sx={{ mt: 6 }}>
         <Typography
           variant="h4"
           gutterBottom
           textAlign="center"
           color="#645b6d"
         >
-       MASCOTAS REGISTRADAS
+          Mascotas Registradas
         </Typography>
 
-        <Grid container spacing={6} justifyContent="center">
-          {data.pets.map((pet) => (
-            <PetCard key={pet.id} pet={pet} />
-          ))}
+        <Grid container justifyContent="center">
+          {data?.pets?.length ? (
+            data.pets.map((pet) => <PetCard key={pet.id} pet={pet} />)
+          ) : (
+            <Typography
+              variant="h6"
+              textAlign="center"
+              color="textSecondary"
+              sx={{ mt: 4 }}
+            >
+              No hay mascotas registradas.
+            </Typography>
+          )}
         </Grid>
       </Box>
     </Container>

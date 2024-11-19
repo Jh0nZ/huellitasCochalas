@@ -6,16 +6,20 @@ import {
 	Box,
 	TextField,
 	CircularProgress,
+	Snackbar,
 } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 import { ImagePreview } from "./";
 import { useSendAdoptionRequestMutation } from "../features/api/adoptionRequestApi";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AdoptionRequest = () => {
 	const { pet_id } = useParams();
 	const [houseImages, setHouseImages] = useState([]);
 	const [errors, setErrors] = useState({});
+	const navigate = useNavigate();
+	const [snackbarOpen, setSnackbarOpen] = useState(false);
 	const [sendAdoptionRequest, { data, error, isSuccess, isError, isLoading }] =
 		useSendAdoptionRequestMutation();
 	const [formData, setFormData] = useState({
@@ -24,14 +28,22 @@ const AdoptionRequest = () => {
 		reasons: "",
 	});
 
-	useEffect(() => {
-		if (isSuccess) {
-			console.log("Solicitud enviada con éxito:", data);
-		}
-		if (isError) {
-			console.error("Error al enviar la solicitud:", error);
-		}
-	}, [isSuccess, isError, data, error]);
+
+		useEffect(() => {
+			if (isSuccess) {
+				console.log("Solicitud enviada con éxito:", data);
+				setSnackbarOpen(true); 
+			}
+			if (isError) {
+				console.error("Error al enviar la solicitud:", error);
+			}
+		}, [isSuccess, isError, data, error]);
+		
+
+	const handleSnackbarClose = () => {
+		setSnackbarOpen(false);
+		navigate("/home");
+	  };
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -226,6 +238,13 @@ const AdoptionRequest = () => {
 						>
 							Enviar Solicitud
 						</Button>
+
+						<Snackbar
+						open={snackbarOpen}
+						message="Envio de solicitud correctamente"
+						autoHideDuration={4000}
+						onClose={handleSnackbarClose}
+                         />
 					</Box>
 				)}
 			</Box>

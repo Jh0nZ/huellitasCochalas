@@ -33,7 +33,7 @@ const Infopets = () => {
   const navigate = useNavigate();
 
   const handleAdoptaClick = () => {
-    navigate("/adoption-request");
+    navigate("/adoption-request/" + pet_id);
   };
 
   if (isFetching) {

@@ -7,43 +7,48 @@ import {
 	TextField,
 	CircularProgress,
 	Snackbar,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
 } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 import { ImagePreview } from "./";
 import { useSendAdoptionRequestMutation } from "../features/api/adoptionRequestApi";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const AdoptionRequest = () => {
 	const { pet_id } = useParams();
 	const [houseImages, setHouseImages] = useState([]);
 	const [errors, setErrors] = useState({});
-	const navigate = useNavigate();
+	const [openDialog, setOpenDialog] = useState(false); 
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
+	const navigate = useNavigate();
+
 	const [sendAdoptionRequest, { data, error, isSuccess, isError, isLoading }] =
 		useSendAdoptionRequestMutation();
+
 	const [formData, setFormData] = useState({
 		phone: "",
 		address: "",
 		reasons: "",
 	});
 
-
-		useEffect(() => {
-			if (isSuccess) {
-				console.log("Solicitud enviada con éxito:", data);
-				setSnackbarOpen(true); 
-			}
-			if (isError) {
-				console.error("Error al enviar la solicitud:", error);
-			}
-		}, [isSuccess, isError, data, error]);
-		
+	useEffect(() => {
+		if (isSuccess) {
+			console.log("Solicitud enviada con éxito:", data);
+			setSnackbarOpen(true);
+		}
+		if (isError) {
+			console.error("Error al enviar la solicitud:", error);
+		}
+	}, [isSuccess, isError, data, error]);
 
 	const handleSnackbarClose = () => {
 		setSnackbarOpen(false);
 		navigate("/home");
-	  };
+	};
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -59,9 +64,9 @@ const AdoptionRequest = () => {
 
 	const handlePhoneChange = (e) => {
 		const { value } = e.target;
-
-		if (/^\d*$/.test(value)) {
+		if (/^\d*$/.test(value) && value.length <= 9) {
 			setFormData({ ...formData, phone: value });
+
 			if (value.length >= 8) {
 				setErrors((prevErrors) => ({ ...prevErrors, phone: "" }));
 			} else {
@@ -75,8 +80,24 @@ const AdoptionRequest = () => {
 
 	const handleHouseImageChange = (e) => {
 		const files = Array.from(e.target.files);
+	
+	
+		if (houseImages.length + files.length > 2) {
+			setErrors((prevErrors) => ({
+				...prevErrors,
+				images: "Solo puedes subir hasta 2 imágenes de tu casa.",
+			}));
+			return;
+		}
+	
 		setHouseImages((prevImages) => [...prevImages, ...files]);
+		setErrors((prevErrors) => {
+			const newErrors = { ...prevErrors };
+			delete newErrors.images; 
+			return newErrors;
+		});
 	};
+	
 
 	const handleRemoveHouseImage = (index) => {
 		setHouseImages((prevImages) => prevImages.filter((_, i) => i !== index));
@@ -86,8 +107,8 @@ const AdoptionRequest = () => {
 		const newErrors = {};
 		let hasError = false;
 
-		if (formData.phone.length < 8) {
-			newErrors.phone = "El teléfono debe tener al menos 8 caracteres.";
+		if (!formData.phone) {
+			newErrors.phone = "El teléfono es obligatorio";
 			hasError = true;
 		}
 
@@ -112,21 +133,32 @@ const AdoptionRequest = () => {
 
 	const handleSubmit = () => {
 		if (validateFields()) {
-			const formDataToSend = new FormData();
-			formDataToSend.append("phone", formData.phone);
-			formDataToSend.append("location", formData.address);
-			formDataToSend.append("additional_notes", formData.reasons);
-			formDataToSend.append("pet_id", pet_id);
-			formDataToSend.append("status", "pending");
-
-			// Añade las imágenes al FormData
-			houseImages.forEach((image, index) => {
-				formDataToSend.append(`images[${index}]`, image);
-			});
-
-			console.log("Formulario enviado:", formDataToSend);
-			sendAdoptionRequest(formDataToSend);
+			setOpenDialog(true); 
 		}
+	};
+
+	const handleConfirmSubmit = () => {
+		const formDataToSend = new FormData();
+		formDataToSend.append("phone", formData.phone);
+		formDataToSend.append("location", formData.address);
+		formDataToSend.append("additional_notes", formData.reasons);
+		formDataToSend.append("pet_id", pet_id);
+		formDataToSend.append("status", "pending");
+
+		houseImages.forEach((image, index) => {
+			formDataToSend.append(`images[${index}]`, image);
+		});
+
+		console.log("Formulario enviado:", formDataToSend);
+		sendAdoptionRequest(formDataToSend);
+		setOpenDialog(false); 
+	};
+
+	const handleCancelSubmit = () => {
+		setOpenDialog(false); 
+		setFormData({ phone: "", address: "", reasons: "" });
+		setHouseImages([]);
+		setErrors({});
 	};
 
 	return (
@@ -188,22 +220,24 @@ const AdoptionRequest = () => {
 							helperText={errors.reasons}
 						/>
 
-						<Button
-							variant="outlined"
-							component="label"
-							startIcon={<PhotoCamera />}
-							fullWidth
-							sx={{ mt: 2 }}
-						>
-							Subir Imágenes de tu Casa
-							<input
-								type="file"
-								accept="image/*"
-								multiple
-								hidden
-								onChange={handleHouseImageChange}
-							/>
-						</Button>
+								<Button
+									variant="outlined"
+									component="label"
+									startIcon={<PhotoCamera />}
+									fullWidth
+									sx={{ mt: 2 }}
+									disabled={houseImages.length >= 2} 
+								>
+									Subir Imágenes de tu Casa
+									<input
+										type="file"
+										accept="image/*"
+										multiple
+										hidden
+										onChange={handleHouseImageChange}
+									/>
+								</Button>
+
 						{errors.images && (
 							<Typography color="error" sx={{ mt: 1 }}>
 								{errors.images}
@@ -240,11 +274,32 @@ const AdoptionRequest = () => {
 						</Button>
 
 						<Snackbar
-						open={snackbarOpen}
-						message="Envio de solicitud correctamente"
-						autoHideDuration={4000}
-						onClose={handleSnackbarClose}
-                         />
+							open={snackbarOpen}
+							message="Envío de solicitud correctamente"
+							autoHideDuration={3000}
+							onClose={handleSnackbarClose}
+						/>
+
+						{/* Modal de Confirmación */}
+						<Dialog
+							open={openDialog}
+							onClose={handleCancelSubmit}
+						>
+							<DialogTitle>Confirmar Envío</DialogTitle>
+							<DialogContent>
+								<DialogContentText>
+									¿Estás seguro de que deseas enviar esta solicitud de adopción?
+								</DialogContentText>
+							</DialogContent>
+							<DialogActions>
+								<Button onClick={handleCancelSubmit} color="error">
+									Cancelar
+								</Button>
+								<Button onClick={handleConfirmSubmit} color="primary">
+									Enviar
+								</Button>
+							</DialogActions>
+						</Dialog>
 					</Box>
 				)}
 			</Box>

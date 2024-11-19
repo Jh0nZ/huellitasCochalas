@@ -71,16 +71,13 @@ class UserController extends Controller
 
     public function getAuthenticatedUser(Request $request)
     {
-        $user = Auth::user();
-
-        $pets = $user->pets()->with(['images', 'size', 'breed'])->get();
+        $user = Auth::user()->load(['images', 'pets.images', 'pets.size', 'pets.breed']);
 
         return response()->json([
             'user' => $user,
-            'pets' => $pets,
+            'pets' => $user->pets,
         ]);
     }
-
 
     public function login(Request $request)
     {
@@ -123,9 +120,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         return response()->json($user);
-
-
-
     }
 
     /**

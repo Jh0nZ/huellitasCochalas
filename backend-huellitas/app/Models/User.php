@@ -50,17 +50,9 @@ class User extends Authenticatable
         return $this->hasMany(related: Pet::class);
     }
 
-
-
-    
     public function images()
     {
-        return $this->belongsToMan(
-            Image::class,
-            'user_id', 
-            'user_images',       
-            'image_id'
-        );
+        return $this->belongsToMany(Image::class, 'user_images', 'user_id', 'image_id');
     }
 }
 

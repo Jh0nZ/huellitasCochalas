@@ -46,11 +46,9 @@ function UserProfile() {
   }
 
   const userImage =
-  data?.user?.name?.[0]?.path
-    ? `http://localhost:8000/storage/${data.data.images[0].path}`
+  data?.user?.images?.[0]?.path
+    ? `http://localhost:8000/storage/${data?.user?.images?.[0]?.path}`
     : "/hombre.jpeg";
-
-
 
   return (
     <Container maxWidth="lg" sx={{ mt: 12 }}>

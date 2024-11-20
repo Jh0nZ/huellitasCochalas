@@ -136,14 +136,19 @@ class PetController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'status' => 'required|string|max:255',
-                'age' => 'required|integer',
-                'sterilized' => 'required|boolean',
-                'location' => 'required|string|max:255',
-                'breed_id' => 'required|exists:breeds,id',
-                'size_id' => 'required|exists:sizes,id',
+            'name' => 'required|string|max:255',
+            'age' => 'required|integer',
+            'status' => 'required|string|max:255',
+            'breed_id' => 'required|integer',
+            'user_id' => 'required|integer',
+            'size_id' => 'required|integer',
+            'sterilized' => 'required|boolean',
+            'location' => 'required|string|max:255',
+            'description' => 'required|string|min:30|max:255',
+            'gender' => 'required|in:MACHO,HEMBRA',
+            'tipo_mascota' => 'required|string|max:20',
+            'tamanio_mascota' => 'required|string|max:20',
+
                 'images' => 'required|array|min:1',
                 'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
@@ -153,11 +158,14 @@ class PetController extends Controller
                 'description' => $request->get('description'),
                 'age' => $request->get('age'),
                 'status' => $request->get('status'),
-                'sterilized' => $request->get('sterilized'),
-                'location' => $request->get('location'),
+                'sterilized' => $request->get('sterilized'), 
                 'breed_id' => $request->get('breed_id'),
+                'location' => $request->get('location'),
                 'size_id' => $request->get('size_id'),
                 'user_id' => Auth::user()->id,
+                'gender' => $request->get('gender'),
+                'tipoMascota' => $request->get('tipoMascota'),
+                'tamanioMascota' => $request->get('tamanioMascota'),
             ]);
 
             $pet->save();
@@ -235,13 +243,19 @@ class PetController extends Controller
         try {
             $request->validate([
                 'name' => 'sometimes|required|string|max:255',
-                'description' => 'nullable|string',
-                'status' => 'sometimes|required|string|max:255',
+                'description' => 'sometimes|required|string|max:255',
                 'sterilized' => 'sometimes|required|boolean',
+                'status' => 'sometimes|required|string|max:255',
                 'location' => 'sometimes|required|string|max:255',
                 'breed_id' => 'sometimes|required|exists:breeds,id',
                 'size_id' => 'sometimes|required|exists:sizes,id',
                 'user_id' => 'sometimes|required|exists:users,id',
+                'age'=> 'sometimes|required|integer|max:255',
+                'gender'=> 'sometimes|required|string|max:255',
+                'tipoMascota'=> 'sometimes|required|string|max:255',
+                'tamanioMascota'=> 'sometimes|required|string|max:255',
+
+
             ]);
 
             $pet = Pet::findOrFail($id);

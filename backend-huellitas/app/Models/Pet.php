@@ -11,14 +11,17 @@ class Pet extends Model
 
     protected $fillable = [
         'name',
-        'description',
         'age',
         'status',
-        'sterilized',
         'location',
         'breed_id',
-        'size_id',
         'user_id',
+        'size_id',
+        'sterilized',
+        'description',
+        'gender',
+        'tipo_mascota',
+        'tamanio_mascota',
     ];
 
     public function breed()

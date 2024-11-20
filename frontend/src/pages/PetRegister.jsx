@@ -40,16 +40,16 @@ const PetRegister = () => {
   const [formData, setFormData] = useState({
     name: "",
     age: "",
-    breed: "",
     breed_id: 1,
     user_id: 1,
     size_id: 1,
     sterilized: true,
-    status: "P",
     location: "calle aaa1",
     description: "",
     gender: "",
-    tipoMascota: "", // Cambié a tipoMascota
+    status: "P",
+    tipo_mascota: "",   
+  tamanio_mascota: "", 
   });
 
   const [images, setImages] = useState([]);
@@ -132,7 +132,7 @@ const PetRegister = () => {
       newErrors.description =
         "La descripción debe tener entre 30 y 50 caracteres";
     }
-    if (!formData.tamanioMascota) {
+    if (!formData.tamanio_mascota) {
       formIsValid = false;
       newErrors.tamanioMascota = "El tamaño es obligatorio";
     }
@@ -142,7 +142,7 @@ const PetRegister = () => {
       newErrors.gender = "El género es obligatorio";
     }
 
-    if (!formData.tipoMascota) {
+    if (!formData.tipo_mascota) {
       formIsValid = false;
       newErrors.tipoMascota = "La mascota es obligatoria";
     }
@@ -164,6 +164,7 @@ const PetRegister = () => {
     if (!validateForm()) return;
 
     const formDataToSend = new FormData();
+    
     for (const key in formData) {
       if (key === "sterilized") {
         formDataToSend.append(key, formData[key] ? "1" : "0");
@@ -182,16 +183,16 @@ const PetRegister = () => {
       setFormData({
         name: "",
         age: "",
-        breed: "",
         breed_id: 1,
         user_id: 1,
         size_id: 1,
         sterilized: true,
-        status: "P",
-        location: "calle aaa1",
         description: "",
         gender: "",
+        status: "P",
+        location: "calle aaa1",
         tipoMascota: "",
+        tamanioMascota:"",
       });
       setImages([]);
       setErrors({});
@@ -281,8 +282,8 @@ const PetRegister = () => {
               <InputLabel>Tipo de Mascota*</InputLabel>
               <Select
                 label="Tipo de Mascota*"
-                name="tipoMascota" // Cambié a tipoMascota
-                value={formData.tipoMascota}
+                name="tipo_mascota" // Cambié a tipoMascota
+                value={formData.tipo_mascota}
                 onChange={handleInputChange}
               >
                 {tipMas.map((option) => (
@@ -306,8 +307,8 @@ const PetRegister = () => {
   <InputLabel>Tamaño de la mascota*</InputLabel>
   <Select
     label="Tamaño de la mascota*"
-    name="tamanioMascota"
-    value={formData.tamanioMascota}
+    name="tamanio_mascota"
+    value={formData.tamanio_mascota}
     onChange={handleInputChange}
   >
     {tamanio.map((option) => (

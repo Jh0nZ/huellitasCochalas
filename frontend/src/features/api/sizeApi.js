@@ -1,14 +1,12 @@
 import { apiSlice } from "./apiSlice";
 
 const sizeApi = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    getSizes: builder.query({
-      query: () => "sizes",
-      providesTags: ["Sizes"], 
-    }),
-  }),
+	endpoints: (builder) => ({
+		getSizes: builder.query({
+			query: () => "sizes",
+			providesTags: ["Sizes"],
+		}),
+	}),
 });
 
-export const {
-    useGetSizesQuery
-} = sizeApi;
+export const { useGetSizesQuery } = sizeApi;

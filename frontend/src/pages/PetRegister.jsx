@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -20,6 +20,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { PhotoCamera } from "@mui/icons-material";
 import { useRegisterPetMutation } from "../features/api/petApi";
+import { useGetSizesQuery } from "../features/api/sizeApi";
 
 const genders = [
   { value: "MACHO", label: "Macho" },
@@ -37,6 +38,10 @@ const tamanio = [
 ];
 
 const PetRegister = () => {
+  const { data: sizes } = useGetSizesQuery();
+  useEffect(() => {
+    console.log("Tamaños:", sizes);
+  }, [sizes]);
   const [formData, setFormData] = useState({
     name: "",
     age: "",

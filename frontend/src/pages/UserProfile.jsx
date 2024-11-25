@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useCheckUserQuery } from "../features/api/userApi";
-import { PetCard } from "../Components";
+import { PetSolicitudes } from "../Components";
 
 const calculateAge = (birthDate) => {
   const [year, month, day] = birthDate.split("-").map(Number);
@@ -121,7 +121,7 @@ function UserProfile() {
 
         <Grid container justifyContent="center">
           {data?.pets?.length ? (
-            data.pets.map((pet) => <PetCard key={pet.id} pet={pet} />)
+            data.pets.map((pet) => <PetSolicitudes key={pet.id} pet={pet} />)
           ) : (
             <Typography
               variant="h6"

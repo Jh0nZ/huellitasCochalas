@@ -15,14 +15,16 @@ class AdoptionRequestController extends Controller
      */
     public function index()
     {
-        // Obtener todas las solicitudes de adopción con las imágenes relacionadas
-        $adoptionRequests = AdoptionRequest::with('images')->get();
-
-        return response()->json([
+        $requests = AdoptionRequest::with(['user', 'pet'])->get();
+        return 
+        response()->json([
             'mensaje' => 'Solicitudes de adopción recuperadas con éxito',
-            'adoptionRequests' => $adoptionRequests,
-        ], 200);
+            'adoption_requests' => $requests] 
+        
+            , 200); 
+        
     }
+    
 
     /**
      * Store a newly created resource in storage.

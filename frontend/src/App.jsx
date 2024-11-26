@@ -19,12 +19,12 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/verInfo/:pet_id" element={<Infopets/>} />
         <Route path="/register" element={<UserRegister />} />
-        <Route path="/solicitudes" element={<Solicitudes />} />
+        <Route path="/solicitudes/:pet_id" element={<Solicitudes />} />
         <Route path="/pet-register" element={<PetRegister />} />
         <Route path="/pets" element={<Pets />} />
         <Route path="/adoption-request/:pet_id" element={<AdoptionRequest />} />
         <Route path="/login" element={<Login />} />
-        <Route path="perfil" element={<UserProfile/>} />
+        <Route path="/perfil" element={<UserProfile/>} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>

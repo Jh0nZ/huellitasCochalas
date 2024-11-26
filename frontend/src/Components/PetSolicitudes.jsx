@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
 import { useNavigate } from "react-router-dom";
 import CardContent from "@mui/material/CardContent";
+import { useParams } from "react-router-dom";
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: "relative",
@@ -58,9 +59,11 @@ const ImageText = styled("span")(({ theme }) => ({
 
 const PetSolicitudes = ({ pet }) => {
   const navigate = useNavigate();
+  const { pet_id } = useParams();
 
-  const handleVerInfoClick = (id) => {
-    navigate(`/solicitudes`);
+  const handleVerInfoClick = () => {
+    navigate("/solicitudes/"+ pet_id);
+    
   };
 
   return (
@@ -72,7 +75,7 @@ const PetSolicitudes = ({ pet }) => {
         display: "inline-block", 
       }}
     >
-      <ImageButton onClick={() => handleVerInfoClick(pet.id)} focusRipple>
+      <ImageButton onClick={() => handleVerInfoClick(pet_id)} focusRipple>
         <ImageSrc
           style={{
             backgroundImage: `url(http://localhost:8000/storage/${pet.images[0].path})`,

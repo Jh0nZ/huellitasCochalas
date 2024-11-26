@@ -23,6 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::post('logout', [UserController::class, 'logout']);
     Route::get('user', [UserController::class, 'getAuthenticatedUser']);
+    Route::get('/adoption-requests', [AdoptionRequestController::class, 'index']);
+    
 });
 
 Route::post('/register', [UserController::class, 'store']);

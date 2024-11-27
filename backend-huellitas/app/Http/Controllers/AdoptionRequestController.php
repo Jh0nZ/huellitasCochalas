@@ -13,18 +13,21 @@ class AdoptionRequestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $requests = AdoptionRequest::with(['user', 'pet'])->get();
-        return 
-        response()->json([
+        $query = AdoptionRequest::with(['user.images', 'pet']);
+
+        if ($request->has('pet_id')) {
+            $query->where('pet_id', $request->pet_id);
+        }
+
+        $requests = $query->get();
+
+        return response()->json([
             'mensaje' => 'Solicitudes de adopción recuperadas con éxito',
-            'adoption_requests' => $requests] 
-        
-            , 200); 
-        
+            'adoption_requests' => $requests
+        ], 200);
     }
-    
 
     /**
      * Store a newly created resource in storage.

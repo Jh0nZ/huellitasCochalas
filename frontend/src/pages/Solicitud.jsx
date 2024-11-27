@@ -8,14 +8,43 @@ import {
     Grid2 as Grid,
 } from "@mui/material";
 import { useGetAdoptionRequestQuery } from "../features/api/adoptionRequestApi";
-import { useParams } from "react-router-dom";
+import { useUpdateAdoptionRequestMutation } from "../features/api/adoptionRequestApi";
+import { useParams, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Solicitud = () => {
+    const navigate = useNavigate();
     const { adoption_request_id } = useParams();
+    const [
+        updateAdoptionRequest,
+        {
+            data: updateDatam,
+            error: updateError,
+            isError: isUpdateError,
+            isSuccess: isUpdateSuccess,
+            isLoading: isUpdateLoading,
+        },
+    ] = useUpdateAdoptionRequestMutation();
+
+    useEffect(() => {
+        if (isUpdateError) {
+            console.error("Error:", updateError);
+        }
+        if (isUpdateSuccess) {
+            console.log("Data:", updateDatam);
+            navigate("/");
+        }
+    }, [
+        updateDatam,
+        updateError,
+        isUpdateError,
+        isUpdateLoading,
+        isUpdateSuccess,
+    ]);
     const { data, error, isLoading } =
         useGetAdoptionRequestQuery(adoption_request_id);
 
-    if (isLoading) {
+    if (isLoading || isUpdateLoading) {
         return (
             <Typography variant="h6" textAlign="center">
                 Cargando solicitud...
@@ -24,10 +53,22 @@ const Solicitud = () => {
     }
     const onAccept = (id) => {
         console.log("Aceptar solicitud", id);
+        updateAdoptionRequest({
+            data: {
+                status: "accepted",
+            },
+            id: id,
+        });
     };
 
     const onReject = (id) => {
         console.log("Rechazar solicitud", id);
+        updateAdoptionRequest({
+            data: {
+                status: "accepted",
+            },
+            id: id,
+        });
     };
 
     return (
@@ -41,10 +82,12 @@ const Solicitud = () => {
                 />
                 <CardContent>
                     <Typography variant="body1" sx={{ mt: 1 }}>
-                        Solicita adoptar a: {data.adoptionRequest.status.toUpperCase()}
+                        Solicita adoptar a:{" "}
+                        {data.adoptionRequest.status.toUpperCase()}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Descripción de la solicitud: {data.adoptionRequest.additional_notes}
+                        Descripción de la solicitud:{" "}
+                        {data.adoptionRequest.additional_notes}
                     </Typography>
                 </CardContent>
                 <CardActions>

@@ -110,11 +110,11 @@ class AdoptionRequestController extends Controller
         // Buscar la solicitud de adopción
         $adoptionRequest = AdoptionRequest::findOrFail($id);
 
-        if ($adoptionRequest->pet->user_id !== Auth::id()) {
-            return response()->json([
-                'mensaje' => 'No tienes permiso para actualizar esta solicitud de adopción.',
-            ], 403);
-        }
+        // if ($adoptionRequest->pet->user_id !== Auth::id()) {
+        //     return response()->json([
+        //         'mensaje' => 'No tienes permiso para actualizar esta solicitud de adopción.',
+        //     ], 403);
+        // }
 
         $adoptionRequest->fill($request->only([
             'status',

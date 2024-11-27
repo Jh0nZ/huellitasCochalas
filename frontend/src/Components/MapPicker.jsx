@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { Box } from "@mui/material";
 
@@ -27,23 +27,6 @@ const MapPicker = ({ style, markerPosition, setMarkerPosition }) => {
                 zoom={16}
                 onClick={(event) => {
                     const { lat, lng } = event.latLng.toJSON();
-                    const geocoder = new window.google.maps.Geocoder();
-                    geocoder.geocode(
-                        { location: { lat, lng } },
-                        (results, status) => {
-                            if (status === "OK" && results[0]) {
-                                console.log(
-                                    "results",
-                                    results[0].formatted_address
-                                );
-                            } else {
-                                console.error(
-                                    "No se pudo obtener la dirección:",
-                                    status
-                                );
-                            }
-                        }
-                    );
                     setMarkerPosition({
                         lat: lat,
                         lng: lng,

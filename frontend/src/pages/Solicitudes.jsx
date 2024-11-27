@@ -1,11 +1,13 @@
 import React from "react";
 import {
     Container,
-    Grid,
+    Grid2 as Grid,
     Card,
     CardContent,
     CardMedia,
     Typography,
+    CardActions,
+    Button,
 } from "@mui/material";
 import { useGetAllAdoptionRequestsQuery } from "../features/api/adoptionRequestApi";
 import { useParams } from "react-router-dom";
@@ -76,6 +78,17 @@ const Solicitudes = () => {
                                         {request.additional_notes}
                                     </Typography>
                                 </CardContent>
+                                <CardActions>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={() =>
+                                            (window.location.href = `/solicitud/${request.id}`)
+                                        }
+                                    >
+                                        Ver detalles de solicitud
+                                    </Button>
+                                </CardActions>
                             </Card>
                         </Grid>
                     ))

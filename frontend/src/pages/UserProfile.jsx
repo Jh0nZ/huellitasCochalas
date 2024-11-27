@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useCheckUserQuery } from "../features/api/userApi";
-import { PetSolicitudes } from "../Components";
+import { PetSolicitudes } from "../components";
 
 const calculateAge = (birthDate) => {
   const [year, month, day] = birthDate.split("-").map(Number);

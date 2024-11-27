@@ -3,13 +3,14 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import { Login, NotFound, PetRegister, Pets, Infopets } from "./pages";
-import { AdoptionRequest, NavBar } from "./Components";
+import { AdoptionRequest, NavBar } from "./components";
 import Home from "./pages/Home";
 import UserRegister from "./pages/UserRegister";
 import { lightTheme } from "./theme";
 import UserProfile from "./pages/UserProfile";
 import Solicitudes from "./pages/Solicitudes";
 import Solicitud from "./pages/Solicitud";
+import MapPicker from "./components/MapPicker";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/adoption-request/:pet_id" element={<AdoptionRequest />} />
         <Route path="/login" element={<Login />} />
         <Route path="/perfil" element={<UserProfile/>} />
+        <Route path="/testmap" element={<MapPicker/>} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>

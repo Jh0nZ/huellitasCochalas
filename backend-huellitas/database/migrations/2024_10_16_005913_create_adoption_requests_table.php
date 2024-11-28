@@ -19,6 +19,8 @@ return new class extends Migration
             $table->text('additional_notes')->nullable();
             $table->string('phone');
             $table->string('location');
+            $table->decimal('lat', 10, 8);
+            $table->decimal('lng', 11, 8);
             $table->timestamps();
         });
     }

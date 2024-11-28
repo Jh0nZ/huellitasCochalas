@@ -22,6 +22,8 @@ L.Icon.Default.mergeOptions({
 const MapClickHandler = ({ setMarkerPosition }) => {
     useMapEvents({
         click(event) {
+            console.log(event);
+            
             setMarkerPosition(event.latlng);
         },
     });

@@ -22,6 +22,9 @@ import { PhotoCamera } from "@mui/icons-material";
 import { useRegisterPetMutation } from "../features/api/petApi";
 import { useGetSizesQuery } from "../features/api/sizeApi";
 import { useGetBreedsQuery } from "../features/api/breedApi";
+import OpenMapPicker from "../components/OpenMapPicker";
+import OpenMapLabel from "../components/OpenMapLabel";
+import { Close } from "@mui/icons-material";
 
 const genders = [
     { id: 1, value: "MACHO", label: "Macho" },
@@ -69,21 +72,27 @@ const PetRegister = () => {
             console.error("Error obteniendo las razas:", breedsError);
         }
     }, [breeds, breedsError, isBreedsError, isBreedsSucess]);
+    const [mapOpen, setMapOpen] = useState(false);
 
     const [formData, setFormData] = useState({
         name: "",
         age: "",
-        breed_id: 1,
-        user_id: 1,
-        size_id: 1,
+        breed_id: null,
+        size_id: null,
         sterilized: true,
-        location: "calle aaa1",
+        location: "",
         description: "",
         gender: "",
         status: "P",
-        tipo_mascota: "",
-        tamanio_mascota: "",
+        location: {
+            lat: null,
+            lng: null,
+        },
     });
+
+    useEffect(() => {
+        console.log("Form data:", formData);
+    }, [formData]);
 
     const [images, setImages] = useState([]);
     const [errors, setErrors] = useState({});
@@ -91,7 +100,11 @@ const PetRegister = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: value,
+        }));
 
         if (errors[name]) {
             setErrors((prevErrors) => {
@@ -165,9 +178,9 @@ const PetRegister = () => {
             newErrors.description =
                 "La descripción debe tener entre 30 y 50 caracteres";
         }
-        if (!formData.tamanio_mascota) {
+        if (!formData.size_id) {
             formIsValid = false;
-            newErrors.tamanioMascota = "El tamaño es obligatorio";
+            newErrors.size_id = "El tamaño es obligatorio";
         }
 
         if (!formData.gender) {
@@ -175,9 +188,14 @@ const PetRegister = () => {
             newErrors.gender = "El género es obligatorio";
         }
 
-        if (!formData.tipo_mascota) {
+        if (!formData.location.lat || !formData.location.lng) {
             formIsValid = false;
-            newErrors.tipoMascota = "La mascota es obligatoria";
+            newErrors.location = "La ubicación es obligatoria";
+        }
+
+        if (!formData.breed_id) {
+            formIsValid = false;
+            newErrors.breed_id = "El tipo de mascota es obligatorio";
         }
         if (images.length === 0) {
             newErrors.images = "Debes subir al menos una foto.";
@@ -201,6 +219,9 @@ const PetRegister = () => {
         for (const key in formData) {
             if (key === "sterilized") {
                 formDataToSend.append(key, formData[key] ? "1" : "0");
+            } else if (key === "location") {
+                formDataToSend.append("lat", formData[key].lat);
+                formDataToSend.append("lng", formData[key].lng);
             } else {
                 formDataToSend.append(key, formData[key]);
             }
@@ -210,6 +231,8 @@ const PetRegister = () => {
             formDataToSend.append(`images[${index}]`, image);
         });
 
+        console.log("Form data to send:", formDataToSend);
+        
         try {
             await registerPet(formDataToSend).unwrap();
             alert("Mascota registrada con éxito");
@@ -217,13 +240,12 @@ const PetRegister = () => {
                 name: "",
                 age: "",
                 breed_id: 1,
-                user_id: 1,
                 size_id: 1,
                 sterilized: true,
                 description: "",
                 gender: "",
                 status: "P",
-                location: "calle aaa1",
+                location: "",
                 tipoMascota: "",
                 tamanioMascota: "",
             });
@@ -235,7 +257,35 @@ const PetRegister = () => {
         }
     };
 
-    return (
+    return mapOpen ? (
+        <Box style={{ height: "75vh", marginTop: "100px" }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                }}
+            >
+                <Typography variant="h6">Selecciona tu Dirección</Typography>
+                <IconButton onClick={() => setMapOpen(false)}>
+                    <Close />
+                </IconButton>
+            </Box>
+            <OpenMapPicker
+                style={{ width: "100%", height: "100%" }}
+                setMarkerPosition={({ lat, lng }) => {
+                    setFormData({
+                        ...formData,
+                        location: {
+                            lat: lat,
+                            lng: lng,
+                        },
+                    });
+                }}
+                markerPosition={formData.location}
+            />
+        </Box>
+    ) : (
         <Container maxWidth="sm">
             <Box sx={{ mt: 12 }}>
                 <Typography
@@ -247,7 +297,7 @@ const PetRegister = () => {
                 >
                     REGISTRA A TU MASCOTA
                 </Typography>
-                {isLoading ? (
+                {isLoading || isSizesFetching || isBreedsFetching ? (
                     <Box sx={{ display: "flex", justifyContent: "center" }}>
                         <CircularProgress />
                     </Box>
@@ -288,9 +338,9 @@ const PetRegister = () => {
                             margin="normal"
                             error={Boolean(errors.gender)}
                         >
-                            <InputLabel>Género*</InputLabel>
+                            <InputLabel>Sexo*</InputLabel>
                             <Select
-                                label="Género*"
+                                label="Sexo*"
                                 name="gender"
                                 value={formData.gender}
                                 onChange={handleInputChange}
@@ -313,27 +363,32 @@ const PetRegister = () => {
                         <FormControl
                             fullWidth
                             margin="normal"
-                            error={Boolean(errors.tipoMascota)}
+                            error={Boolean(errors.breed_id)}
                         >
                             <InputLabel>Tipo de Mascota*</InputLabel>
                             <Select
                                 label="Tipo de Mascota*"
-                                name="tipo_mascota" // Cambié a tipoMascota
-                                value={formData.tipo_mascota}
+                                name="breed_id"
+                                value={formData.breed_id}
                                 onChange={handleInputChange}
+                                renderValue={(selected) => {
+                                    const selectedBreed = breeds.find(
+                                        (breed) => breed.id === selected
+                                    );
+                                    return selectedBreed
+                                        ? selectedBreed.name
+                                        : "";
+                                }}
                             >
-                                {tipMas.map((option) => (
-                                    <MenuItem
-                                        key={option.value}
-                                        value={option.value}
-                                    >
-                                        {option.label}
+                                {breeds.map((breed) => (
+                                    <MenuItem key={breed.id} value={breed.id}>
+                                        {breed.name}
                                     </MenuItem>
                                 ))}
                             </Select>
-                            {errors.tipoMascota && (
+                            {errors.breed_id && (
                                 <Typography variant="body2" color="error">
-                                    {errors.tipoMascota}
+                                    {errors.breed_id}
                                 </Typography>
                             )}
                         </FormControl>
@@ -341,27 +396,32 @@ const PetRegister = () => {
                         <FormControl
                             fullWidth
                             margin="normal"
-                            error={Boolean(errors.tamanioMascota)} // Cambié a errors.tamanioMascota
+                            error={Boolean(errors.size_id)}
                         >
                             <InputLabel>Tamaño de la mascota*</InputLabel>
                             <Select
                                 label="Tamaño de la mascota*"
-                                name="tamanio_mascota"
-                                value={formData.tamanio_mascota}
+                                name="size_id"
+                                value={formData.size_id}
                                 onChange={handleInputChange}
+                                renderValue={(selected) => {
+                                    const selectedSize = sizes.find(
+                                        (size) => size.id === selected
+                                    );
+                                    return selectedSize
+                                        ? selectedSize.name
+                                        : "";
+                                }}
                             >
-                                {tamanio.map((option) => (
-                                    <MenuItem
-                                        key={option.value}
-                                        value={option.value}
-                                    >
-                                        {option.label}
+                                {sizes.map((size) => (
+                                    <MenuItem key={size.id} value={size.id}>
+                                        {size.name}
                                     </MenuItem>
                                 ))}
                             </Select>
-                            {errors.tamanioMascota && (
+                            {errors.size_id && (
                                 <Typography variant="body2" color="error">
-                                    {errors.tamanioMascota}
+                                    {errors.size_id}
                                 </Typography>
                             )}
                         </FormControl>
@@ -380,6 +440,25 @@ const PetRegister = () => {
                         />
                         <Button
                             variant="outlined"
+                            fullWidth
+                            component="label"
+                            sx={{ mt: 2 }}
+                            onClick={() => setMapOpen(true)}
+                            name="location"
+                        >
+                            {formData.location.lat ? (
+                                <OpenMapLabel location={formData.location} />
+                            ) : (
+                                "Seleccionar Dirección"
+                            )}
+                        </Button>
+                        {errors.location && (
+                            <Typography color="error" sx={{ mt: 1 }}>
+                                {errors.location}
+                            </Typography>
+                        )}
+                        <Button
+                            variant="outlined"
                             component="label"
                             startIcon={<PhotoCamera />}
                             fullWidth
@@ -394,6 +473,7 @@ const PetRegister = () => {
                                 hidden
                             />
                         </Button>
+
                         <Typography
                             variant="body2"
                             color="textSecondary"

@@ -13,15 +13,14 @@ class Pet extends Model
         'name',
         'age',
         'status',
-        'location',
         'breed_id',
         'user_id',
         'size_id',
         'sterilized',
         'description',
         'gender',
-        'tipo_mascota',
-        'tamanio_mascota',
+        'lat',
+        'lng',
     ];
 
     public function breed()

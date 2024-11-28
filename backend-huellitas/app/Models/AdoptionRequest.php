@@ -16,6 +16,8 @@ class AdoptionRequest extends Model
         'phone',
         'location',
         'pet_id',
+        'lat',
+        'lng',
     ];
 
     public function user()

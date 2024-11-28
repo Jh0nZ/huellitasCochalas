@@ -140,17 +140,14 @@ class PetController extends Controller
             'age' => 'required|integer',
             'status' => 'required|string|max:255',
             'breed_id' => 'required|integer',
-            'user_id' => 'required|integer',
             'size_id' => 'required|integer',
             'sterilized' => 'required|boolean',
-            'location' => 'required|string|max:255',
             'description' => 'required|string|min:30|max:255',
             'gender' => 'required|in:MACHO,HEMBRA',
-            'tipo_mascota' => 'required|string|max:20',
-            'tamanio_mascota' => 'required|string|max:20',
-
-                'images' => 'required|array|min:1',
-                'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images' => 'required|array|min:1|max:5',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
             ]);
 
             $pet = new Pet([
@@ -160,12 +157,11 @@ class PetController extends Controller
                 'status' => $request->get('status'),
                 'sterilized' => $request->get('sterilized'), 
                 'breed_id' => $request->get('breed_id'),
-                'location' => $request->get('location'),
                 'size_id' => $request->get('size_id'),
                 'user_id' => Auth::user()->id,
                 'gender' => $request->get('gender'),
-                'tipoMascota' => $request->get('tipoMascota'),
-                'tamanioMascota' => $request->get('tamanioMascota'),
+                'lat' => $request->get('lat'),
+                'lng' => $request->get('lng'),
             ]);
 
             $pet->save();

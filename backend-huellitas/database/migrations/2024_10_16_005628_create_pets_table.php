@@ -14,23 +14,16 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->integer('age');
-            $table->string('breed');
-            $table->string('status');
-            $table->unsignedBigInteger('breed_id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('size_id');
-            $table->boolean('sterilized');
-            $table->string('location');
+            $table->string('gender');
             $table->text('description');
-            $table->string('gender_id');
-            $table->string('tipo_mascota');
-            $table->string('tamanio_mascota');
+            $table->boolean('sterilized');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('size_id')->constrained()->onDelete('cascade');
+            $table->foreignId('breed_id')->constrained()->onDelete('cascade');
+            $table->decimal('lat', 10, 8);
+            $table->decimal('lng', 11, 8);
+            $table->string('status');
             $table->timestamps();
-
-            $table->foreign('gender_id')->references('id')->on('gende')->onDelete('cascade');
-            $table->foreign('breed_id')->references('id')->on('breeds')->onDelete('cascade');
-            $table->foreign('size_id')->references('id')->on('sizes')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on(table: 'users')->onDelete('cascade');
         });
     }
 

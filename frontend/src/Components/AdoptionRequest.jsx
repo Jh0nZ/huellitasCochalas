@@ -182,7 +182,30 @@ const AdoptionRequest = () => {
         setErrors({});
     };
 
-    return (
+    return mapOpen ? (
+        <Box style={{ height: "75vh", marginTop: "100px" }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <Typography variant="h6">Selecciona tu Dirección</Typography>
+                <IconButton onClick={handleCloseMap}>
+                    <Close />
+                </IconButton>
+            </Box>
+            <OpenMapPicker
+                style={{ width: "100%", height: "100%" }}
+                setMarkerPosition={({ lat, lng }) => {
+                    setFormData({
+                        ...formData,
+                        address: lat + "," + lng,
+                        location: {
+                            lat: lat,
+                            lng: lng,
+                        },
+                    });
+                }}
+                markerPosition={formData.location}
+            />
+        </Box>
+    ) : (
         <Container maxWidth="sm">
             <Box sx={{ mt: 12 }}>
                 <Typography
@@ -217,10 +240,24 @@ const AdoptionRequest = () => {
                             margin="normal"
                             error={Boolean(errors.phone)}
                             helperText={errors.phone}
+                            type="tel"
+                        />
+                        <TextField
+                            label="Motivos para la adopción*"
+                            name="reasons"
+                            value={formData.reasons}
+                            onChange={handleInputChange}
+                            fullWidth
+                            margin="normal"
+                            multiline
+                            rows={3}
+                            error={Boolean(errors.reasons)}
+                            helperText={errors.reasons}
                         />
                         <Button
                             variant="outlined"
                             fullWidth
+                            component="label"
                             sx={{ mt: 2 }}
                             onClick={handleOpenMap}
                         >
@@ -230,19 +267,11 @@ const AdoptionRequest = () => {
                                 <OpenMapLabel location={formData.location} />
                             )}
                         </Button>
-                        <TextField
-                            label="Motivos para la adopción*"
-                            name="reasons"
-                            value={formData.reasons}
-                            onChange={handleInputChange}
-                            fullWidth
-                            margin="normal"
-                            multiline
-                            rows={4}
-                            error={Boolean(errors.reasons)}
-                            helperText={errors.reasons}
-                        />
-
+                        {errors.address && (
+                            <Typography color="error" sx={{ mt: 1 }}>
+                                {errors.address}
+                            </Typography>
+                        )}
                         <Button
                             variant="outlined"
                             component="label"
@@ -328,43 +357,6 @@ const AdoptionRequest = () => {
                                     Enviar
                                 </Button>
                             </DialogActions>
-                        </Dialog>
-
-                        <Dialog
-                            fullScreen
-                            open={mapOpen}
-                            onClose={handleCloseMap}
-                        >
-                            <DialogTitle
-                                sx={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <Typography variant="h6">
-                                    Selecciona tu Dirección
-                                </Typography>
-                                <IconButton onClick={handleCloseMap}>
-                                    <Close />
-                                </IconButton>
-                            </DialogTitle>
-                            <DialogContent>
-                                <OpenMapPicker
-                                    style={{ width: "100%", height: "100%" }}
-                                    setMarkerPosition={({ lat, lng }) => {
-                                        setFormData({
-                                            ...formData,
-                                            address: lat + "," + lng,
-                                            location: {
-                                                lat: lat,
-                                                lng: lng,
-                                            },
-                                        });
-                                    }}
-                                    markerPosition={formData.location}
-                                />
-                            </DialogContent>
                         </Dialog>
                     </Box>
                 )}

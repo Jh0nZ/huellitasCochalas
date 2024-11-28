@@ -14,7 +14,7 @@ L.Icon.Default.mergeOptions({
 
 const OpenMapLabel = ({ location }) => {
     return (
-        <Box style={{ width: "100%", height: "200px" }}>
+        <Box style={{ width: "100%", height: "100%" }}>
             <MapContainer
                 center={location}
                 zoom={16}

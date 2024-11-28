@@ -17,6 +17,8 @@ import {
 import { PhotoCamera, Close } from "@mui/icons-material";
 import ImagePreview from "./ImagePreview";
 import MapPicker from "./MapPicker";
+import OpenMapPicker from "./OpenMapPicker";
+import OpenMapLabel from "./OpenMapLabel";
 import MapLabel from "./MapLabel";
 import { useSendAdoptionRequestMutation } from "../features/api/adoptionRequestApi";
 import { useParams, useNavigate } from "react-router-dom";
@@ -222,9 +224,11 @@ const AdoptionRequest = () => {
                             sx={{ mt: 2 }}
                             onClick={handleOpenMap}
                         >
-                            {formData.address === ""
-                                ? "Seleccionar Dirección"
-                                : <MapLabel location={formData.location} />}
+                            {formData.address === "" ? (
+                                "Seleccionar Dirección"
+                            ) : (
+                                <OpenMapLabel location={formData.location} />
+                            )}
                         </Button>
                         <TextField
                             label="Motivos para la adopción*"
@@ -346,9 +350,9 @@ const AdoptionRequest = () => {
                                 </IconButton>
                             </DialogTitle>
                             <DialogContent>
-                                <MapPicker
+                                <OpenMapPicker
                                     style={{ width: "100%", height: "100%" }}
-                                    setMarkerPosition={({lat, lng}) => {
+                                    setMarkerPosition={({ lat, lng }) => {
                                         setFormData({
                                             ...formData,
                                             address: lat + "," + lng,

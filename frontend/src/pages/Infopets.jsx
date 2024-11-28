@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { Typography, Button, useTheme, Box } from "@mui/material";
+import {
+    Typography,
+    Button,
+    useTheme,
+    Box,
+    CircularProgress,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useGetPetByIdQuery } from "../features/api/petApi";
@@ -30,12 +36,14 @@ const Infopets = () => {
     if (isFetching) {
         return (
             <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                height="100vh"
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "80vh",
+                }}
             >
-                <Typography>cargando...</Typography>
+                <CircularProgress />
             </Box>
         );
     }
@@ -45,7 +53,7 @@ const Infopets = () => {
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                height="100vh"
+                height="80vh"
             >
                 <Typography>{error.data?.message}</Typography>
             </Box>
@@ -60,7 +68,6 @@ const Infopets = () => {
                 alignItems: "center",
                 width: { xs: "100%", md: "40%" },
                 mx: "auto",
-                padding: 3,
                 gap: 2,
             }}
         >

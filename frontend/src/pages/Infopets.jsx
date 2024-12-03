@@ -9,8 +9,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useGetPetByIdQuery } from "../features/api/petApi";
-import OpenMapLabel from "../components/OpenMapLabel";
-import ImageCarousel from "../components/ImageCarousel";
+import OpenMapLabel from "../Components/OpenMapLabel";
+import ImageCarousel from "../Components/ImageCarousel";
 
 const Infopets = () => {
     const { pet_id } = useParams();

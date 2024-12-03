@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useCheckUserQuery } from "../features/api/userApi";
-import { PetSolicitudes } from "../components";
+import { PetSolicitudes } from "../Components";
 
 const calculateAge = (birthDate) => {
   const [year, month, day] = birthDate.split("-").map(Number);
@@ -73,12 +73,6 @@ function UserProfile() {
       alt={data?.user?.name || "Usuario"}
     />
 
-            <Typography
-              variant="h5"
-              sx={{ mt: 2, fontWeight: "bold", color: "#645b6d" }}
-            >
-              {data?.user?.name?.toUpperCase() || "Nombre no disponible"}
-            </Typography>
           </Box>
         </Grid>
 
@@ -94,6 +88,13 @@ function UserProfile() {
           >
             <Typography variant="h4" color="#645b6d" gutterBottom>
               Información Personal
+            </Typography>
+            
+            <Typography
+              variant="h5"
+              sx={{ mt: 2, fontWeight: "bold" ,mb: 1 }}
+            >
+              {data?.user?.name?.toUpperCase() || "Nombre no disponible"}
             </Typography>
             <Typography variant="body1" sx={{ mb: 1 }}>
               <strong>Edad:</strong> {calculateAge(data?.user?.fecha_user || "2000-01-01")}

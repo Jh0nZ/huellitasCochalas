@@ -22,8 +22,8 @@ import { PhotoCamera } from "@mui/icons-material";
 import { useRegisterPetMutation } from "../features/api/petApi";
 import { useGetSizesQuery } from "../features/api/sizeApi";
 import { useGetBreedsQuery } from "../features/api/breedApi";
-import OpenMapPicker from "../components/OpenMapPicker";
-import OpenMapLabel from "../components/OpenMapLabel";
+import OpenMapPicker from "../Components/OpenMapPicker";
+import OpenMapLabel from "../Components/OpenMapLabel";
 import { Close } from "@mui/icons-material";
 
 const genders = [

@@ -3,14 +3,14 @@ import React, { useRef, useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import { Login, NotFound, PetRegister, Pets, Infopets } from "./pages";
-import { AdoptionRequest, NavBar } from "./components";
+import { AdoptionRequest, NavBar } from "./Components";
 import Home from "./pages/Home";
 import UserRegister from "./pages/UserRegister";
 import { lightTheme } from "./theme";
 import UserProfile from "./pages/UserProfile";
 import Solicitudes from "./pages/Solicitudes";
 import Solicitud from "./pages/Solicitud";
-import MapPicker from "./components/MapPicker";
+import MapPicker from "./Components/MapPicker";
 import { Box } from "@mui/material";
 
 function App() {

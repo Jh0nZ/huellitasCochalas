@@ -7,11 +7,13 @@ import {
     Typography,
     CardActions,
     Grid2 as Grid,
+    Box,
 } from "@mui/material";
 import { useGetAdoptionRequestQuery } from "../features/api/adoptionRequestApi";
 import { useUpdateAdoptionRequestMutation } from "../features/api/adoptionRequestApi";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { OpenMapLabel } from "../Components";
 
 const Solicitud = () => {
     const navigate = useNavigate();
@@ -42,9 +44,17 @@ const Solicitud = () => {
         isUpdateLoading,
         isUpdateSuccess,
     ]);
-    const { data, error, isLoading } =
+    const { data, error, isLoading, isSuccess, isError } =
         useGetAdoptionRequestQuery(adoption_request_id);
 
+    useEffect(() => {
+        if (isSuccess) {
+            console.log(data);
+        }
+        if (isError) {
+            console.log(error);
+        }
+    }, [data, error, isError, isSuccess]);
     if (isLoading || isUpdateLoading) {
         return (
             <Typography variant="h6" textAlign="center">
@@ -74,24 +84,30 @@ const Solicitud = () => {
 
     return (
         <Container maxWidth="sm" sx={{ mt: 12, mb: 8 }}>
-             <Typography
-                    variant="h4"
-                    component="h1"
-                    gutterBottom
-                    align="center"
-                    color="#645b6d"
-                >
-                   DETALLES DE LA SOLICITUD
-                </Typography>
-          <Card sx={{ maxWidth: 345, boxShadow: 4, borderRadius: 2, overflow: "hidden" }}>
-            <CardMedia
-              component="img"
-              height="180"
-              image={`http://localhost:8000/storage/${data.adoptionRequest.images[0].path}`}
-              alt={`Imagen de la solicitud`}
-              sx={{ objectFit: "cover" }}
-            />
-             <CardContent>
+            <Typography
+                variant="h4"
+                component="h1"
+                gutterBottom
+                align="center"
+                color="#645b6d"
+            >
+                DETALLES DE LA SOLICITUD
+            </Typography>
+            <Card
+                sx={{
+                    boxShadow: 4,
+                    borderRadius: 2,
+                    overflow: "hidden",
+                }}
+            >
+                <CardMedia
+                    component="img"
+                    height="180"
+                    image={`http://localhost:8000/storage/${data.adoptionRequest.images[0].path}`}
+                    alt={`Imagen de la solicitud`}
+                    sx={{ objectFit: "cover" }}
+                />
+                <CardContent>
                     <Typography variant="body1" sx={{ mt: 1 }}>
                         Solicita adoptar a:{" "}
                         {data.adoptionRequest.status.toUpperCase()}
@@ -100,28 +116,47 @@ const Solicitud = () => {
                         Descripción de la solicitud:{" "}
                         {data.adoptionRequest.additional_notes}
                     </Typography>
+                    <Box
+                        sx={{
+                            width: "100%",
+                            height: { xs: "200px", md: "200px" },
+                            overflow: "hidden",
+                        }}
+                    >
+                        <OpenMapLabel
+                            location={{
+                                lat: data.adoptionRequest.lat,
+                                lng: data.adoptionRequest.lng,
+                            }}
+                        />
+                    </Box>
                 </CardContent>
-            <CardActions sx={{ display: "flex", flexDirection: "column", gap: 2, p: 1 }}>
-              <Button
-                variant="contained"
-                color="success"
-                fullWidth
-                
-                onClick={() => onAccept(data.adoptionRequest.id)}
-              >
-                Aceptar
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                fullWidth
-                
-                onClick={() => onReject(data.adoptionRequest.id)}
-              >
-                Rechazar
-              </Button>
-            </CardActions>
-          </Card>
+                <CardActions
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 2,
+                        p: 1,
+                    }}
+                >
+                    <Button
+                        variant="contained"
+                        color="success"
+                        fullWidth
+                        onClick={() => onAccept(data.adoptionRequest.id)}
+                    >
+                        Aceptar
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        fullWidth
+                        onClick={() => onReject(data.adoptionRequest.id)}
+                    >
+                        Rechazar
+                    </Button>
+                </CardActions>
+            </Card>
         </Container>
     );
 };

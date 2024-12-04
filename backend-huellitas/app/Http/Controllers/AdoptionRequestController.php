@@ -42,6 +42,8 @@ class AdoptionRequestController extends Controller
             'pet_id' => 'required|exists:pets,id',
             'images' => 'required|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
         ]);
 
         $adoptionRequest = new AdoptionRequest([
@@ -51,6 +53,8 @@ class AdoptionRequestController extends Controller
             'phone' => $request->phone,
             'location' => $request->location,
             'pet_id' => $request->pet_id,
+            'lat' => $request->lat,
+            'lng' => $request->lng,
         ]);
 
         $adoptionRequest->save();

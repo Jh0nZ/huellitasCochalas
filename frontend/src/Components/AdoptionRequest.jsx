@@ -165,6 +165,8 @@ const AdoptionRequest = () => {
         formDataToSend.append("additional_notes", formData.reasons);
         formDataToSend.append("pet_id", pet_id);
         formDataToSend.append("status", "pending");
+        formDataToSend.append("lat", formData.location.lat);
+        formDataToSend.append("lng", formData.location.lng);
 
         houseImages.forEach((image, index) => {
             formDataToSend.append(`images[${index}]`, image);

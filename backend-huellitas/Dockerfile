@@ -34,6 +34,8 @@ RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 # Instala dependencias de Composer para producción
 RUN composer install --optimize-autoloader --no-dev --no-interaction --prefer-dist
 
+RUN php artisan storage:link
+
 # Copia el archivo de configuración de Supervisor
 COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 

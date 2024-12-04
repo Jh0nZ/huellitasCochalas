@@ -90,6 +90,10 @@ const Infopets = () => {
                 <Typography variant="body1">
                     TAMAÑO: {data.data.size.name}
                 </Typography>
+
+                <Typography variant="body1">
+                    SEXO: {data.data.gender}
+                </Typography>
             </Box>
             {/* Mapa */}
             <Box

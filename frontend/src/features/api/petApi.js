@@ -20,8 +20,10 @@ const petApi = apiSlice.injectEndpoints({
       providesTags: (result, error, id) => [{ type: "Pets", id }],
     }),
     getAllPets: builder.query({
-      query: () => "pets",
-      providesTags: ["Pets"], 
+      query: (filters = {}) => {
+        const queryParams = new URLSearchParams(filters).toString();
+        return `/pets?${queryParams}`;
+      },
     }),
   }),
 });

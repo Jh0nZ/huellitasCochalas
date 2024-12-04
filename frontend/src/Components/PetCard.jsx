@@ -40,21 +40,21 @@ const PetCard = ({ pet }) => {
         <Typography variant="h6" component="div">
           {pet.name.toUpperCase()}
         </Typography>
-        <Typography variant="h6" component="div">
-          {pet.sexo}
+        <Typography variant="body2" color="textSecondary">
+          {pet.gender}
         </Typography>
+        
         <Typography variant="body2" component="div">
           Tamaño: {pet.size.name}
         </Typography>
         <Typography variant="body2" color="textSecondary">
-          Raza: {pet.breed.name}
+          Tipo: {pet.breed.name}
         </Typography>
         <Typography variant="body2" color="textSecondary">
           Edad: {pet.age}
         </Typography>
-        <Typography variant="body2" color="textSecondary" paragraph>
-          Descripcion: {pet.description}
-        </Typography>
+      
+       
       </CardContent>
       <CardActions>
         <Button size="small" color="primary" onClick={() => handleverInfoClick(pet.id)}

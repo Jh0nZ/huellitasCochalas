@@ -27,3 +27,4 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/register', [UserController::class, 'store']);
 Route::post('/login', [UserController::class, 'login']);
+Route::get('/pets', [PetController::class, 'index']);

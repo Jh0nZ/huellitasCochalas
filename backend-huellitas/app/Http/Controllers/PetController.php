@@ -78,11 +78,33 @@ class PetController extends Controller
      *     )
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pets = Pet::with(['images', 'size', 'breed'])->get();
+        $query = Pet::query();
+    
+        if ($request->has('size')) {
+            $sizes = explode(',', $request->get('size')); // Recibe múltiples tamaños separados por comas
+            $query->whereIn('size_id', $sizes);
+        }
+    
+        if ($request->has('gender')) {
+            $genders = explode(',', $request->get('gender')); // Recibe múltiples géneros separados por comas
+            $query->whereIn('gender', $genders);
+        }
+    
+        if ($request->has('age')) {
+            $ageRange = explode('-', $request->get('age')); // Rango de edad "X-Y"
+            if (count($ageRange) === 2) {
+                $query->whereBetween('age', [(int)$ageRange[0], (int)$ageRange[1]]);
+            }
+        }
+    
+        $pets = $query->with(['images', 'size', 'breed'])->get();
+    
         return response()->json(['data' => $pets], 200);
     }
+    
+    
 
     /**
      * @OA\Post(

@@ -59,17 +59,18 @@ class Handler extends ExceptionHandler
                 'message' => 'No tienes permiso para realizar esta acción.'
             ], Response::HTTP_FORBIDDEN);
         }
-        if ($exception instanceof HttpResponseException) {
-            return response()->json([
-                'message' => 'Error en la respuesta HTTP.',
-                'code' => $exception->getCode(),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    
+
         if ($exception instanceof AccessDeniedHttpException) {
             return response()->json([
                 'message' => 'Acceso denegado.'
             ], Response::HTTP_FORBIDDEN);
+        }
+
+        if ($exception instanceof HttpResponseException) {
+            return response()->json([
+                'message' => 'Acceso denegado.',
+                'code' => $exception->getCode(),
+            ], Response::HTTP_UNAUTHORIZED);
         }
 
         if ($exception instanceof ValidationException) {

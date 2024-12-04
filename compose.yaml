@@ -1,13 +1,13 @@
 services:
-  huellitas-backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    networks:
-      - huellitas-network
+    huellitas-backend:
+        build:
+            context: ./backend-huellitas
+            dockerfile: Dockerfile
+        ports:
+            - "80:80"
+        networks:
+            - huellitas-network
 
 networks:
-  huellitas-network:
-    driver: bridge
+    huellitas-network:
+        driver: bridge

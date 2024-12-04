@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useCheckUserQuery } from "../features/api/userApi";
 import { PetSolicitudes } from "../Components";
+import { backendUrl } from "../constants";
 
 const calculateAge = (birthDate) => {
   const [year, month, day] = birthDate.split("-").map(Number);
@@ -47,7 +48,7 @@ function UserProfile() {
 
   const userImage =
   data?.user?.images?.[0]?.path
-    ? `http://localhost:8000/storage/${data?.user?.images?.[0]?.path}`
+    ? `${backendUrl}/storage/${data?.user?.images?.[0]?.path}`
     : "/hombre.jpeg";
 
   return (

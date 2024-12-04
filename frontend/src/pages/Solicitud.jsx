@@ -14,6 +14,7 @@ import { useUpdateAdoptionRequestMutation } from "../features/api/adoptionReques
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { OpenMapLabel } from "../Components";
+import { backendUrl } from "../constants";
 
 const Solicitud = () => {
     const navigate = useNavigate();
@@ -108,7 +109,7 @@ const Solicitud = () => {
                 <CardMedia
                     component="img"
                     height="300"
-                    image={`http://localhost:8000/storage/${data.adoptionRequest.images[0].path}`}
+                    image={`${backendUrl}/storage/${data.adoptionRequest.images[0].path}`}
                     alt={`Imagen de la solicitud`}
                     sx={{
                         objectFit: "cover",

@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import ButtonBase from "@mui/material/ButtonBase";
 import { useNavigate } from "react-router-dom";
 import CardContent from "@mui/material/CardContent";
-
+import { backendUrl } from "../constants";
 
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: "relative",
@@ -78,7 +78,7 @@ const PetSolicitudes = ({ pet }) => {
       <ImageButton onClick={() => handleVerInfoClick(pet.id)} focusRipple>
         <ImageSrc
           style={{
-            backgroundImage: `url(http://localhost:8000/storage/${pet.images[0].path})`,
+            backgroundImage: `url(${backendUrl}/storage/${pet.images[0].path})`,
           }}
         />
         <ImageBackdrop className="MuiImageBackdrop-root" />

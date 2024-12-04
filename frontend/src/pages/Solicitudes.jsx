@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { useGetAllAdoptionRequestsQuery } from "../features/api/adoptionRequestApi";
 import { useParams } from "react-router-dom";
+import { backendUrl } from "../constants";
 
 const Solicitudes = () => {
   const { pet_id } = useParams();
@@ -61,7 +62,7 @@ const Solicitudes = () => {
                 <CardMedia
                   component="img"
                   height="180"
-                  image={`http://localhost:8000/storage/${request.user.images[0].path}`}
+                  image={`${backendUrl}/storage/${request.user.images[0].path}`}
                   alt={`Imagen de ${request.user.name}`}
                   sx={{ objectFit: "cover" }}
                 />

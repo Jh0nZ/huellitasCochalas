@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { backendUrl } from "../constants";
 // Estilos personalizados para la tarjeta
 const StyledCard = styled(Card)(({ theme }) => ({
   maxWidth: 345,
@@ -33,7 +34,7 @@ const PetCard = ({ pet }) => {
     <StyledCard>
       <StyledCardMedia
         component="img"
-        image={`http://localhost:8000/storage/${pet.images[0].path}`}
+        image={`${backendUrl}/storage/${pet.images[0].path}`}
         alt={pet.name}
       />
       <CardContent>

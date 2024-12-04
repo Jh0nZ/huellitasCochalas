@@ -3,6 +3,7 @@ import { Box, CardMedia, IconButton, Slide } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import { backendUrl } from "../constants";
 
 const ImageCarousel = ({ images }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -65,7 +66,7 @@ const ImageCarousel = ({ images }) => {
                 <CardMedia
                     component="img"
                     alt={`Imagen ${currentIndex + 1}`}
-                    image={`http://localhost:8000/storage/${images[currentIndex].path}`}
+                    image={`${backendUrl}/storage/${images[currentIndex].path}`}
                     sx={{
                         width: "100%",
                         height: "100%",

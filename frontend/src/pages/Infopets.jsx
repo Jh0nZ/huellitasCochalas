@@ -99,7 +99,7 @@ const Infopets = () => {
             <Box
                 sx={{
                     width: "100%",
-                    height: { xs: "250px", md: "400px" },
+                    height: { xs: "250px", md: "300px" },
                     boxShadow: 3,
                     borderRadius: "10px",
                     overflow: "hidden",

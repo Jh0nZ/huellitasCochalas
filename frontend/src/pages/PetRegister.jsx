@@ -232,7 +232,7 @@ const PetRegister = () => {
         });
 
         console.log("Form data to send:", formDataToSend);
-        
+
         try {
             await registerPet(formDataToSend).unwrap();
             alert("Mascota registrada con éxito");
@@ -447,7 +447,17 @@ const PetRegister = () => {
                             name="location"
                         >
                             {formData.location.lat ? (
-                                <OpenMapLabel location={formData.location} />
+                                <Box
+                                    sx={{
+                                        width: "100%",
+                                        height: { xs: "250px", md: "250px" },
+                                        overflow: "hidden",
+                                    }}
+                                >
+                                    <OpenMapLabel
+                                        location={formData.location}
+                                    />
+                                </Box>
                             ) : (
                                 "Seleccionar Dirección"
                             )}

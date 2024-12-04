@@ -184,7 +184,13 @@ const AdoptionRequest = () => {
 
     return mapOpen ? (
         <Box style={{ height: "75vh", marginTop: "100px" }}>
-            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                }}
+            >
                 <Typography variant="h6">Selecciona tu Dirección</Typography>
                 <IconButton onClick={handleCloseMap}>
                     <Close />
@@ -261,10 +267,20 @@ const AdoptionRequest = () => {
                             sx={{ mt: 2 }}
                             onClick={handleOpenMap}
                         >
-                            {formData.address === "" ? (
-                                "Seleccionar Dirección"
+                            {formData.location.lat ? (
+                                <Box
+                                    sx={{
+                                        width: "100%",
+                                        height: { xs: "250px", md: "250px" },
+                                        overflow: "hidden",
+                                    }}
+                                >
+                                    <OpenMapLabel
+                                        location={formData.location}
+                                    />
+                                </Box>
                             ) : (
-                                <OpenMapLabel location={formData.location} />
+                                "Seleccionar Dirección"
                             )}
                         </Button>
                         {errors.address && (

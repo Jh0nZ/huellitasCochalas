@@ -6,7 +6,7 @@ import {
     CardMedia,
     Typography,
     CardActions,
-    Grid2 as Grid,
+    Grid,
     Box,
 } from "@mui/material";
 import { useGetAdoptionRequestQuery } from "../features/api/adoptionRequestApi";
@@ -44,6 +44,7 @@ const Solicitud = () => {
         isUpdateLoading,
         isUpdateSuccess,
     ]);
+    
     const { data, error, isLoading, isSuccess, isError } =
         useGetAdoptionRequestQuery(adoption_request_id);
 
@@ -55,6 +56,7 @@ const Solicitud = () => {
             console.log(error);
         }
     }, [data, error, isError, isSuccess]);
+
     if (isLoading || isUpdateLoading) {
         return (
             <Typography variant="h6" textAlign="center">
@@ -62,6 +64,7 @@ const Solicitud = () => {
             </Typography>
         );
     }
+
     const onAccept = (id) => {
         console.log("Aceptar solicitud", id);
         updateAdoptionRequest({
@@ -76,14 +79,14 @@ const Solicitud = () => {
         console.log("Rechazar solicitud", id);
         updateAdoptionRequest({
             data: {
-                status: "accepted",
+                status: "rejected",  
             },
             id: id,
         });
     };
 
     return (
-        <Container maxWidth="sm" sx={{ mt: 12, mb: 8 }}>
+        <Container maxWidth="lg" sx={{ mt: 12, mb: 8 }}>
             <Typography
                 variant="h4"
                 component="h1"
@@ -97,17 +100,32 @@ const Solicitud = () => {
                 sx={{
                     boxShadow: 4,
                     borderRadius: 2,
-                    overflow: "hidden",
+                    display: "flex",
+                    flexDirection: { xs: "column", md: "row" }, // Layout responsive
                 }}
             >
+                {/* Imagen de la casa en la parte izquierda */}
                 <CardMedia
                     component="img"
-                    height="180"
+                    height="300"
                     image={`http://localhost:8000/storage/${data.adoptionRequest.images[0].path}`}
                     alt={`Imagen de la solicitud`}
-                    sx={{ objectFit: "cover" }}
+                    sx={{
+                        objectFit: "cover",
+                        width: { xs: "100%", md: "50%" }, 
+                    }}
                 />
-                <CardContent>
+
+                {/* Contenido de la solicitud en la parte derecha */}
+                <CardContent
+                    sx={{
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        padding: { xs: 2, md: 3 }, 
+                    }}
+                >
                     <Typography variant="body1" sx={{ mt: 1 }}>
                         Solicita adoptar a:{" "}
                         {data.adoptionRequest.status.toUpperCase()}
@@ -116,11 +134,13 @@ const Solicitud = () => {
                         Descripción de la solicitud:{" "}
                         {data.adoptionRequest.additional_notes}
                     </Typography>
+
                     <Box
                         sx={{
                             width: "100%",
                             height: { xs: "200px", md: "200px" },
                             overflow: "hidden",
+                            mt: 2,
                         }}
                     >
                         <OpenMapLabel
@@ -130,32 +150,30 @@ const Solicitud = () => {
                             }}
                         />
                     </Box>
+
+                    {/* Botones debajo de la descripción */}
+                    <Box sx={{ mt: 3 }}>
+                        <Button
+                            variant="contained"
+                            color="success"
+                            fullWidth
+                            size="small" 
+                            onClick={() => onAccept(data.adoptionRequest.id)}
+                        >
+                            Aceptar
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="error"
+                            fullWidth
+                            size="small" 
+                            onClick={() => onReject(data.adoptionRequest.id)}
+                            sx={{ mt: 2 }}
+                        >
+                            Rechazar
+                        </Button>
+                    </Box>
                 </CardContent>
-                <CardActions
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 2,
-                        p: 1,
-                    }}
-                >
-                    <Button
-                        variant="contained"
-                        color="success"
-                        fullWidth
-                        onClick={() => onAccept(data.adoptionRequest.id)}
-                    >
-                        Aceptar
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="error"
-                        fullWidth
-                        onClick={() => onReject(data.adoptionRequest.id)}
-                    >
-                        Rechazar
-                    </Button>
-                </CardActions>
             </Card>
         </Container>
     );

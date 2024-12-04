@@ -5,6 +5,9 @@ import {
     useTheme,
     Box,
     CircularProgress,
+    Card,
+    CardContent,
+    Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -14,8 +17,7 @@ import ImageCarousel from "../Components/ImageCarousel";
 
 const Infopets = () => {
     const { pet_id } = useParams();
-    const { data, isSuccess, error, isError, isFetching } =
-        useGetPetByIdQuery(pet_id);
+    const { data, isSuccess, error, isError, isFetching } = useGetPetByIdQuery(pet_id);
 
     useEffect(() => {
         if (isSuccess) {
@@ -66,71 +68,93 @@ const Infopets = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                width: { xs: "100%", md: "40%" },
+                width: { xs: "100%", md: "80%" },
                 mx: "auto",
-                gap: 2,
+                gap: 3,
+                padding: 2,
             }}
         >
-            {/* Imagen de la mascota */}
-            <ImageCarousel images={data.data.images} />
-
-            {/* Información de la mascota */}
-            <Typography variant="h4" component="h1" gutterBottom>
-                {data.data.name.toUpperCase()}
-            </Typography>
-            <Typography variant="body1">{data.data.description}</Typography>
-
-            <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
-                <Typography variant="body1">EDAD: {data.data.age}</Typography>
-
-                <Typography variant="body1">
-                    TIPO: {data.data.breed.name}
-                </Typography>
-
-                <Typography variant="body1">
-                    TAMAÑO: {data.data.size.name}
-                </Typography>
-
-                <Typography variant="body1">
-                    SEXO: {data.data.gender}
-                </Typography>
-            </Box>
-            {/* Mapa */}
-            <Box
+            <Card
                 sx={{
+                    display: "flex",
+                    flexDirection: { xs: "column", md: "row" },
                     width: "100%",
-                    height: { xs: "250px", md: "300px" },
                     boxShadow: 3,
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    marginTop: { xs: 3, md: 4 },
+                    borderRadius: 2,
+                    padding: 2,
+                    backgroundColor: theme.palette.background.paper,
+                    gap: 3,
                 }}
             >
-                <OpenMapLabel
-                    location={{
-                        lat: data.data.lat,
-                        lng: data.data.lng,
-                    }}
-                />
-            </Box>
+                {/* Imagen de la mascota (ocupa toda la izquierda) */}
+                <Box sx={{ flex: 1 }}>
+                    <ImageCarousel images={data.data.images} />
+                </Box>
 
-            {/* Botón de Adopción */}
-            <Button
-                variant="contained"
-                size="large"
-                fullWidth
-                sx={{
-                    backgroundColor: theme.palette.primary.main,
-                    "&:hover": {
-                        backgroundColor: theme.palette.primary.dark,
-                    },
-                    mt: 4,
-                    py: 1.5,
-                }}
-                onClick={handleAdoptaClick}
-            >
-                ADOPTAR
-            </Button>
+                {/* Información de la mascota (ocupa toda la derecha) */}
+                <Box sx={{ flex: 2, display: "flex", flexDirection: "column", gap: 2 }}>
+                    <Typography variant="h4" component="h1" gutterBottom>
+                        {data.data.name.toUpperCase()}
+                    </Typography>
+                    <Typography variant="body1">{data.data.description}</Typography>
+
+                    {/* Datos adicionales */}
+                    <Box sx={{ display: "flex", flexDirection: "row", gap: 3 }}>
+                        <Typography variant="body1" color="textSecondary">
+                            <strong>EDAD:</strong> {data.data.age}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            <strong>TIPO:</strong> {data.data.breed.name}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            <strong>TAMAÑO:</strong> {data.data.size.name}
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary">
+                            <strong>SEXO:</strong> {data.data.gender}
+                        </Typography>
+                    </Box>
+
+                    <Divider sx={{ my: 3 }} />
+
+                    {/* Mapa */}
+                    <Box
+                        sx={{
+                            width: "100%",
+                            height: { xs: "250px", md: "300px" },
+                            boxShadow: 3,
+                            borderRadius: "10px",
+                            overflow: "hidden",
+                            marginTop: 3,
+                        }}
+                    >
+                        <OpenMapLabel
+                            location={{
+                                lat: data.data.lat,
+                                lng: data.data.lng,
+                            }}
+                        />
+                    </Box>
+
+                    <Box sx={{ marginTop: 2 }}>
+                        {/* Botón de Adopción (pequeño, al final) */}
+                        <Button
+                            variant="contained"
+                            size="small"
+                            fullWidth
+                            sx={{
+                                backgroundColor: theme.palette.primary.main,
+                                "&:hover": {
+                                    backgroundColor: theme.palette.primary.dark,
+                                },
+                                py: 1,
+                            }}
+                            onClick={handleAdoptaClick}
+                        >
+                            ADOPTAR
+                        </Button>
+                    </Box>
+                </Box>
+            </Card>
         </Box>
     );
 };

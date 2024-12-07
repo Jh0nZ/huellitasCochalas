@@ -83,17 +83,17 @@ class PetController extends Controller
         $query = Pet::query();
     
         if ($request->has('size')) {
-            $sizes = explode(',', $request->get('size')); // Recibe múltiples tamaños separados por comas
+            $sizes = explode(',', $request->get('size')); 
             $query->whereIn('size_id', $sizes);
         }
     
         if ($request->has('gender')) {
-            $genders = explode(',', $request->get('gender')); // Recibe múltiples géneros separados por comas
+            $genders = explode(',', $request->get('gender')); 
             $query->whereIn('gender', $genders);
         }
     
         if ($request->has('age')) {
-            $ageRange = explode('-', $request->get('age')); // Rango de edad "X-Y"
+            $ageRange = explode('-', $request->get('age')); 
             if (count($ageRange) === 2) {
                 $query->whereBetween('age', [(int)$ageRange[0], (int)$ageRange[1]]);
             }

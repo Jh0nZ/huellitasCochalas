@@ -21,7 +21,7 @@ const Pets = () => {
   const [filters, setFilters] = useState({ size: [], gender: [], age: "" });
   const [anchorEl, setAnchorEl] = useState(null);
 
-  // Construcción de la query string
+  // Construcción de la query 
   const queryParams = new URLSearchParams();
   if (filters.size.length > 0) {
     queryParams.append("size", filters.size.join(","));

@@ -30,6 +30,7 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
             'fecha_user' => 'required|date',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
@@ -40,6 +41,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $validatedData['first_name'] . ' ' . $validatedData['last_name'],
             'first_name' => $validatedData['first_name'],
+            'phone' => $validatedData['phone'],
             'last_name' => $validatedData['last_name'],
             'fecha_user' => $validatedData['fecha_user'],
             'images' => $validatedData['images'],
@@ -133,6 +135,7 @@ class UserController extends Controller
             'name' => 'sometimes|required|string|max:255',
             'first_name' => 'sometimes|required|string|max:255',
             'last_name' => 'sometimes|required|string|max:255',
+            'phone' => 'sometimes|required|string|max:15',
             'fecha_user' => 'sometimes|required|date',
             'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'sometimes|required|string|min:8',

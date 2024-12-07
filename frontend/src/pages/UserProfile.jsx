@@ -104,6 +104,9 @@ function UserProfile() {
               <strong>Fecha de Nacimiento:</strong> {data?.user?.fecha_user || "Desconocida"}
             </Typography>
             <Typography variant="body1" sx={{ mb: 1 }}>
+              <strong>Teléfono:</strong> {data?.user?.phone|| "No disponible"}
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 1 }}>
               <strong>Email:</strong> {data?.user?.email || "No disponible"}
             </Typography>
           </Card>

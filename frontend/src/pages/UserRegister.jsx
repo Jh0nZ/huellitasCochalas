@@ -30,6 +30,7 @@ const UserRegister = () => {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
+    phone: "",
     fecha_user:"",
     email: "",
     password: "",
@@ -45,6 +46,7 @@ const UserRegister = () => {
       setFormData({
         first_name: "",
         last_name: "",
+        phone: "",
         fecha_user:"",
         email: "",
         password: "",
@@ -138,7 +140,21 @@ const UserRegister = () => {
     }
   };
 
-  
+  const handlePhoneChange = (e) => {
+    const { value } = e.target;
+    if (/^\d*$/.test(value) && value.length <= 9) {
+        setFormData({ ...formData, phone: value });
+
+        if (value.length >= 8) {
+            setErrors((prevErrors) => ({ ...prevErrors, phone: "" }));
+        } else {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                phone: "El teléfono debe tener al menos 8 caracteres.",
+            }));
+        }
+    }
+};
 
   const validarNombre = (nombre) => {
     const regexCaracteresEspeciales = /[!@#$%^&*(),.?":{}|<>_-]/;
@@ -187,6 +203,12 @@ const UserRegister = () => {
       newErrors.password = passwordError;
       hasError = true;
     }
+    
+    if (!formData.phone) {
+      newErrors.phone = "El teléfono es obligatorio";
+      hasError = true;
+    }
+
     if (formData.password_confirmation !== formData.password) {
       newErrors.password_confirmation = "Las contraseñas no coinciden.";
       hasError = true;
@@ -310,6 +332,17 @@ const UserRegister = () => {
               )
             }
           />
+            <TextField
+                            label="Teléfono*"
+                            name="phone"
+                            value={formData.phone}
+                            onChange={handlePhoneChange}
+                            fullWidth
+                            margin="normal"
+                            error={Boolean(errors.phone)}
+                            helperText={errors.phone}
+                            type="tel"
+                        />
           { <TextField
             label="Fecha de Nacimiento"
             name="fecha_user"

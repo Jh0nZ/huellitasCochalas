@@ -1,5 +1,5 @@
 import React from "react";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Circle } from "react-leaflet";
 import L from "leaflet";
 import { Box } from "@mui/material";
 
@@ -12,12 +12,12 @@ L.Icon.Default.mergeOptions({
     shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-const OpenMapLabel = ({ location }) => {
+const OpenMapLabel = ({ location, precision = true, zoom = 16 }) => {
     return (
         <Box style={{ width: "100%", height: "100%" }}>
             <MapContainer
                 center={location}
-                zoom={16}
+                zoom={zoom}
                 style={{ width: "100%", height: "100%" }}
                 scrollWheelZoom={false} // Deshabilita el zoom con la rueda del mouse
             >
@@ -25,7 +25,11 @@ const OpenMapLabel = ({ location }) => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                <Marker position={location} />
+                {precision ? (
+                    <Marker position={location} />
+                ) : (
+                    <Circle center={location} radius={300} />
+                )}
             </MapContainer>
         </Box>
     );

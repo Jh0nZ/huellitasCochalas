@@ -6,7 +6,6 @@ import {
     Box,
     CircularProgress,
     Card,
-    CardContent,
     Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +21,7 @@ const Infopets = () => {
     useEffect(() => {
         if (isSuccess) {
             console.log(data);
+            console.log(data.is_auth_user);
         }
         if (isError) {
             console.log(error);
@@ -132,6 +132,8 @@ const Infopets = () => {
                                 lat: data.data.lat,
                                 lng: data.data.lng,
                             }}
+                            precision={data.is_auth_user}
+                            zoom={15}
                         />
                     </Box>
 

@@ -247,7 +247,7 @@ class PetController extends Controller
     {
         try {
             $pet = Pet::with(['images', 'size', 'breed'])->findOrFail($id);
-            return response()->json(['data' => $pet], 200);
+            return response()->json(['data' => $pet, 'is_auth_user' => Auth::check()], 200);
         } catch (Exception $e) {
             return response()->json(['message' => 'Pet not found', 'data' => $e->getMessage()], 404);
         }

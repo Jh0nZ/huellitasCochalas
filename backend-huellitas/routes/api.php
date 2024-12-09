@@ -16,7 +16,6 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('sizes', SizeController::class);
     Route::apiResource('images', ImageController::class);
     Route::post('pets', [PetController::class, 'store']);
-    Route::get('pets/{pet}', [PetController::class, 'show']);
     Route::put('pets/{pet}', [PetController::class, 'update']);
     Route::delete('pets/{pet}', [PetController::class, 'destroy']);
     Route::apiResource('pet-images', PetImageController::class);
@@ -30,4 +29,6 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/register', [UserController::class, 'store']);
 Route::post('/login', [UserController::class, 'login']);
+Route::get('/pets/{pet}', [PetController::class, 'show']);
 Route::get('/pets', [PetController::class, 'index']);
+

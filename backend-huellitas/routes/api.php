@@ -15,7 +15,10 @@ Route::middleware('auth')->group(function () {
     Route::apiResource('breeds', BreedController::class);
     Route::apiResource('sizes', SizeController::class);
     Route::apiResource('images', ImageController::class);
-    Route::apiResource('pets', PetController::class);
+    Route::post('pets', [PetController::class, 'store']);
+    Route::get('pets/{pet}', [PetController::class, 'show']);
+    Route::put('pets/{pet}', [PetController::class, 'update']);
+    Route::delete('pets/{pet}', [PetController::class, 'destroy']);
     Route::apiResource('pet-images', PetImageController::class);
     Route::apiResource('user-images', UserImageController::class);
     Route::apiResource('adoption-requests', AdoptionRequestController::class);

@@ -141,14 +141,14 @@ const Pets = () => {
               />
             ))}
 
-            <Typography sx={{ px: 2, fontWeight: "bold", mt: 2, mb: 1 }}>Edad</Typography>
+            <Typography sx={{ px: 2, fontWeight: "bold", mt: 3, mb: 1 }}>Edad</Typography>
             <TextField
-              label="Rango de edad"
+              label=" Rango de edad"
               value={filters.age}
               onChange={(e) => handleFilterChange("age", e.target.value)}
               placeholder="Ejemplo: 1-3"
               fullWidth
-              sx={{ px: 2, mt: 1, borderRadius: "4px" }}
+              sx={{ px: 1, mt: 1, borderRadius: "4px" }}
               InputProps={{
                 style: {
                   fontSize: "14px",

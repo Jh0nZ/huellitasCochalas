@@ -21,6 +21,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { PhotoCamera } from "@mui/icons-material";
 import { useRegisterPetMutation } from "../features/api/petApi";
 import { useGetSizesQuery } from "../features/api/sizeApi";
+import { useNavigate } from 'react-router-dom';
 import { useGetBreedsQuery } from "../features/api/breedApi";
 import OpenMapPicker from "../Components/OpenMapPicker";
 import OpenMapLabel from "../Components/OpenMapLabel";
@@ -29,16 +30,6 @@ import { Close } from "@mui/icons-material";
 const genders = [
     { id: 1, value: "MACHO", label: "Macho" },
     { id: 2, value: "HEMBRA", label: "Hembra" },
-];
-
-const tipMas = [
-    { id: 1, value: "PERRO", label: "Perro" },
-    { id: 2, value: "GATO", label: "Gato" },
-];
-const tamanio = [
-    { id: 1, value: "PEQUEÑO", label: "Pequeño" },
-    { id: 2, value: "MEDIANO", label: "Mediano" },
-    { id: 3, value: "GRANDE", label: "Grande" },
 ];
 
 const PetRegister = () => {
@@ -97,7 +88,7 @@ const PetRegister = () => {
     const [images, setImages] = useState([]);
     const [errors, setErrors] = useState({});
     const [registerPet, { isLoading, error }] = useRegisterPetMutation();
-
+    const navigate = useNavigate();
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
@@ -211,6 +202,7 @@ const PetRegister = () => {
         return formIsValid;
     };
 
+    
     const handleSubmit = async () => {
         if (!validateForm()) return;
 
@@ -236,6 +228,8 @@ const PetRegister = () => {
         try {
             await registerPet(formDataToSend).unwrap();
             alert("Mascota registrada con éxito");
+
+            // Limpiar el formulario después del registro
             setFormData({
                 name: "",
                 age: "",
@@ -251,11 +245,15 @@ const PetRegister = () => {
             });
             setImages([]);
             setErrors({});
+
+            // Redirigir a la página de mascotas
+            navigate("/pets");
         } catch (err) {
             console.error("Error registrando la mascota:", err);
             console.error("Detalles del error:", err.data);
         }
     };
+    
 
     return mapOpen ? (
         <Box style={{ height: "75vh", marginTop: "100px" }}>

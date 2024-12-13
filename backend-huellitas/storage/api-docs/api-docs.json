@@ -1,0 +1,413 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Huellitas API",
+        "description": "API for managing pet adoption.",
+        "contact": {
+            "name": "Support",
+            "email": "support@huellitas.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/pets": {
+            "get": {
+                "tags": [
+                    "Pets"
+                ],
+                "summary": "Get a list of all pets",
+                "description": "This endpoint retrieves a list of all pets with their details.",
+                "operationId": "7b44ba1ad8a38f7865a2845fa9ebbfe3",
+                "responses": {
+                    "200": {
+                        "description": "List of pets retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Pet"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Error details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pets"
+                ],
+                "summary": "Create a new pet",
+                "description": "This endpoint allows you to create a new pet.",
+                "operationId": "9523721805529edb47b46332d56f2826",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "status",
+                                    "age",
+                                    "sterilized",
+                                    "location",
+                                    "breed_id",
+                                    "size_id",
+                                    "user_id",
+                                    "images"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Fido"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "A friendly dog"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "available"
+                                    },
+                                    "age": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "sterilized": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "example": "New York"
+                                    },
+                                    "breed_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "size_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "images": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pet created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pet created successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/Pet"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation failed"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ValidationError"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An error occurred",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Error details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pets/{id}": {
+            "get": {
+                "tags": [
+                    "Pets"
+                ],
+                "summary": "Get a pet by ID",
+                "description": "This endpoint retrieves a pet's details based on the given ID.",
+                "operationId": "25e25b195a59c4b940a33f9961ad6eed",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the pet to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pet details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Pet"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pet not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pet not found"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Error details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ValidationError": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Validation failed"
+                    },
+                    "data": {
+                        "properties": {
+                            "errors": {
+                                "properties": {
+                                    "name": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "The name field is required."
+                                        }
+                                    },
+                                    "status": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "The status field is required."
+                                        }
+                                    },
+                                    "age": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "The age must be an integer."
+                                        }
+                                    },
+                                    "sterilized": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "The sterilized field must be true or false."
+                                        }
+                                    },
+                                    "location": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "The location field is required."
+                                        }
+                                    },
+                                    "breed_id": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "The selected breed_id is invalid."
+                                        }
+                                    },
+                                    "size_id": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "The selected size_id is invalid."
+                                        }
+                                    },
+                                    "user_id": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "The selected user_id is invalid."
+                                        }
+                                    },
+                                    "images": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "At least one image is required."
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Pet": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Fido"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "A friendly dog"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "available"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "sterilized": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "New York"
+                    },
+                    "breed_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "size_id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "images": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "filename": {
+                                    "type": "string"
+                                },
+                                "path": {
+                                    "type": "string"
+                                },
+                                "mime_type": {
+                                    "type": "string"
+                                },
+                                "size": {
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Pets",
+            "description": "Pets"
+        }
+    ]
+}

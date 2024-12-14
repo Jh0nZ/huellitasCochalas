@@ -14,8 +14,8 @@ Huellitas Cochalas es una aplicación web diseñada para facilitar la adopción 
 ## Tecnologías Utilizadas
 
 - **Frontend:** React, Material-UI
-- **Backend:** Django
-- **Base de Datos:** Postgresql
+- **Backend:** Laravel 10
+- **Base de Datos:** SQLite
 
 # Guía de Instalación para el Backend
 

@@ -35,10 +35,10 @@ Huellitas Cochalas es una aplicación web diseñada para facilitar la adopción 
 
 1. **Instalar Dependencias**
 
-   Navega a la carpeta `backend` del repositorio y ejecuta el siguiente comando para instalar las dependencias de Laravel:
+   Navega a la carpeta `backend-huellitas` del repositorio y ejecuta el siguiente comando para instalar las dependencias de Laravel:
 
    ```sh
-   cd backend
+   cd backend-huellitas
    composer install
    ```
 2. **Migrar la Base de Datos**

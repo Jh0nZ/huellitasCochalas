@@ -1,7 +1,7 @@
 services:
     huellitas-backend:
         build:
-            context: ./backend-huellitas
+            context: ./backend
             dockerfile: Dockerfile
         ports:
             - "80:80"
